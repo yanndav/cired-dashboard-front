@@ -1,0 +1,9 @@
+.app-container{
+    margin: 0 5%;
+    max-width: 100%;
+    position: relative;
+    min-height: 100vh;
+}
+.content-app{
+    padding-bottom: 5rem;
+}

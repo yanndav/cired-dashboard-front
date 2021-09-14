@@ -1,0 +1,31 @@
+.search-bar{
+    text-align: center;
+    margin: 70px auto;
+}
+
+.search-go{
+    padding: 9px 25px;
+    font-size: 1.1em;
+    background-color: #0AAACB;
+    color: white;
+    border-radius: 7px 0px 0px 7px;
+    border: none;
+    box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+    margin: auto 0;
+}
+
+.search-go:hover{
+    background-color: #17c5e7;
+    cursor: pointer;
+
+}
+
+.search-value{
+    padding: 11px 13px;
+    line-height: 10px;
+    border-radius: 0px 7px 7px 0px;
+    border: none;
+    width: 50%;
+    box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+
+}
