@@ -4,6 +4,9 @@ import './SearchBar.css'
 // React modules
 import { useState, useEffect } from 'react';
 
+// Icons
+import { TiDelete } from "react-icons/ti"
+
 let fakeTerritories = ["Biovallée","Diois","Crest","Valence"]
 
 const SearchBar = ({setDashboard, territories, setTerritories}) => {
@@ -18,6 +21,12 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
         e.preventDefault();
         setTerritories(territories => [...territories,t])
         setListTerritories(listTerritories.filter(ter=>ter!==t))  
+    }
+
+    const removerTerritoryFromAnalysis = (e,t) =>{
+        e.preventDefault();
+        setTerritories(territories.filter(ter=>ter!==t))
+
     }
 
     const [query, setQuery] = useState("")
@@ -40,8 +49,11 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
             <div className="search-zone">
                 {territories.map(t=>{
                     return <span 
-                    className="item-proposition">
+                    className="item-list ">
                         {t}
+                        <TiDelete className="delete-territory" 
+                        onClick = {e => removerTerritoryFromAnalysis(e,t)}
+                        />
                     </span>
                 })}
                 <input className="search-value" type="input"
@@ -51,7 +63,7 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
                     {query!==""&&listTerritories.map((t)=>{
                         return <span 
                         onClick={e=>addTerritoryToAnalysis(e,t)}
-                        className="item-proposition">
+                        className="item-list proposition">
                             {t}
                         </span>
                     })}
