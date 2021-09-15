@@ -22,8 +22,8 @@ function Dashboard() {
       setTerritories={setTerritories}/>
       {dashboard? (
         <>
-        <GraphHolder />
         <Legend />
+        <GraphHolder />
         </>
         ):(
           <p></p>

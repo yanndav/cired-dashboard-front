@@ -21,6 +21,7 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
         e.preventDefault();
         setTerritories(territories => [...territories,t])
         setListTerritories(listTerritories.filter(ter=>ter!==t))  
+        setQuery("")
     }
 
     const removerTerritoryFromAnalysis = (e,t) =>{
@@ -44,32 +45,38 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
     }, [query])
 
     return (
-        <form onSubmit={(e)=>handleSearch(e)} className="search-bar">
-            <input className="search-go" type="submit" value="GO"/>
-            <div className="search-zone">
-                {territories.map(t=>{
-                    return <span 
-                    className="item-list ">
-                        {t}
-                        <TiDelete className="delete-territory" 
-                        onClick = {e => removerTerritoryFromAnalysis(e,t)}
-                        />
-                    </span>
-                })}
-                <input className="search-value" type="input"
-                onChange={(dta) => setQuery(dta.target.value)}
-                placeholder="Cherchez et ajoutez des territoires à votre tableau de bord"/>   
-                <div className="propositions">
-                    {query!==""&&listTerritories.map((t)=>{
+        <div className="search-zone">
+            {/* Search bar strictly speaking */}
+            <form onSubmit={(e)=>handleSearch(e)} className="search-form">
+                <div className="search-bar">
+                    {territories.map(t=>{
                         return <span 
-                        onClick={e=>addTerritoryToAnalysis(e,t)}
-                        className="item-list proposition">
+                        className="selected">
                             {t}
+                            <TiDelete className="delete-territory" 
+                            onClick = {e => removerTerritoryFromAnalysis(e,t)}
+                            />
                         </span>
                     })}
-                </div> 
-            </div>
-        </form>
+                    <input className="search-value" type="input"
+                    onChange={(dta) => setQuery(dta.target.value)}
+                    value = {query}
+                    placeholder="Cherchez et ajoutez des territoires à votre tableau de bord"/>   
+                </div>
+                <input className="search-go" type="submit" value="GO"/>
+            </form>
+
+            {/* Drop down of suggestions */}
+            <div className="propositions">
+                        {query!==""&&listTerritories.map((t)=>{
+                            return <span 
+                            onClick={e=>addTerritoryToAnalysis(e,t)}
+                            className="item-list proposition">
+                                {t}
+                            </span>
+                        })}
+            </div> 
+        </div>
     )
 }
 
