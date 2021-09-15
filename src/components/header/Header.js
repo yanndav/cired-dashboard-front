@@ -11,7 +11,7 @@ const Header = () => {
                 
                 <NavLink to="/" className="link-nom">
                     <h1 className="nom-site">
-                    <img className="logo-nom" src="logo-site-HD.png" width="35em"/>
+                    <img className="logo-nom" src="logo-site-HD.png" alt="Transitions" width="35em"/>
                         Transitions Viewer
                     </h1>
                 </NavLink>

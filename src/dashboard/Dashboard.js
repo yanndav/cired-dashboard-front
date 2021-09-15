@@ -1,4 +1,8 @@
 // Styling
+import './Dashboard.css'
+
+// React components
+import { useState } from 'react';
 
 // Components
 import GraphHolder from '../components/graphHolder/GraphHolder';
@@ -6,14 +10,26 @@ import SearchBar from '../components/searchBar/SearchBar';
 import Legend from '../components/legend/Legend';
 // Modules
 
-function App() {
+function Dashboard() {
+  const [dashboard, setDashboard] = useState(false)
+  const [territories, setTerritories] = useState([])
+
   return (
     <>
-      <SearchBar />
-      <Legend />
-      <GraphHolder />
+      <SearchBar 
+      setDashboard={setDashboard} 
+      territories = {territories}
+      setTerritories={setTerritories}/>
+      {dashboard? (
+        <>
+        <GraphHolder />
+        <Legend />
+        </>
+        ):(
+          <p></p>
+          )}
     </>
   );
 }
 
-export default App;
+export default Dashboard;
