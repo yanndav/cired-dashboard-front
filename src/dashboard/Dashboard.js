@@ -19,10 +19,13 @@ function Dashboard() {
       <SearchBar 
       setDashboard={setDashboard} 
       territories = {territories}
-      setTerritories={setTerritories}/>
+      setTerritories={setTerritories}
+      />
       {dashboard? (
         <>
-        <Legend />
+        <Legend 
+        territories={territories}
+        />
         <GraphHolder />
         </>
         ):(

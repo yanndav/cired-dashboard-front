@@ -14,6 +14,12 @@
     font-style: italic;
 }
 
+.info-variable:hover{
+    text-decoration: underline dashed;
+    font-style: normal;
+    cursor: pointer;
+}
+
 .question-variable{
     font-size:0.8em;
     padding-bottom: 3px;
