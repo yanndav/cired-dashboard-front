@@ -29,7 +29,7 @@ function Dashboard() {
         <GraphHolder />
         </>
         ):(
-          <p></p>
+          <p>Ici il serait bien d'ajouter quelques infos sur le fonctionnement de l'outil quand l'utilisateur arrive</p>
           )}
     </>
   );

@@ -15,12 +15,80 @@
 }
 
 .info-variable:hover{
-    text-decoration: underline dashed;
-    font-style: normal;
-    cursor: pointer;
+   background-color: #2cc5e45e;
+   /* padding: 2px; */
+   cursor: pointer;
 }
 
 .question-variable{
     font-size:0.8em;
     padding-bottom: 3px;
+}
+
+.modal{
+    position: absolute;
+    padding: 7px 15px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438);
+
+}
+.header-legend{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 95% 5%;
+}
+
+.close-legend{
+    margin-top: 10px;
+    color: #0AAACB;
+}
+
+.close-legend:hover{
+    color: #06646e;
+    cursor: pointer;
+}
+.title-var{
+    text-transform: capitalize;
+    margin-bottom: 0px;
+}
+
+.line-thin{
+    height:1px;
+    background: rgb(189, 189, 189);
+    border: none;
+}
+
+.legend-var{
+    font-size: 0.8em;
+    text-align: start;
+}
+
+
+
+.source-var{
+    font-size: 0.75em;
+    font-style: italic;
+    text-decoration: none;
+}
+
+.source-var a:visited{
+    color: black;
+    text-decoration: none;
+
+
+}
+
+.source-var a:hover{
+    color: #0AAACB;
+    text-decoration: none;
+
+
+}
+
+
+.source-var a:link{
+    color: black;
+    text-decoration: none;
+
+
 }

@@ -21,4 +21,21 @@ const legendTime = (time) =>{
     return <>Entre {minYear} et {maxYear}</>
 };
 
-export {legendTime,legendLocation};
+
+
+const evolValue = (v) =>{
+    const minYearI = v.year.indexOf(Math.min.apply(Math,v.year))
+    const maxYearI = v.year.indexOf(Math.max.apply(Math,v.year))
+    
+    const startV = v.value[minYearI]
+    const endV = v.value[maxYearI]
+    
+    const direction = (endV-startV < 0)?("diminué "):("augmenté ")
+    
+    if(v.unit==="%"){
+        return <>{' ' + direction} de {endV-startV} points de pourcentage, en passant de {startV}% à {endV}%.</>
+    }
+};
+
+
+export {legendTime,legendLocation,evolValue};
