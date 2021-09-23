@@ -51,6 +51,7 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
                 <div className="search-bar">
                     {territories.map(t=>{
                         return <span 
+                        key={t}
                         className="selected">
                             {t}
                             <TiDelete className="delete-territory" 
@@ -70,6 +71,7 @@ const SearchBar = ({setDashboard, territories, setTerritories}) => {
             <div className="propositions">
                         {query!==""&&listTerritories.map((t)=>{
                             return <span 
+                            key={t}
                             onClick={e=>addTerritoryToAnalysis(e,t)}
                             className="item-list proposition">
                                 {t}

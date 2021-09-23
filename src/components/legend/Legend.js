@@ -100,7 +100,7 @@ const Legend = ({territories}) => {
                 </div>
                 <hr className="line-thin"/>
                 <p className="legend-var">{modal.definition}</p>
-                <p className="source-var">Source: <a href={modal.source_url} target="_blank">{modal.source_name}</a></p>
+                <p className="source-var">Source: <a href={modal.source_url} target="_blank" rel="noreferrer">{modal.source_name}</a></p>
 
             </div>}
 
