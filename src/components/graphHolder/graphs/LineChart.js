@@ -9,7 +9,6 @@ import {AxisBottomTime} from '../components/AxisBottom';
 import {Dots} from '../components/Dots';
 import {Path} from '../components/Path';
 
-
 const LineChart = ({data,xVariable,yVariable,width,height}) =>{
     const margin = {top:10, right:20, bottom:50, left:50}
     
@@ -53,7 +52,6 @@ const LineChart = ({data,xVariable,yVariable,width,height}) =>{
                      yVariable={yVariable}
                      />
 
-
                     
                      <Dots 
                      data={data} 
@@ -61,7 +59,9 @@ const LineChart = ({data,xVariable,yVariable,width,height}) =>{
                      yScale={yScale} 
                      xVariable={xVariable} 
                      yVariable={yVariable}
-                     radius={2.5}/>              
+                     radius={2.5}/>     
+
+             
                 </g>
             </svg>
     )

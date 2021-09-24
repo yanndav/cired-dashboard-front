@@ -35,6 +35,13 @@
     fill: #06646e;
 }
 
+.tooltip{
+    fill: #06646e;
+    font-size: 0.8em;
+}
+
+
+
 .line{
     stroke: #06646e;
     stroke-width: 2px;

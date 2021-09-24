@@ -1,9 +1,13 @@
-const Dots = ({data,xScale,yScale,xVariable,yVariable,radius=4}) => data.map(d =>
-    <circle className="dot"
-    // key={xScale(d[xVariable])*yScale(d[yVariable])}
-    cy={yScale(d[yVariable])}
-    cx={xScale(d[xVariable])}
-    r={radius}
-    />)
+import Dot from "./Dot";
+
+const Dots = ({data,xScale,yScale,xVariable,yVariable,radius=4}) => data.map(d => 
+<Dot 
+  d={d}
+  xScale={xScale}
+  yScale={yScale}
+  xVariable={xVariable}
+  yVariable={yVariable}
+  radius={radius} />
+)
     
   export {Dots};
