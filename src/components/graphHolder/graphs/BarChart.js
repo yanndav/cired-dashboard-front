@@ -1,14 +1,15 @@
 // D3 components
-import { scaleBand, scaleLinear } from 'd3-scale';
+import { scaleBand, scaleLinear } from 'd3';
 import { max } from 'd3-array';
+import scaleDomain from '../components/ScaleDomain';
 
 // Import bar components
-import AxisLeft from './AxisLeft'
-import AxisBottom from './AxisBottom'
-import Bars from './Bars';
+import {AxisLeftContinuous} from '../components/AxisLeft'
+import {AxisBottomCategorical} from '../components/AxisBottom'
+import Bars from '../components/Bars';
 
 
-const BarChart = ({data,xVariable,yVariable,width,height}) =>{
+const BarChartCategorical = ({data,xVariable,yVariable,width,height}) =>{
     const margin = {top:10, right:20, bottom:50, left:40}
     
     const innerWidth = +width - margin.right - margin.left;
@@ -21,20 +22,21 @@ const BarChart = ({data,xVariable,yVariable,width,height}) =>{
 
 
     const yScale = scaleLinear()
-    .domain([0, max(data, d => d[yVariable])])
-    .range([innerHeight,0]);
+    .domain([0, max(data, d => d[yVariable])+scaleDomain(data,yVariable)])
+    .range([innerHeight,0])
+    .nice();
 
 
 
     return(
         <svg height={height} width={width} className="graph">
                 <g transform={`translate(${margin.left},${margin.top})`}>
-                    <AxisBottom 
+                    <AxisBottomCategorical 
                     xScale={xScale} 
                     innerHeight={innerHeight}
                     innerWidth={innerWidth}
                     xVariable={xVariable}/> 
-                     <AxisLeft 
+                     <AxisLeftContinuous
                      yScale={yScale} 
                      innerWidth={innerWidth}
                      innerHeight={innerHeight}
@@ -51,4 +53,4 @@ const BarChart = ({data,xVariable,yVariable,width,height}) =>{
     )
 }
 
-export default BarChart;
+export default BarChartCategorical;

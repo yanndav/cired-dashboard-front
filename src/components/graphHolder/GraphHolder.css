@@ -25,12 +25,24 @@
 
 .xLabel{
     text-anchor:middle;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 .bar{
     fill: #06646e;
 }
+.dot{
+    fill: #06646e;
+}
+
+.line{
+    stroke: #06646e;
+    stroke-width: 2px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    fill: none
+}
+
 
 .tick{
     stroke-width:0.6px;

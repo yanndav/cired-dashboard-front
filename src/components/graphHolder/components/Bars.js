@@ -5,6 +5,10 @@ const Bars = ({data,xScale,yScale,innerHeight,xVariable,yVariable}) => data.map(
   x={xScale(d[xVariable])}
   width={xScale.bandwidth()}
   height={innerHeight - yScale(d[yVariable])}
-  />)
+  >
+    <title>
+      {d[yVariable]}
+    </title>
+  </rect>)
   
 export default Bars

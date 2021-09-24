@@ -1,4 +1,4 @@
-const AxisLeft = ({yScale, innerWidth,innerHeight, yVariable}) => <>
+const AxisLeftContinuous = ({yScale, innerWidth,innerHeight, yVariable}) => <>
 {yScale.ticks(10).map(tickValue =>
     <g key={tickValue} transform={`translate(0, ${+yScale(tickValue)})`}>
         <line className="tick"
@@ -19,4 +19,4 @@ const AxisLeft = ({yScale, innerWidth,innerHeight, yVariable}) => <>
 </text>
     </>
 
-export default AxisLeft
+export {AxisLeftContinuous};
