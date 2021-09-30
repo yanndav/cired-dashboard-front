@@ -2,12 +2,12 @@
 const legendLocation = (territories) =>{
     return territories.map((l,i) =>{
         if(territories.length === 1){
-            return  <span className="info-focus">{l}</span>
+            return  <span className="info-focus">{l.LIBGEO[0]}</span>
         }else{
             return (i!==(territories.length-1) )?(
-                <span className="info-focus">{l}, </span>
+                <span className="info-focus">{l.LIBGEO[0]}, </span>
            ):(
-           <> et <span className="info-focus">{l}</span> </>
+           <> et <span className="info-focus">{l.LIBGEO[0]}</span> </>
            )
         }
         

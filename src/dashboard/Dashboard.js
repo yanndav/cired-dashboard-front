@@ -10,13 +10,14 @@ import SearchBar from '../components/searchBar/SearchBar';
 import Legend from '../components/legend/Legend';
 // Modules
 
-function Dashboard() {
+function Dashboard({API_URL}) {
   const [dashboard, setDashboard] = useState(false)
   const [territories, setTerritories] = useState([])
 
   return (
     <>
       <SearchBar 
+      API_URL={API_URL}
       setDashboard={setDashboard} 
       territories = {territories}
       setTerritories={setTerritories}

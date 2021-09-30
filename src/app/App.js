@@ -9,7 +9,12 @@ import Connection from '../connection/Connection';
 import Dashboard from '../dashboard/Dashboard'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
+
+// Constantes
+const API_URL = "http://127.0.0.1:5000"
+
 // Modules
+
 
 function App() {
   return (
@@ -19,7 +24,8 @@ function App() {
         <div className="content-app">
           <Header/>
           <Route path="/" exact>
-            <Dashboard />
+            <Dashboard 
+            API_URL={API_URL} />
           </Route>
           <Route path="/a-propos" exact>
             <APropos />
