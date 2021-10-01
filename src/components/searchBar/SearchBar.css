@@ -7,13 +7,8 @@
 
 .search-form{
     text-align: center;
-    width:700px;
-    max-width: 95%;
     box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
     border-radius: 7px;
-    display: grid;
-    grid-template-columns: [first] auto [second] 100px;
-    align-items: flex-start;
 }
 
 .search-go{
@@ -23,9 +18,7 @@
     color: white;
     border-radius: 0px 7px 7px 0px;
     border: none;
-    /* box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801); */
     align-self: start;
-    /* width: 10%; */
 }
 
 .search-bar{
@@ -42,7 +35,7 @@
 .search-value{
     padding: 11px 13px;
     line-height: 10px;
-    /* border-radius: 7px  0px 0px 7px; */
+    border-radius: 7px 7px 7px 7px;
     border: none;
     /* box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801); */
     width: 100%;
@@ -104,6 +97,7 @@
     grid-template-columns: 85% auto;
 }
 .drop-title{
+    margin-top: 7px;
     font-size: 0.8em;
 }
 
@@ -132,22 +126,38 @@
     white-space: nowrap;
     font-size: 0.8em;
     text-align: left;
-    height: 20px;
-    padding: 9px 10px;
-    margin: -7px 2px;
+    height: max-content;
+    padding: 8px 10px;
+    margin: -6px 2px 0px 2px;
     background-color: #0AAACB;
     color: white;
     border-radius: 7px;
+    
+
+}
+
+.modal{
+    max-height:200px;
+
+}
+.sel-modal{
+    margin: 2px 0px;
+    height: max-content;
 
 }
 .col-items{
-    margin: 2px 2px;
+    margin: 10px 2px;
     white-space:normal;
 }
 .column{
     display: flex;
+    align-items: flex-start;
+    flex-grow: 0;
     flex-direction: row;
     flex-wrap:wrap;
+    max-height:160px;
+    overflow-y: auto;
+    overflow-x:hidden;
 }
 
 .close{
