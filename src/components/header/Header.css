@@ -16,6 +16,7 @@
 .nom-site{
     color: #0AAACB;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .link-nom{

@@ -55,7 +55,7 @@
     max-width: 95%;
     position: absolute;
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
     flex-direction: row;
     margin-top:10px;
     padding-left: 10px;
@@ -74,16 +74,20 @@
 }
 
 .selected-list{
-    max-width: 40%;
+    max-width: 30%;
     height: 20px;
     margin: auto 2px;
+    display: flex;
+    
 }
 
 .selected-list-min{
-    margin-top: -5px;
+    margin-top: auto;
     display: flex;
     flex-direction: row;
 }
+
+
 
 .drop-btn{
     margin-top: -7px;
@@ -93,6 +97,16 @@
     color:#06646e;
     cursor: pointer;
 }
+
+
+.drop-header{
+    display: grid;
+    grid-template-columns: 85% auto;
+}
+.drop-title{
+    font-size: 0.8em;
+}
+
 .aggregate{
     width: 20px;
     max-width: 20px;
@@ -104,16 +118,40 @@
 
 
 }
-.selected{
+/* .selected{
     white-space: nowrap;
     font-size: 0.8em;
-
     text-align: left;
     padding: 9px 10px;
     margin: 0px 2px;
     background-color: #0AAACB;
     color: white;
     border-radius: 7px;
+} */
+.selected{
+    white-space: nowrap;
+    font-size: 0.8em;
+    text-align: left;
+    height: 20px;
+    padding: 9px 10px;
+    margin: -7px 2px;
+    background-color: #0AAACB;
+    color: white;
+    border-radius: 7px;
+
+}
+.col-items{
+    margin: 2px 2px;
+    white-space:normal;
+}
+.column{
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+}
+
+.close{
+    transform: rotate(180deg);
 }
 
 .proposition:hover{
