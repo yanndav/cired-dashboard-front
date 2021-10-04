@@ -112,16 +112,7 @@
 
 
 }
-/* .selected{
-    white-space: nowrap;
-    font-size: 0.8em;
-    text-align: left;
-    padding: 9px 10px;
-    margin: 0px 2px;
-    background-color: #0AAACB;
-    color: white;
-    border-radius: 7px;
-} */
+
 .selected{
     white-space: nowrap;
     font-size: 0.8em;
