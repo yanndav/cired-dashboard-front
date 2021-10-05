@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Dot = ({d,xScale,yScale,xVariable,yVariable,radius}) => {
+const Dot = ({d,xScale,yScale,xVariable,yVariable,radius,color}) => {
 
     const [show,setShow] = useState(false)
   
@@ -15,6 +15,7 @@ const Dot = ({d,xScale,yScale,xVariable,yVariable,radius}) => {
         cy={yScale(d[yVariable])}
         cx={xScale(d[xVariable])}
         r={show?radius*1.5:radius}
+        style={{fill:color}}
         />
         {show && 
             <text className="tooltip"
@@ -22,6 +23,7 @@ const Dot = ({d,xScale,yScale,xVariable,yVariable,radius}) => {
             y={yScale(d[yVariable])}
             x={xScale(d[xVariable])}
             dy={-10}
+            style={{color:color}}
             >
             {d[yVariable]}
             </text>

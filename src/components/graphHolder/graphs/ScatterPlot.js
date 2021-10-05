@@ -40,8 +40,8 @@ const ScatterPlot = ({data,xVariable,yVariable,width,height}) =>{
                      innerWidth={innerWidth}
                      innerHeight={innerHeight}
                      yVariable={yVariable}/> 
-                     {data.map(d =>
-                     console.log(d))}
+                     {/* {data.map(d =>
+                     console.log(d))} */}
                      <Dots 
                      data={data} 
                      xScale={xScale} 

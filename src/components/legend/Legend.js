@@ -31,7 +31,7 @@ const variables = [{
 
 
 
-const Legend = ({territories}) => {
+const Legend = ({territories,data}) => {
     const [modal,setModal] = useState({
         clientX:0,
         clientY:0,
@@ -42,7 +42,7 @@ const Legend = ({territories}) => {
     })
 
     const openInfo = (e,v) =>{
-        console.log(e)
+        // console.log(e)
         const clientX = e.target.offsetLeft
         const clientY = e.target.offsetTop
         setModal({
