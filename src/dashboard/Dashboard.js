@@ -5,7 +5,7 @@ import './Dashboard.css'
 import { useState, useEffect } from 'react';
 
 // Components
-import GraphHolder from '../components/graphHolder/GraphHolder';
+import GraphsHolder from '../components/graphHolder/GraphsHolder';
 import SearchBar from '../components/searchBar/SearchBar';
 import Legend from '../components/legend/Legend';
 import VariablesPicker from '../components/variablesPicker/VariablesPicker';
@@ -61,8 +61,9 @@ const Dashboard = ({API_URL}) => {
         territories={territories}
         data={data}
         />
-        <GraphHolder 
+        <GraphsHolder 
         data={data}
+        territories={territories}
         />
         </>
         ):(

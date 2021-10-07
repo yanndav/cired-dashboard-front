@@ -88,7 +88,7 @@ const Legend = ({territories,data}) => {
     return (
         <div className="legend-container">
             <h3 className="legend-title">Vous étudiez {legendLocation(territories)}</h3>
-            <p className="legend-content">
+            {/* <p className="legend-content">
                 {legendEvolution(variables)}
             </p>
             {modal.open && 
@@ -102,7 +102,7 @@ const Legend = ({territories,data}) => {
                 <p className="legend-var">{modal.definition}</p>
                 <p className="source-var">Source: <a href={modal.source_url} target="_blank" rel="noreferrer">{modal.source_name}</a></p>
 
-            </div>}
+            </div>} */}
 
             {/* <p className="legend-content">{legendTime(time)}, la part des <span className="info-variable">terres artificialisées <FaRegQuestionCircle className="question-variable"/></span> a <span className="info-focus">augmenté de 8%</span>. 
             Dans le même temps <span className="info-variable">la population <FaRegQuestionCircle className="question-variable"/></span> a <span className="info-focus">augmenté de 2%</span>.</p> */}

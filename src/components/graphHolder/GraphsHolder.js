@@ -4,13 +4,13 @@ import './GraphHolder.css'
 import BarChartCategorical from './graphs/BarChart';
 import ScatterPlot from './graphs/ScatterPlot'
 import LineChart from './graphs/LineChart';
+import Graph from './Graph';
 
 const width =  600 ; 
-const height = 400;
+const height = 500;
 
 
-
-const GraphHolder = ({data}) => {
+const GraphsHolder = ({data,territories}) => {
     console.log(data)
     return (
         <div className="graph-container">
@@ -29,18 +29,16 @@ const GraphHolder = ({data}) => {
             height={height}
             />      */}
             {data.map(vari=>
-                <LineChart 
-                data={vari.DATA}
-                xVariable={'ANNEE'}
-                yVariable={'VALEUR'}
-                color={'CODGEO'}
-                width={width}
-                height={height}
-                />        
+            <Graph 
+            vari={vari}
+            width={width}
+            height={height}
+            territories={territories}
+            />
             )}
              
         </div>
     )
 }
 
-export default GraphHolder
+export default GraphsHolder

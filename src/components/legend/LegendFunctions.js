@@ -2,23 +2,25 @@
 const legendLocation = (territories) =>{
     return territories.map((l,i) =>{
         if(territories.length === 1){
-            return  <span className="info-focus">{l.LIBGEO[0]}</span>
+            return l.LIBGEO[0]
         }else{
             return (i!==(territories.length-1) )?(
-                <span className="info-focus">{l.LIBGEO[0]}, </span>
+                l.LIBGEO[0] 
            ):(
-           <> et <span className="info-focus">{l.LIBGEO[0]}</span> </>
+           'et ' + l.LIBGEO[0]
            )
         }
         
-    })
+    }).join(", ")
 };
 
+const getTimes = (vari) => vari.map(v => v.ANNEE)
+     
 // Function to load time legend
 const legendTime = (time) =>{
     const minYear = Math.min.apply(Math, time)
     const maxYear = Math.max.apply(Math,time) 
-    return <>Entre {minYear} et {maxYear}</>
+    return minYear+' et '+maxYear
 };
 
 
@@ -38,4 +40,4 @@ const evolValue = (v) =>{
 };
 
 
-export {legendTime,legendLocation,evolValue};
+export {legendTime,legendLocation,evolValue,getTimes};
