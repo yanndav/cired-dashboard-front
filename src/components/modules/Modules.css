@@ -1,0 +1,28 @@
+.module-bouton{
+    margin: 5px;
+    width: fit-content;
+    padding: 11px 13px;
+    line-height: 13px;
+    text-align: center;
+    box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    transition: background-color ease 0.5s,
+    color ease 0.2s ;
+
+}
+
+.module-bouton:hover{
+    cursor: pointer;
+    color: white;
+    background-color: #0AAACB;
+}
+.icon-module{
+    font-size:1.3em;
+}
+.legend-module-bouton{
+    /* padding: 11px 13px; */
+    margin-left: 8px;
+}

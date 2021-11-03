@@ -2,9 +2,11 @@
 import './Header.css'
 
 // Modules
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const Header = () => {
+    const location = useLocation().pathname;
+    
     return (
         <div className="header-container">
             <div className="titre">
@@ -15,7 +17,9 @@ const Header = () => {
                         Transitions Viewer
                     </h1>
                 </NavLink>
+                {!location.includes('/tableau')&&
                 <h2 className="slogan-site">Un outil pour mesurer les transitions sur votre territoire</h2>
+                }
             </div>
             <nav>
             <ul className="navig-container">

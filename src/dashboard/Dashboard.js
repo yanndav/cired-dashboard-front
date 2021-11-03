@@ -5,11 +5,12 @@ import './Dashboard.css'
 import { useState, useEffect } from 'react';
 
 // Components
+import NameTableau from '../components/nameTableau/NameTableau';
+import Localisation from '../components/localisation/Localisation';
 import GraphsHolder from '../components/graphHolder/GraphsHolder';
-import SearchBar from '../components/searchBar/SearchBar';
 import Legend from '../components/legend/Legend';
 import VariablesPicker from '../components/variablesPicker/VariablesPicker';
-
+import Modules from '../components/modules/Modules';
 // Modules
 
 const updateData = async (API_URL, territories, selectedVariables,setData) =>{
@@ -43,12 +44,16 @@ const Dashboard = ({API_URL}) => {
 
   return (
     <>
-      <SearchBar 
+    <NameTableau/>
+    <div className="parameter-box">
+      <Localisation 
       API_URL={API_URL}
       setDashboard={setDashboard} 
       territories = {territories}
       setTerritories={setTerritories}
       />
+      <Modules/>
+    </div>
       {dashboard? (
         <>
         <VariablesPicker

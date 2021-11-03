@@ -33,8 +33,8 @@
     position: relative;
     top: 0;
     box-shadow: white;
-    transition: top ease 0.2s;
-    transition: box-shadow ease 0.1s;
+    transition: top ease 0.2s,
+            box-shadow ease 0.1s;
     text-align: center;
 
 }
