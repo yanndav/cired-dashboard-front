@@ -19,7 +19,7 @@ const Header = () => {
             </div>
             <nav>
             <ul className="navig-container">
-                <NavLink to="/a-propos" exact className="navig-pages" activeClassName="link-current">
+                <NavLink to="/#apropos" exact className="navig-pages" activeClassName="link-current">
                 À propos
                 </NavLink>
                 <NavLink to="/connexion" exact className="navig-pages" activeClassName="link-current">

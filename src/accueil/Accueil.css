@@ -1,0 +1,89 @@
+.container-accueil{
+    margin: 50px 15%;
+    min-width: 400px;
+}
+
+.intro{
+    font-size: 1.1em;
+    line-height: 2em;
+    text-align: justify;
+}
+
+.tw{
+    font-weight: bolder;
+    color: #0AAACB;
+}
+
+.container-boutons{
+    margin: 40px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.bouton-accueil{
+    width: 300px;
+    margin: 10px;
+    padding: 15px 12px;
+    border-radius: 8px;
+    background-color: #0AAACB;
+    color: white;
+    position: relative;
+    top: 0;
+    box-shadow: white;
+    transition: top ease 0.2s;
+    transition: box-shadow ease 0.1s;
+    text-align: center;
+
+}
+
+.bouton-accueil:hover{
+    box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+    top: -2px;
+    cursor: pointer;
+ 
+}
+
+.lien-bouton{
+    text-decoration: none;
+}
+
+.legend-bouton{
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.presentation{
+    display: flex;
+    flex-direction: column;
+}
+
+.question{
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+
+.boite{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.logo-boite{
+    font-size: 3em;
+    margin: 10px 30px;
+    text-align: center;
+
+}
+.explication-boite{
+    min-width: 300px;
+    width:85%;
+    text-align: justify;
+
+}
