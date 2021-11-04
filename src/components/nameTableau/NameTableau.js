@@ -1,8 +1,11 @@
 import './NameTableau.css'
 
-import { useState,useRef, useEffect } from "react"
+import { useState } from "react"
+
+import { NavLink } from 'react-router-dom';
 
 import { GoCheck } from "react-icons/go";
+import { FaBuyNLarge } from 'react-icons/fa';
 
 const NameTableau = () => {
     const [edit, setEdit] = useState(false)
@@ -13,6 +16,11 @@ const NameTableau = () => {
     return (
         <>
         <div className="container-name">
+            <div className="logo-link">
+            <NavLink  to="/" exact >
+                <img className="logo-min" src="Transitions ViewerLogo-TV.svg" alt="Transitions" width="30em"/>
+            </NavLink>
+            </div>
             {!edit?(
                 <div 
                 className="name-solid"

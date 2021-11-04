@@ -23,7 +23,6 @@ function App() {
       <Switch>
         <div className="app-container">
         <div className="content-app">
-          <Header/>
           <Route path="/" exact>
             <Accueil/>
           </Route>

@@ -1,12 +1,14 @@
 import './Accueil.css'
 
-
+import Header from '../components/header/Header';
 import { NavLink } from 'react-router-dom';
 
 
 
 const Acceuil = () => {
     return (
+        <>
+        <Header/>
         <div className="container-accueil">
             <p className="intro">
             Bienvenue sur <span class="tw">Transitions Viewer</span>, un outil conçu pour aider à la compréhension des enjeux territoriaux et guider la prise de décision.  
@@ -48,6 +50,7 @@ const Acceuil = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

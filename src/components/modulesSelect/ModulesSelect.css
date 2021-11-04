@@ -1,7 +1,8 @@
 .module-bouton{
     margin: 5px;
+    height: fit-content;
     width: fit-content;
-    padding: 11px 13px;
+    padding: 18px 13px;
     line-height: 13px;
     text-align: center;
     box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);

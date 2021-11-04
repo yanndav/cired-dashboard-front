@@ -1,20 +1,41 @@
 .container-name{
-    height: 20px;   
+    margin-top: 30px;
+    height: 20px;  
+    display: flex;
+    flex-direction: row;
+}
+.logo-link{
+    width:35px;
+    max-width:35px;
+}
+.logo-min{
+    margin-right: 10px;
+    transition: filter ease 0.2s,
+    width ease 0.1s;
+
+}
+.logo-min:hover{
+    width: 2.1em;
+    filter: drop-shadow(3px 3px 7px rgba(168, 168, 168, 0.801));
 }
 
 .name-solid{
+    height: 30px;
     font-size: 1.1em;
     font-weight: bolder;
-    padding: 5px 10px;
+    padding: 0px 10px;
     margin:0px;
     display:inline-block;
     min-width: 300px;
+    line-height: 30px;
 }
 
 .name-solid:hover{
     font-size: 1.1em;
+    height: 30px;
+
     margin:0px;
-    padding: 5px 10px;
+    padding: 0px 10px;
 
     border-radius: 3px;
     border:grey solid 1px;
@@ -22,9 +43,10 @@
 }
 
 .name-edit{
+    height: 30px;
     font-size: 1.1em;
 
-    padding: 5px 10px;
+    padding: 0px 10px;
     margin:0px;
 
     border-radius: 3px;

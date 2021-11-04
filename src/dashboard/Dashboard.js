@@ -10,7 +10,7 @@ import Localisation from '../components/localisation/Localisation';
 import GraphsHolder from '../components/graphHolder/GraphsHolder';
 import Legend from '../components/legend/Legend';
 import VariablesPicker from '../components/variablesPicker/VariablesPicker';
-import Modules from '../components/modules/Modules';
+import ModulesSelect from '../components/modulesSelect/ModulesSelect';
 // Modules
 
 const updateData = async (API_URL, territories, selectedVariables,setData) =>{
@@ -52,16 +52,16 @@ const Dashboard = ({API_URL}) => {
       territories = {territories}
       setTerritories={setTerritories}
       />
-      <Modules/>
+      <ModulesSelect/>
     </div>
       {dashboard? (
         <>
-        <VariablesPicker
+        {/* <VariablesPicker
         territories={territories}
         API_URL={API_URL}
         selectedVariables ={selectedVariables}
         setSelectedVariables={setSelectedVariables}
-        />
+        /> */}
         <Legend 
         territories={territories}
         data={data}

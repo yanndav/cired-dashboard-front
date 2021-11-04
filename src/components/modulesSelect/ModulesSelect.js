@@ -1,6 +1,6 @@
-import './Modules.css'
+import './ModulesSelect.css'
 
-const Modules = () => {
+const ModulesSelect = () => {
     return (
         <div className="module-bouton">
            <div className="icon-module">🎛️</div> 
@@ -9,4 +9,4 @@ const Modules = () => {
     )
 }
 
-export default Modules
+export default ModulesSelect
