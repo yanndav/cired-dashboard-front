@@ -95,6 +95,12 @@
     padding: 0px;
 }
 
+.selection-territoires{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .section-titre{
     font-weight: bolder;
 }
@@ -102,9 +108,12 @@
 
 
 .list-territoires{
+    width: 400px;
+    max-width: 50%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    align-content:flex-start;
 }
 
 
@@ -117,7 +126,7 @@
     text-align: left;
     vertical-align: middle;
     padding: 9px 10px;
-    margin: 0px 5px;
+    margin: 5px;
     background-color: #0AAACB;
     color: white;
     border-radius: 7px;
@@ -199,7 +208,7 @@
     text-align: left;
     height: max-content;
     padding: 8px 10px;
-    margin: -6px 2px 0px 2px;
+    margin: 2px;
     background-color: #0AAACB;
     color: white;
     border-radius: 7px;

@@ -124,8 +124,11 @@ const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
 
                     </div>
                     {/* Liste des territoires sélectionnés */}
-
                      <p className="section-titre">Territoires sélectionnés:</p>
+                    <div className="selection-territoires">
+
+
+
                      <div className="list-territoires">
 
                     { territories.length>0?territories.map((t,i)=>{
@@ -139,10 +142,16 @@ const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
                         </span>
                     }):
                     "Ajoutez un territoire à votre périmètre"
-                    }
+                }
                      </div>
+
                      <LocalisationMap />
+
                     </div>
+                    </div>
+                    
+                    
+                    
                     <MdKeyboardArrowUp 
                     className="arrow-btn right"
                     onClick={()=> setPanelTerritories(!panelTerritories) }
