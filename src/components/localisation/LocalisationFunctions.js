@@ -32,21 +32,11 @@ const addTerritoryToAnalysis = (e,t,setTerritories,setListTerritories,setQuery,t
 }
 
 // Function to remove a territory from the analysis
-const removerTerritoryFromAnalysis = (e,t,setModal,setPanelTerritories,setTerritories,territories,LIST_ITEM_REF,SEARCH_BAR_REF) =>{
+const removerTerritoryFromAnalysis = (e,t,setTerritories,territories) =>{
     e.preventDefault();
-    if(territories.length-1===0){
-        setModal({open:false})
-    }
-    if(territories.length-2===0){
-        setPanelTerritories(false)
-        setModal({open:false})
 
-    }
     setTerritories(territories.filter(ter=>ter!==t))
-  
-    if(LIST_ITEM_REF.current.offsetWidth<=SEARCH_BAR_REF.current.offsetWidth*0.3 ){
-        setPanelTerritories(false)   
-    }
+
 }
 
 // Function setting the naming of locations

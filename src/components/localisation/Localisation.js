@@ -4,9 +4,13 @@ import './Localisation.css'
 // React modules
 import { useState, useEffect, useRef } from 'react';
 
+// Import map function
+import LocalisationMap from './LocalisationMap';
+
 // Icons
 import { TiDelete } from "react-icons/ti"
-import { RiArrowDropDownLine } from 'react-icons/ri'
+import { MdKeyboardArrowUp } from 'react-icons/md'
+import { FaSave } from "react-icons/fa"
 
 // Import fonctions
 import { recommendation, handleSearch, addTerritoryToAnalysis, namingLocation, removerTerritoryFromAnalysis, openInfo,styleModal } from './LocalisationFunctions'
@@ -15,7 +19,7 @@ import { recommendation, handleSearch, addTerritoryToAnalysis, namingLocation, r
 const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
     // Ref definitions
     const SEARCH_BAR_REF = useRef(null)
-    // const LIST_ITEM_REF = useRef(null)
+    const LIST_ITEM_REF = useRef(null)
 
     // State variables
     const [modal,setModal] = useState({
@@ -26,8 +30,10 @@ const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
     const [query, setQuery] = useState("")
     const [listTerritories, setListTerritories] = useState([])
     const [panelTerritories, setPanelTerritories] = useState(false)
-
-
+    const [nomTerritoire, setNomTerritoire] = useState("")
+    const [editTerritoire, setEditTerritoire] = useState(false)
+   
+   
     // Effects 
     useEffect(() => {
         if(query.length%2===0 & query!==""){
@@ -50,17 +56,30 @@ const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
 
    
     return (
-        <div className="module-localisation" onClick={()=>setPanelTerritories(true)}>
+        <div className="module-localisation">
             {/* Search bar strictly speaking */}
-            <form onSubmit={(e)=>handleSearch(e,query,API_URL,setListTerritories)} className="search-form">
+            <form 
+            onSubmit={(e)=>handleSearch(e,query,API_URL,setListTerritories)} 
+            onClick={()=>setPanelTerritories(true)}
+            className="search-form">
                     <input className="search-value" type="input"
                     onChange={(dta) => setQuery(dta.target.value)}
                     value = {query}
                     placeholder="🔍️  Cherchez et ajoutez des territoires à votre tableau de bord (nom de commune, code postal..)"/>   
+                   {!panelTerritories&&
+                   <MdKeyboardArrowUp 
+                   className="arrow-btn"
+                   onClick={()=> setPanelTerritories(!panelTerritories) }
+                   size={25}
+                   style={{transform:`rotate(180deg)`}}
+                   />
+                } 
             </form>
+            {/* Ouverture de la boîte de paramètres territoriaux */}
             {panelTerritories&&<hr className="separation"/>}
 
-            {listTerritories.length>0&&
+            {/* Drop down of suggestions */}
+            {(listTerritories.length>0 && panelTerritories) &&
             <div className="propositions">
                         {query!==""&&listTerritories.map((t,i)=>{
                             return <span 
@@ -72,10 +91,65 @@ const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
                         })}
             </div> 
             }
-            {/* Drop down of suggestions */}
+            
             {panelTerritories&&(
-                <div>Nommer et sauvegarder ce zonage</div>
-            )}
+                <>
+                {/* Nommer le découpage territorial */}
+                <div className="parametre-territoire">
+                    <div className="decoupage-territoire">
+                        {!editTerritoire?(
+                            <div onClick={()=>setEditTerritoire(true)}
+                            className="name-stable-territoire">
+                                {nomTerritoire==""?"Nommer et sauvegarder ce zonage":nomTerritoire}
+                            </div>
+                        ):(
+                            <form onSubmit={()=>setEditTerritoire(false)}
+                            className="form-name">
+                                <input 
+                                type="text"
+                                className="name-edit-territoire"
+                                style={{ width: (nomTerritoire.length<36?"260px":(nomTerritoire.length + 1) * 8.5 + "px") }}
+                                placeholder="Nommer et sauvegarder ce zonage"
+                                value={nomTerritoire} 
+                                onChange={e=>setNomTerritoire(e.target.value)}>
+                                </input>
+                                <FaSave 
+                                className="save"
+                                size={15}
+                                onClick={()=>setEditTerritoire(false)}
+                                />
+
+                            </form>
+                        )}
+
+                    </div>
+                    {/* Liste des territoires sélectionnés */}
+
+                     <p className="section-titre">Territoires sélectionnés:</p>
+                     <div className="list-territoires">
+
+                    { territories.length>0?territories.map((t,i)=>{
+                        return <span 
+                        key={i}
+                        className="selected">
+                            {namingLocation(t,true,territories)}
+                            <TiDelete className="delete-territory" 
+                            onClick = {e => removerTerritoryFromAnalysis(e,t,setTerritories,territories)}
+                            />
+                        </span>
+                    }):
+                    "Ajoutez un territoire à votre périmètre"
+                    }
+                     </div>
+                     <LocalisationMap />
+                    </div>
+                    <MdKeyboardArrowUp 
+                    className="arrow-btn right"
+                    onClick={()=> setPanelTerritories(!panelTerritories) }
+                    size={25}
+                    />
+                </>
+                )}
 
 
         </div>
