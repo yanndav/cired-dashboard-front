@@ -145,7 +145,10 @@ const Localisation = ({API_URL, setDashboard, territories, setTerritories}) => {
                 }
                      </div>
 
-                     <LocalisationMap />
+                     <LocalisationMap 
+                     territories={territories}
+                     API_URL={API_URL}
+                     />
 
                     </div>
                     </div>
