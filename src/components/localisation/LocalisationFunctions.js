@@ -1,5 +1,9 @@
+import "leaflet/dist/leaflet.css"
+import L from 'leaflet';
+
+
 // Function to retrieve the locations on the back-end
-const  recommendation = async (query,API_URL,setListTerritories) =>{
+const  recommendation = async (query,API_URL,setSuggestions) =>{
     const response = await fetch(`${API_URL}/getLocation`, {
         body: JSON.stringify({"location":query}),
         method: "POST",
@@ -12,30 +16,75 @@ const  recommendation = async (query,API_URL,setListTerritories) =>{
       });
       const data = await response.json()
    
-    setListTerritories(data)   
+    setSuggestions(data)   
 }
 
 // Function to launch the fetch action when press enter on the search bar
-const handleSearch = (e,query,API_URL,setListTerritories) =>{
+const handleSearch = (e,query,API_URL,setSuggestions) =>{
     e.preventDefault();
-    recommendation(query,API_URL,setListTerritories)
+    recommendation(query,API_URL,setSuggestions)
 
 }
 
+// Function to correct lgtltd reversion
+const revertLtLg = (coordinates) =>  coordinates.map( c => [c[1],c[0]])
+
+// Function to add shape to geography
+const  addShape = async (t,year,API_URL,setGeographies,map) =>{
+    const response = await fetch(`${API_URL}/getLocationShape`, {
+        body: JSON.stringify({
+            "location_id":t._id.$oid,
+            "year":year,
+    }),
+        method: "POST",
+        headers: {
+            // Authorization: bearer,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+
+      });
+      const data = await response.json()
+      
+      data[0].geometry.coordinates = revertLtLg(data[0].geometry.coordinates)
+      let polygon = L.polyline(data[0].geometry.coordinates, {
+        weight:1,
+        color: '#0AAACB',
+        fill:true,
+        fillColor:"#0aabcb70",
+        smoothFactor:2
+    }
+    ).addTo(map)
+
+    data[0].id = polygon._leaflet_id
+      setGeographies(prev=>[...prev,data[0]]) 
+
+
+}
 // Function to add a territory to the analysis
-const addTerritoryToAnalysis = (e,t,setTerritories,setListTerritories,setQuery,territories,listTerritories) => {
+const addTerritoryToAnalysis = (e,t,territories,setTerritories,setSuggestions,setQuery,suggestions,year=2021,API_URL,setGeographies,map) => {
     e.preventDefault();
-    setTerritories(territories => [...territories,t])
-    setListTerritories(listTerritories.filter(ter=>ter!==t))  
-    setQuery("")
-    
+    if(!territories.some(ter => ter._id.$oid === t._id.$oid)){
+        setTerritories(territories => [...territories,t])
+        setSuggestions(suggestions.filter(ter=>ter!==t))  
+        setQuery("")
+        addShape(t,year,API_URL,setGeographies,map)
+    }else{
+        alert("Already added")
+        setQuery("")
+    }
 }
 
 // Function to remove a territory from the analysis
-const removerTerritoryFromAnalysis = (e,t,setTerritories,territories) =>{
+const removerTerritoryFromAnalysis = (e,t,setTerritories,territories,geographies,setGeographies,map) =>{
     e.preventDefault();
-
+    let id = t._id.$oid
+    let id_leaf = geographies.filter(t=>t.properties._id.$oid===id)[0].id
+    console.log(id_leaf)
     setTerritories(territories.filter(ter=>ter!==t))
+    setGeographies(!geographies.filter(t=>t.properties._id.$oid===id))
+    map.removeLayer(id_leaf)
+
 
 }
 
