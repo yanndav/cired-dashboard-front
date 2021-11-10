@@ -1,67 +1,88 @@
 import "./LocalisationMap.css"
-import { MapContainer, TileLayer, Polygon, MapConsumer } from 'react-leaflet'
+import { MapContainer, TileLayer, LayerGroup, MapConsumer,useMapEvents } from 'react-leaflet'
 
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet';
 
-import { useEffect, useState, useCallback} from "react"    
+
+import { useEffect, useState} from "react"   
+
+import { creaElements,majElements,getRecommendations, removeRecommendations } from "../LocalisationFunctions";
+
+const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,layer}) => {
+    const center = [46.8,1.7]
+    const zoom = 4.5
+    const [nbTerritoires, setNbTerritoires] = useState(0)
+    const [bounds, setBounds] = useState()
+    const [territoriesAround, setTerritoriesAround] = useState([])
+
+
+    useEffect(() => {
+      creaElements(geographies,map)
+      
+      if(map && geographies.length===1){
+        map.setView(geographies[geographies.length-1].latLng,9)
+      }
+    }, [geographies])
     
-    
-    const LocalisationMap = ({geographies,setMap}) => {
-        const [center,setCenter] = useState([ 44.98783390046939,4.970584899999999])
-        const [zoom,setZoom] = useState(4.5)
-        
-    // const onNewGeo = useCallback(() => {
-    //   map.setView(center, zoom)
-    // }, [map,center,zoom])
-  
     // useEffect(() => {
-    //     territories.map(t =>{
-    //         // Ids of territories projected
-    //         let ids = geographies.map((g) => g.properties._id.$oid)
+    //   if(map){
+    //     //  Creation svg layer for text/incrustations
+    //     L.svg({'pane':'markerPane'}).addTo(map)
 
-    //         // If the territory is not yet projected
-    //         if(!ids.includes(t._id.$oid)){
-    //             // Add if to the geography state
-    //             addShape(t,2021,API_URL,setGeographies,setCenter)
-    //         }
-            
-           
-    //     })
+    //   }
+    // }, [map])
+    const Events = () => {
+      const map = useMapEvents({
+        zoomstart:(e)=>{
+          removeRecommendations(map)
+        },
+        moveend: (e) => {
+          majElements(map)
+          if(geographies.length>=1){
+            getRecommendations(
+              API_URL,
+              setTerritoriesAround,
+              geographies,
+              map,
+              layer,
+              territoriesAround)
 
-    // }, [territories])
-  
- 
+          }
 
+
+        }
+      });
+      return null;
+    }
 
     return (
         <>
-        {/* {map ? <DisplayPosition map={map} /> : null} */}
         <div className="map-wrapper">
         <MapContainer
           id="map"
             center={center}
             zoom={zoom}
             scrollWheelZoom={true}
-            whenCreated={setMap}>
+            whenCreated={setMap}
+            >
             <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | &copy; CIRED-ENPC'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-           
+              <Events/>
+              <LayerGroup
+              ref={setLayer}
+              >
+
+              </LayerGroup>
+              
                 {/* <MapConsumer>
                {(map) => {         
-                    //   {geographies.map(g=>{
-                    //     let polygon = L.polyline(g.geometry.coordinates, {
-                    //         weight:1,
-                    //         color: '#0AAACB',
-                    //         fill:true,
-                    //         fillColor:"#0aabcb70",
-                    //         smoothFactor:2
-                    //     }
-                    //     ).addTo(map)
-                    // })}
-                    return null
+            
+                
+                
+                return null
                     }} 
 
             </MapConsumer> */}

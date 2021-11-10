@@ -5,13 +5,14 @@ import '../Localisation.css'
 import { TiDelete } from "react-icons/ti"
 
 // Functions
-import { namingLocation, removerTerritoryFromAnalysis } from "../LocalisationFunctions"
+import { namingLocation, removerTerritoryFromAnalysis,addShape } from "../LocalisationFunctions"
 
-const ListeTerritoiresSelectionnes = ({territories,setTerritories,geographies,setGeographies,map}) =>{
+const ListeTerritoiresSelectionnes = ({territories,setTerritories,geographies,setGeographies,map,API_URL}) =>{
     return(
         <div className="list-territoires">
 
                     { territories.length>0?territories.map((t,i)=>{
+                        // addShape(t,2021,API_URL,setGeographies,map)
                         return <span 
                         key={i}
                         className="selected">

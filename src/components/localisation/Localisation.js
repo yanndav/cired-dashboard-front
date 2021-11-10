@@ -30,6 +30,7 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
     const [editZonage, setEditZonage] = useState(false) //ouvre/ferme edition zonage
     const [geographies, setGeographies] = useState([]) // Geographies to be placed
     const [map, setMap] = useState(null) // map reference
+    const [layer, setLayer] = useState(null)
 
     // Effects 
     // Lance les recherches de territoires
@@ -66,7 +67,7 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
             territories={territories}
             setGeographies={setGeographies}
             API_URL={API_URL}
-            map={map}
+            map={layer}
             />
             }
             
@@ -90,13 +91,18 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
                         setGeographies={setGeographies}
                         geographies={geographies}
                         setGeographies={setGeographies}
-                        map={map}
+                        map={layer}
+                        API_URL={API_URL}
                         />
                      
 
                      <LocalisationMap 
                      geographies={geographies}
                      setMap={setMap}
+                     setLayer={setLayer}
+                     map={map}
+                     API_URL={API_URL}
+                     layer={layer}
                      />
 
                     </div>

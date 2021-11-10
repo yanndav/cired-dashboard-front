@@ -1,6 +1,8 @@
 import "leaflet/dist/leaflet.css"
-import L from 'leaflet';
+import L, { popup } from 'leaflet';
+import * as d3 from "d3"
 
+import './components/LocalisationMap.css'
 
 // Function to retrieve the locations on the back-end
 const  recommendation = async (query,API_URL,setSuggestions) =>{
@@ -26,8 +28,228 @@ const handleSearch = (e,query,API_URL,setSuggestions) =>{
 
 }
 
+
+
+const zoomInit = (map) =>{
+    if(map){
+      return map.getZoom()
+  
+    }else{
+      return 4.5
+    }
+  }
+
+
+
+  const creaElements = (geographies,map) =>{
+    const svg = d3.select('#map').select('svg')
+    let zoomMove = zoomInit(map)
+  
+    const c = svg.select('g').attr('id','city').selectAll('text')
+    c.remove()
+  
+    c
+    .data(geographies.filter(d=>d.showLegend===true))
+    .enter()
+    .append('text')
+    .attr("id", s => s.id)
+    .attr("text-anchor", "middle")
+    .attr("font","inherit")
+    .attr("font-size", zoomFunction(map))
+    .text(d=>d.properties.LIBGEO[0])
+    .attr(
+      'transform',
+      d =>
+          'translate(' +
+          map.latLngToLayerPoint(d.latLng).x +
+          ',' +
+          map.latLngToLayerPoint(d.latLng).y +
+          ')'
+  )
+  }
+  
+  const zoomFunction = (map) =>{
+    let zoomMove = zoomInit(map)
+    if(zoomMove<9){
+      return '0em'
+    }else if(zoomMove===9){
+      return '0.7em'
+    } else if(zoomMove===10){
+      return '1.4em'
+    }else if(zoomMove===11){
+      return '2em'
+    }
+  }
+
+
+  const majElements = (map)=>{
+    let zoomMove = zoomInit(map)
+  
+    const g = d3
+    .select('#map')
+    .select('svg')
+    .select('#city')
+    .selectAll('text')
+  
+    g
+    .attr("font-size", zoomFunction(map))
+    .attr(
+      'transform',
+      d =>
+          'translate(' +
+          map.latLngToLayerPoint(d.latLng).x +
+          ',' +
+          map.latLngToLayerPoint(d.latLng).y +
+          ')'
+  )
+
+  }
+  
+  const removeRecommendations = (map) =>{
+    d3.select(map.getPanes().overlayMouseTarget).select('svg')
+    .select("#candidates")
+    .remove()
+
+  }
+  
+  const getRecommendations = async (API_URL,setTerritoriesAround,geographies,map) =>{
+    const bounds = map.getBounds().getCenter()
+    const zoom = zoomInit(map)
+
+    
+    if(zoom>=9){
+        const response = await fetch(`${API_URL}/getTerritoriesAround`, {
+            body: JSON.stringify({"lat":bounds.lat,"lng":bounds.lng,"zoom":zoom}),
+            method: "POST",
+            headers: {
+                // Authorization: bearer,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+    
+    });
+    
+        const data = await response.json()
+        const ids = geographies.map(d=>d.properties._id.$oid)
+        let data_clean = data.filter(d=>!d.properties._id.$oid.includes(ids))
+        data_clean = data_clean.map((d)=> {
+            d.geometry.coordinates = [revertLtLg(d.geometry.coordinates)]
+            return d}
+        )
+    
+          
+    
+    const overlay = d3.select(map.getPanes().overlayPane)
+    const svg = overlay.select('svg').attr("pointer-events", "auto")
+    svg
+    .select("#candidates")
+    .remove()
+
+    
+    
+    const g = svg
+    .append("g")
+    .attr('id',"candidates")
+    .attr('class', 'leaflet-zoom-hide')
+    
+    
+         
+      // Use Leaflets projection API for drawing svg path (creates a stream of projected points)
+      const projectPoint = function(x,y) {
+        const point = map.latLngToLayerPoint(new L.LatLng(x,y))
+        this.stream.point(point.x, point.y)
+      }
+      
+      
+      // Use d3's custom geo transform method to implement the above
+      const projection = d3.geoTransform({point: projectPoint})
+      // creates geopath from projected points (SVG)
+      const pathCreator = d3.geoPath().projection(projection)
+      
+      const areaPaths = g.selectAll('path')
+        .data(data_clean)
+        .enter()
+        .append('path')
+        .attr("id", d=>d.properties.LIBGEO)
+        .attr('fill-opacity', 0)
+        .attr('stroke', 'grey')
+        .attr('class',`leaflet-interactive ${zoom} normal`)
+        .on("mouseover", (d)=> {
+            d3.select(d.target).attr("class",`leaflet-interactive ${zoom} mouseOver`)})
+        .on("mouseout", (d)=>d3.select(d.target).attr("class",`leaflet-interactive ${zoom} normal`))
+       
+      // Function to place svg based on zoom
+      const onZoom = () => areaPaths.attr('d', pathCreator)
+      // initialize positioning
+      onZoom()
+    }
+ }
+
+
+//   const getRecommendations = async (API_URL,setTerritoriesAround,geographies,map,layer,territoriesAround) =>{
+//       const bounds = map.getBounds().getCenter()
+//       const zoom = zoomInit(map)
+//       removeRecommendations(map,territoriesAround)
+//       if(zoom >=9){
+//           const response = await fetch(`${API_URL}/getTerritoriesAround`, {
+//               body: JSON.stringify({"lat":bounds.lat,"lng":bounds.lng,"zoom":zoom}),
+//               method: "POST",
+//               headers: {
+//                   // Authorization: bearer,
+//                   Accept: "application/json",
+//                   "Content-Type": "application/json",
+//               },
+      
+//           });
+
+//         const data = await response.json()
+//         const ids = geographies.map(d=>d.properties._id.$oid)
+//         let data_clean = data.filter(d=>!d.properties._id.$oid.includes(ids))
+//         data_clean = data_clean.map(d=>{
+//             d.geometry.coordinates = revertLtLg(d.geometry.coordinates)
+//           let polygon = L.polyline(d.geometry.coordinates, {
+//               weight:0.5,
+//               color: '#9c9c9c',
+//               fill:false,
+//               fillOpacity:0.5,
+//               smoothFactor:2
+//           }
+//           ).addTo(layer)
+
+//           d.id = polygon._leaflet_id
+//           d.latLng = polygon.getBounds().getCenter()
+//           d.showLegend=false
+          
+//            polygon.on(
+//                {
+//                    'mouseover': ()=>{
+//                       setTerritoriesAround(
+//                            prev=>[...prev.filter(g=>g.id!==d.id),
+//                            {...d,showLegend:true}])
+//                       polygon.setStyle({fill:true,fillColor:"#51acbe"})
+//                            },
+//                     'mouseout':()=>{
+//                       setTerritoriesAround(
+//                           prev=>[...prev.filter(g=>g.id!==d.id),
+//                           {...d,showLegend:false}])
+//                           polygon.setStyle({fill:false})
+      
+//                           },
+//                       })
+  
+//           return d
+//         })
+  
+//         setTerritoriesAround(data_clean) 
+
+//       }else{
+
+//       }
+
+//   }
+
 // Function to correct lgtltd reversion
-const revertLtLg = (coordinates) =>  coordinates.map( c => [c[1],c[0]])
+const revertLtLg = (coordinates) =>  coordinates.map( c => [parseFloat(c[1]),parseFloat(c[0])])
 
 // Function to add shape to geography
 const  addShape = async (t,year,API_URL,setGeographies,map) =>{
@@ -51,14 +273,36 @@ const  addShape = async (t,year,API_URL,setGeographies,map) =>{
         weight:1,
         color: '#0AAACB',
         fill:true,
-        fillColor:"#0aabcb70",
+        fillColor:"#00d5ff",
+        fillOpacity:0.5,
         smoothFactor:2
     }
     ).addTo(map)
 
     data[0].id = polygon._leaflet_id
-      setGeographies(prev=>[...prev,data[0]]) 
+    data[0].latLng = polygon.getBounds().getCenter()
+    data[0].showLegend=false
+    setGeographies(prev=>[...prev,data[0]])
 
+
+    
+     polygon.on(
+         {
+             'mouseover': ()=>{
+                 setGeographies(
+                     prev=>[...prev.filter(g=>g.id!==data[0].id),
+                     {...data[0],showLegend:true}])
+                polygon.setStyle({fillColor:"#51acbe"})
+                     },
+              'mouseout':()=>{
+                setGeographies(
+                    prev=>[...prev.filter(g=>g.id!==data[0].id),
+                    {...data[0],showLegend:false}])
+                    polygon.setStyle({fillColor:"#00d5ff"})
+
+                    },
+        
+})
 
 }
 // Function to add a territory to the analysis
@@ -80,9 +324,9 @@ const removerTerritoryFromAnalysis = (e,t,setTerritories,territories,geographies
     e.preventDefault();
     let id = t._id.$oid
     let id_leaf = geographies.filter(t=>t.properties._id.$oid===id)[0].id
-    console.log(id_leaf)
+
     setTerritories(territories.filter(ter=>ter!==t))
-    setGeographies(!geographies.filter(t=>t.properties._id.$oid===id))
+    setGeographies(geographies.filter(t=>t.properties._id.$oid !==id))
     map.removeLayer(id_leaf)
 
 
@@ -123,4 +367,16 @@ const styleModal = (modal,SEARCH_BAR_REF) =>{
     }
 }
 
-export {recommendation, handleSearch, addTerritoryToAnalysis, namingLocation, removerTerritoryFromAnalysis,openInfo,styleModal}
+export {
+    recommendation,
+     handleSearch,
+      addTerritoryToAnalysis,
+       namingLocation,
+        removerTerritoryFromAnalysis,
+        openInfo,styleModal,addShape,
+        zoomFunction,
+    zoomInit,
+creaElements,
+majElements,
+getRecommendations,
+removeRecommendations}
