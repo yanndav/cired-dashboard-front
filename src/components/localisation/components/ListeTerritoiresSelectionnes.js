@@ -4,21 +4,28 @@ import '../Localisation.css'
 //Icons
 import { TiDelete } from "react-icons/ti"
 
-// Functions
-import { namingLocation, removerTerritoryFromAnalysis,addShape } from "../LocalisationFunctions"
+// Import hooks
+import { useState, useEffect } from 'react'
 
-const ListeTerritoiresSelectionnes = ({territories,setTerritories,geographies,setGeographies,map,API_URL}) =>{
+// Functions
+import { namingLocation, removerTerritoryFromAnalysis } from "../LocalisationFunctions"
+
+const ListeTerritoiresSelectionnes = ({territories,setTerritories,setGeographies}) =>{
+const [selection,setSelection] = useState(territories)
+useEffect(() => {
+    setSelection(territories)
+}, [territories])
     return(
         <div className="list-territoires">
 
-                    { territories.length>0?territories.map((t,i)=>{
+                    { selection.length>0?selection.map((t,i)=>{
                         // addShape(t,2021,API_URL,setGeographies,map)
                         return <span 
                         key={i}
                         className="selected">
-                            {namingLocation(t,true,territories)}
+                            {namingLocation(t,true,selection)}
                             <TiDelete className="delete-territory" 
-                            onClick = {e => removerTerritoryFromAnalysis(e,t,setTerritories,territories,geographies,setGeographies,map)}
+                            onClick = {e => removerTerritoryFromAnalysis(e,t,setTerritories,setGeographies)}
                             />
                         </span>
                     }):

@@ -17,7 +17,7 @@ import LocalisationMap from './components/LocalisationMap';
 import { MdKeyboardArrowUp } from 'react-icons/md'
 
 // Import fonctions
-import { recommendation } from './LocalisationFunctions'
+import { apiRecommendation,removerTerritoryFromAnalysis } from './LocalisationFunctions'
 
 
 
@@ -29,6 +29,7 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
     const [nomZonage, setNomZonage] = useState("") //Nom du zonage
     const [editZonage, setEditZonage] = useState(false) //ouvre/ferme edition zonage
     const [geographies, setGeographies] = useState([]) // Geographies to be placed
+    const [remove, setRemove] = useState([]) //geo to remove
     const [map, setMap] = useState(null) // map reference
     const [layer, setLayer] = useState(null)
 
@@ -37,10 +38,18 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
     useEffect(() => {
         // recherche tous les deux charactères
         if(query.length%2===0 & query!==""){
-            recommendation(query,API_URL,setSuggestions)
+            apiRecommendation(query,API_URL,setSuggestions)
         }
        
     }, [query,API_URL])
+
+    useEffect(() => {
+        if(remove.length>0 & map){
+            console.log(remove)
+            removerTerritoryFromAnalysis(null,remove[0],setTerritories,territories,geographies,setGeographies,map)
+            setRemove([])
+        }
+    }, [remove])
 
    
     return (
@@ -67,7 +76,8 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
             territories={territories}
             setGeographies={setGeographies}
             API_URL={API_URL}
-            map={layer}
+            map={map}
+            setRemove={setRemove}
             />
             }
             
@@ -83,16 +93,12 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
                         />
 
                     {/* Liste des territoires sélectionnés */}
-                     <p className="section-titre">Territoires sélectionnés:</p>
+                     <p className="section-titre">Territoires sélectionnés {territories.length>0&&<span className="nb-ter">{territories.length}</span>}:</p>
                     <div className="selection-territoires">
                         <ListeTerritoiresSelectionnes 
                         territories={territories}
                         setTerritories={setTerritories}
                         setGeographies={setGeographies}
-                        geographies={geographies}
-                        setGeographies={setGeographies}
-                        map={layer}
-                        API_URL={API_URL}
                         />
                      
 
@@ -102,7 +108,9 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
                      setLayer={setLayer}
                      map={map}
                      API_URL={API_URL}
-                     layer={layer}
+                     setTerritories={setTerritories}
+                     setGeographies={setGeographies}
+                     territories={territories}
                      />
 
                     </div>

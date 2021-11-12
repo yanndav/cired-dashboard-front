@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
+
 .map-wrapper {
     position: relative;
     height: 300px;
@@ -21,6 +23,10 @@ height: 100%;
 
 
 /* STYLE CLASSES FOR ZOOMING */
+.legendcity{
+  font-family: 'Urbanist', sans-serif;
+
+}
 .z9{
   stroke-width: 0.2;
 }
@@ -37,15 +43,64 @@ height: 100%;
   stroke-width: 1.1;
 }
 
+.legendTerritoire{
+  fill-opacity: 0.4;
+  fill:#00d5ff;
+}
+
+.legendTerritoire-hover{
+  fill-opacity: 0.7;
+  fill:#ff4800;
+}
+
+
+.legendTerritoire-text{
+  text-anchor: middle;
+  font-family: 'Urbanist', sans-serif;
+  fill:rgb(0, 0, 0);
+  /* stroke:white; */
+  font-size: 0.8em;
+  stroke-width: 0.2;
+}
+
+.legendTerritoire-text-hover{
+  text-anchor: middle;
+  font-family: 'Urbanist', sans-serif;
+  fill:rgb(0, 0, 0);
+  /* stroke:white; */
+  font-size: 0.85em;
+  stroke-width: 0.2;
+}
+
 .mouseOver{
   stroke:#0aaecba4;
   fill: #0aaecb73;
   fill-opacity: 1;
   pointer-events:all;
+
 }
 
 .normal{
   stroke:grey;
   fill-opacity: 0;
   pointer-events:all;
+}
+
+.legendVoisin{
+  text-anchor: middle;
+  font-family: 'Urbanist', sans-serif;
+  fill:rgb(95, 95, 95);
+  stroke:white;
+  font-size: 0.7em;
+  stroke-width: 0.2;
+}
+
+.legendVoisin-hover{
+  text-anchor: middle;
+  font-family: 'Urbanist', sans-serif;
+  /* stroke:white; */
+  /* font-size: 0.9em; */
+  stroke-width: 0.2;
+  fill:rgb(0, 0, 0);
+
 }

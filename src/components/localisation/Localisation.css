@@ -106,14 +106,23 @@
 }
 
 
+.nb-ter{
+border-radius:25px;
+background-color: #06646e;
+color: white;
+padding: 3px 6px;
+}
+
 
 .list-territoires{
     width: 400px;
+    height: 300px;
     max-width: 50%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-content:flex-start;
+    overflow-y: auto;
 }
 
 
