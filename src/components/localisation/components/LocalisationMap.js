@@ -25,19 +25,14 @@ const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,layer}) => {
       }
     }, [geographies])
     
-    // useEffect(() => {
-    //   if(map){
-    //     //  Creation svg layer for text/incrustations
-    //     L.svg({'pane':'markerPane'}).addTo(map)
 
-    //   }
-    // }, [map])
     const Events = () => {
       const map = useMapEvents({
         zoomstart:(e)=>{
           removeRecommendations(map)
         },
         moveend: (e) => {
+          removeRecommendations(map)
           majElements(map)
           if(geographies.length>=1){
             getRecommendations(

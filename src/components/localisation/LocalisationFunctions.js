@@ -106,7 +106,8 @@ const zoomInit = (map) =>{
   }
   
   const removeRecommendations = (map) =>{
-    d3.select(map.getPanes().overlayMouseTarget).select('svg')
+    const t = d3.select(map.getPanes().overlayPane)
+    .select('svg')
     .select("#candidates")
     .remove()
 
@@ -142,7 +143,7 @@ const zoomInit = (map) =>{
     const overlay = d3.select(map.getPanes().overlayPane)
     const svg = overlay.select('svg').attr("pointer-events", "auto")
     svg
-    .select("#candidates")
+    .select("#candidates").selectAll('path')
     .remove()
 
     
@@ -182,7 +183,8 @@ const zoomInit = (map) =>{
       const onZoom = () => areaPaths.attr('d', pathCreator)
       // initialize positioning
       onZoom()
-    }
+        }
+ 
  }
 
 
