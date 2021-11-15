@@ -3,12 +3,12 @@ import { MapContainer, TileLayer, LayerGroup, SVGOverlay,useMapEvents } from 're
 
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet';
+import * as topojson from "topojson-client";
 
 
 import { useEffect, useState} from "react"   
 
 import { removeSelectionnes,updateShape,majLegendeVille,getVoisinnage, removeVoisinnage } from "../LocalisationFunctions";
-
 
 
 const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,setTerritories,setGeographies,setRemove}) => {
@@ -18,9 +18,8 @@ const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,setTerritories
     const [voisinnage, setVoisinnage] = useState([])
     
     useEffect(() => {
-      // map&&creationLegendeVille(geographies,map)
+
       map&&updateShape(geographies,map,setTerritories,API_URL,setGeographies)
-      map&&console.log(map)
 
       if(map && count !== geographies.length){
         removeVoisinnage(map)
@@ -28,11 +27,13 @@ const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,setTerritories
         setCount(geographies.length)
       }
 
+
       // if(map && geographies.length===1 && count===0){
       //   map.setView(geographies[geographies.length-1].latLng,9)
       //   setCount(1)
       // }
     }, [geographies])
+
     
     useEffect(() => {
       map&&L.svg().addTo(map)
@@ -46,7 +47,6 @@ const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,setTerritories
           removeSelectionnes(map)
         },
         dragend: (e) => {
-          // removeVoisinnage(map)
           updateShape(geographies,map,setTerritories,API_URL,setGeographies)
           if(geographies.length>=1){
             getVoisinnage(
@@ -85,21 +85,7 @@ const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,setTerritories
               <LayerGroup
               ref={setLayer}
               >
-                {/* <SVGOverlay>
-
-                </SVGOverlay> */}
-
               </LayerGroup>
-              
-                {/* <MapConsumer>
-               {(map) => {         
-            
-                
-                
-                return null
-                    }} 
-
-            </MapConsumer> */}
           </MapContainer>
         </div>
         </>

@@ -16,6 +16,23 @@
     align-items: center;
 }
 
+.barre{
+overflow-x: auto;
+display: grid;
+grid-template-columns: 93% 5%;
+padding-left: 10px;
+}
+
+.barre:hover{
+    cursor: pointer;
+}
+.zonage{
+    padding-left: 10px;
+    font-weight: bolder;
+}
+.mrgRg{
+    margin-right: 30px;
+}
 .search-value{
 
     padding: 11px 13px;
@@ -25,6 +42,9 @@
     width: 95%;
     margin: auto 2px;
 
+}
+.space{
+    width: 95%;
 }
 
 .separation{
@@ -64,7 +84,9 @@
     margin: 10px 5px;
 }
 
-
+.return:{
+    transform: rotate(180deg);
+}
 .decoupage-territoire{
     border-radius: 8px;
     background-color: rgb(214, 214, 214);

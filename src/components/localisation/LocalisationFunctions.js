@@ -315,7 +315,6 @@ const updateVoisinnage = async (API_URL,map,geographies,voisinnage,setVoisinnage
 
       const d = d3SelectVoisinnage(map)
       .selectAll('g')
-      .exit()
       .data(data)
       .enter()
       .append('g')
@@ -355,9 +354,10 @@ const updateVoisinnage = async (API_URL,map,geographies,voisinnage,setVoisinnage
     .attr("y", function(d) {
         return pathCreator.centroid(d)[1];
     })
+    d.exit().remove().transition()
         }
 
-    
+
  }
 
 
@@ -422,7 +422,6 @@ const updateShape = (geographies,map,setTerritories,API_URL,setGeographies)=>{
   console.log(geographies)
   const d = d3SelectTerritoire(map)
   .selectAll('g')
-  .exit()
   .data(geographies)
   .enter()
   .append('g')
@@ -464,6 +463,7 @@ const updateShape = (geographies,map,setTerritories,API_URL,setGeographies)=>{
     return pathCreator.centroid(d)[1];
 })
     
+d.exit().remove()
 
     
 
@@ -471,56 +471,6 @@ const updateShape = (geographies,map,setTerritories,API_URL,setGeographies)=>{
 
 
 
-
-// Function to add shape to geography
-// const  addShape = async (t,year,API_URL,setGeographies,map,setRemove) =>{
-
-  // const data = apiShape(API_URL)
-
-
-//       data[0].geometry.coordinates = revertLtLg(data[0].geometry.coordinates)
-//       let polygon = L.polyline(data[0].geometry.coordinates, {
-//         weight:1,
-//         color: '#0AAACB',
-//         fill:true,
-//         fillColor:"#00d5ff",
-//         fillOpacity:0.5,
-//         smoothFactor:2
-//     }
-//     ).addTo(map)
-
-//     data[0].id = polygon._leaflet_id
-//     data[0].latLng = polygon.getBounds().getCenter()
-//     data[0].showLegend=false
-
-//     console.log(data[0])
-//     setGeographies((prev)=>[...prev,data[0]])
-
-
-    
-//      polygon.on(
-//          {
-//              'mouseover': ()=>{
-//                  setGeographies(
-//                      (prev)=>[...prev.filter(g=>g.id!==data[0].id),
-//                      {...data[0],showLegend:true}])
-//                 polygon.setStyle({fillColor:"#51acbe"})
-//                      },
-//               'mouseout':()=>{
-//                 setGeographies(
-//                     (prev)=> [...prev.filter(g=>g.id!==data[0].id),
-//                     {...data[0],showLegend:false}])
-//                     polygon.setStyle({fillColor:"#00d5ff"})
-
-//                     },
-//                   'dblclick':()=>{
-//                     setRemove(()=>[data[0].properties])
-//                                     }
-              
-        
-// })
-
-// }
 
 // Function to add a territory to the analysis
 const addTerritoryToAnalysis = (e,t,territories,setTerritories,setSuggestions,setQuery,suggestions,year=2021,API_URL,setGeographies) => {

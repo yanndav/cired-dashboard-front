@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import L from "leaflet"
 
 // Import map function
+import TerritoriesSelected from './components/TerritoriesSelected';
 import SearchBarTerritoires from './components/SearchBarTerritoires';
 import SuggestionsDrop from './components/SuggestionsDrop';
 import NomZonage from './components/NomZonage';
@@ -54,13 +55,21 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
    
     return (
         <div className="module-localisation">
-            <SearchBarTerritoires 
-            query={query}
-            API_URL={API_URL}
-            setSuggestions={setSuggestions}
-            panelTerritories={panelTerritories}
-            setPanelTerritories={setPanelTerritories}
-            setQuery={setQuery}/>
+            {(territories.length>0 && !panelTerritories)?(
+                <TerritoriesSelected 
+                territories={territories}
+                nomZonage={nomZonage}
+                setPanelTerritories={setPanelTerritories}
+                />
+            ):(
+                <SearchBarTerritoires 
+                query={query}
+                API_URL={API_URL}
+                setSuggestions={setSuggestions}
+                panelTerritories={panelTerritories}
+                setPanelTerritories={setPanelTerritories}
+                setQuery={setQuery}/>
+                )}
 
             {/* Ouverture de la boîte de paramètres territoriaux */}
             {panelTerritories&&<hr className="separation"/>}

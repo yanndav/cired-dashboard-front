@@ -3,7 +3,10 @@ import '../Localisation.css'
 
 import { FaSave } from "react-icons/fa"
 
+import { useEffect,useState } from 'react'
 const NomZonage = ({editZonage, setEditZonage, nomZonage,setNomZonage}) =>{
+
+
     {/* Nommer le découpage territorial */}
     return(
 

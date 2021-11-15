@@ -98,8 +98,6 @@ height: 100%;
 .legendVoisin-hover{
   text-anchor: middle;
   font-family: 'Urbanist', sans-serif;
-  /* stroke:white; */
-  /* font-size: 0.9em; */
   stroke-width: 0.2;
   fill:rgb(0, 0, 0);
 
