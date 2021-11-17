@@ -94,15 +94,17 @@ const Localisation = ({API_URL,  territories, setTerritories}) => {
                 <>
                 <div className="parametre-territoire">
                 {/* Nommer le découpage territorial */}
+                     {territories.length>1&&
                         <NomZonage 
                         editZonage={editZonage}
                         setEditZonage={setEditZonage}
                         nomZonage={nomZonage}
                         setNomZonage={setNomZonage}
                         />
+}
 
                     {/* Liste des territoires sélectionnés */}
-                     <p className="section-titre">Territoires sélectionnés {territories.length>0&&<span className="nb-ter">{territories.length}</span>}:</p>
+                     <p className="section-titre">📍 Territoires sélectionnées {territories.length>0&&<span className="nb-ter">{territories.length}</span>}:</p>
                     <div className="selection-territoires">
                         <ListeTerritoiresSelectionnes 
                         territories={territories}

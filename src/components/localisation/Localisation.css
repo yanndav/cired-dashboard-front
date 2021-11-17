@@ -16,11 +16,18 @@
     align-items: center;
 }
 
+.over{
+    overflow-x: auto;
+    -webkit-mask-image: linear-gradient(to right, rgb(255, 255, 255,0),rgba(255, 255, 255, 1) 2%, rgb(255, 255, 255,1) 98%, rgb(255, 255, 255,0));
+mask-image: linear-gradient(to right, rgb(255, 255, 255,0),rgba(255, 255, 255, 1) 2%, rgb(255, 255, 255,1) 98%, rgb(255, 255, 255,0));
+}
+
 .barre{
-overflow-x: auto;
+overflow-x: none;
 display: grid;
 grid-template-columns: 93% 5%;
 padding-left: 10px;
+
 }
 
 .barre:hover{

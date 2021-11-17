@@ -21,7 +21,8 @@ const TerritoriesSelected = ({territories, nomZonage,setPanelTerritories}) => {
         return(
             
             <div className="search-form barre" onClick={()=>setPanelTerritories((panel)=>!panel)}>
-                <div className="search-form">
+                <div className="search-form over">
+
                 📍 { titre===""?selection.map((t,i)=>{
                             // addShape(t,2021,API_URL,setGeographies,map)
                             return <span 

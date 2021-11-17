@@ -8,36 +8,41 @@ import * as topojson from "topojson-client";
 
 import { useEffect, useState} from "react"   
 
-import { removeSelectionnes,updateShape,majLegendeVille,getVoisinnage, removeVoisinnage } from "../LocalisationFunctions";
+import { removeSelectionnes,updateShape,centroid,getVoisinnage, removeVoisinnage } from "../LocalisationFunctions";
 
 
 const LocalisationMap = ({geographies,setMap,setLayer,map,API_URL,setTerritories,setGeographies,setRemove}) => {
-    const center = [46.8,1.7]
+    const [center,setCenter] = useState([46.8,1.7])
     const zoom = 4.5
     const [count,setCount] = useState(0)
     const [voisinnage, setVoisinnage] = useState([])
     
     useEffect(() => {
-
       map&&updateShape(geographies,map,setTerritories,API_URL,setGeographies)
+      map&&setCenter(centroid(geographies))
 
       if(map && count !== geographies.length){
         removeVoisinnage(map)
         getVoisinnage(API_URL,geographies,map,voisinnage,setVoisinnage,"zoom",setTerritories,setGeographies,setRemove)
         setCount(geographies.length)
+        geographies.length!=0 && map.panTo(centroid(geographies))
       }
 
 
-      // if(map && geographies.length===1 && count===0){
-      //   map.setView(geographies[geographies.length-1].latLng,9)
-      //   setCount(1)
-      // }
+      if(geographies.length===1 && count===0){
+        map.setView(centroid(geographies),9)
+        setCount(1)
+      }
     }, [geographies])
 
     
     useEffect(() => {
       map&&L.svg().addTo(map)
+      updateShape(geographies,map,setTerritories,API_URL,setGeographies)
+      geographies.length>0&&map.setView(centroid(geographies),9)
+
     }, [map])
+
 
 
     const Events = () => {

@@ -112,7 +112,7 @@ const updateVoisinnage = async (API_URL,map,geographies,voisinnage,setVoisinnage
   const ids = geographies.map(d=>d.properties.CODGEO[0])
   data = data.filter(d=>!ids.some(a=>a.includes(d.properties.CODGEO[0])))
   .map((d)=> {
-      d.geometry.coordinates = [revertLtLg(d.geometry.coordinates)]
+      d.geometry.coordinates = [d.geometry.coordinates]
       return d}
   )
   //  Mise a jour state voisinnage
@@ -365,6 +365,34 @@ const updateVoisinnage = async (API_URL,map,geographies,voisinnage,setVoisinnage
 // Function to correct lgtltd reversion
 const revertLtLg = (coordinates) =>  coordinates.map( c => [parseFloat(c[1]),parseFloat(c[0])])
 
+// Functrion to get center
+const centroid = (territories) =>{
+  const y = territories.map(d=>{
+    if(d.geometry.type==="Polygon"){
+      return d.geometry.coordinates.map(
+      c=>c.map(b=>b[0]).flat()).flat()
+    }else{
+      return d.geometry.coordinates.map(
+        c=>c.map(b=>b.map(a=>a[0])).flat()).flat()
+    }
+
+  }).flat()
+  const x = territories.map(d=>{
+    if(d.geometry.type==="Polygon"){
+      return d.geometry.coordinates.map(
+      c=>c.map(b=>b[1]).flat()).flat()
+    }else{
+      return d.geometry.coordinates.map(
+        c=>c.map(b=>b.map(a=>a[1])).flat()).flat()
+    }
+
+  }).flat()
+
+  const loc = [y.reduce((a, b) => a + b, 0)/y.length,x.reduce((a, b) => a + b, 0)/x.length]
+
+  return(loc)
+
+}
 
 // Function to get a territory shape
 const apiShape = async (API_URL,t,year) =>{
@@ -389,8 +417,9 @@ const  addShapeToGeo = async (t,year,API_URL,setGeographies) =>{
   const data = await apiShape(API_URL,t,year)
 
   let data_clean = data[0]
-  data_clean.geometry.coordinates = [revertLtLg(data_clean.geometry.coordinates)]
+  data_clean.geometry.coordinates = [data_clean.geometry.coordinates]
   setGeographies((prev)=>[...prev,data_clean])
+
 }
 
 const removeSelectionnes = (map) =>{
@@ -547,4 +576,5 @@ export {
     getVoisinnage,
     removeVoisinnage,
     removeSelectionnes,
-    updateShape}
+    updateShape,
+    centroid}
