@@ -52,7 +52,7 @@ const Dashboard = ({API_URL}) => {
       territories = {territories}
       setTerritories={setTerritories}
       />
-      <ModulesSelect/>
+      <ModulesSelect API_URL={API_URL}/>
     </div>
       {dashboard? (
         <>

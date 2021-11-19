@@ -1,0 +1,81 @@
+.container-connection{
+    margin:0px auto;
+    padding: 0px;
+    border-radius:  7px  ;
+    box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+    width: fit-content;
+    background-color: transparent;
+
+}
+.inscription-container{
+    border-radius: 0px 0px 7px 7px  ;
+    padding: 18px 13px;
+    width: 450px;
+    /* box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801); */
+    margin: 0px auto;
+    background-color: #0AAACB;
+
+}
+
+.inscription{
+    display: flex;
+    margin:0px auto;
+
+    flex-direction: column;
+    width: fit-content;
+    align-items: center;
+}
+.container-boutons{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 0px;
+}
+
+.in{
+    border-radius: 7px;
+    border: 1px solid #0AAACB;
+    font-size:1em;
+    padding:8px 12px;
+    margin: 20px;
+    width: 350px;
+
+}
+
+
+.bouton{
+    margin: 0px 0px;
+    width : 207px;
+    border-radius: 7px 7px 0px 0px;
+    color: white;
+    padding:8px 15px;
+    background-color: #0AAACB;
+    border:none;
+    transition: background-color ease 0.5s,
+    color ease 0.2s ,
+    border ease 0.2s ;
+
+}
+
+.aller{
+    margin-top: 30px;
+    border-radius: 7px;
+    background-color:white;
+    color: grey;
+    border:none;
+    font-size: 1em;
+    padding: 8px 12px;
+    transition: color ease 0.2s;
+}
+
+.aller:hover{
+    cursor: pointer;
+    color: black;
+}
+
+.bouton:hover{
+    cursor: pointer;
+    background-color: white;
+    /* border: 1px solid #0AAACB; */
+    color: black;
+}
