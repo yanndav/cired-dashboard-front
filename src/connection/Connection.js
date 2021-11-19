@@ -28,7 +28,7 @@ const Connection = () => {
                 style={{
                     color:!connect?("white"):("black"),
                     backgroundColor:!connect?('#0AAACB'):('white')}}
-                >S'enregistrer</span>
+                >S'inscrire</span>
 
             </div>
         <div className="inscription-container">
