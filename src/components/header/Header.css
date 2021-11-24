@@ -37,7 +37,7 @@
 
 .navig-container{
     display: flex;
-    justify-content: center;
+    justify-content: right;
     list-style: none;
 }
 

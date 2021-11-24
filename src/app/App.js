@@ -5,19 +5,20 @@ import './App.css';
 import Footer from '../components/footer/Footer';
 import Accueil from '../accueil/Accueil';
 import APropos from '../aPropos/APropos';
-import Header from '../components/header/Header';
-import Connection from '../connection/Connection';
 import Dashboard from '../dashboard/Dashboard'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import UserBoard from '../userBoard/UserBoard';
+
+// Modules
+import { useState } from 'react';
 
 // Constantes
 
 const API_URL = "http://127.0.0.1:5000"
 
-// Modules
+const user = {connected:false}
+const App = () => {
 
-
-function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <Switch>
@@ -33,8 +34,8 @@ function App() {
           <Route path="/a-propos" exact>
             <APropos />
           </Route>
-          <Route path="/connexion" exact>
-            <Connection />
+          <Route path="/user-board" exact>
+            <UserBoard user={user}/>
           </Route>
 
         </div>

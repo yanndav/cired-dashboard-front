@@ -5,8 +5,8 @@ import { useState } from "react"
 import { NavLink } from 'react-router-dom';
 
 import { GoCheck } from "react-icons/go";
-import { FaBuyNLarge } from 'react-icons/fa';
 
+import ConnectIcon from '../../userBoard/components/connectIcon/ConnectIcon';
 const NameTableau = () => {
     const [edit, setEdit] = useState(false)
     const [name, setName ] = useState("")
@@ -14,7 +14,7 @@ const NameTableau = () => {
 
 
     return (
-        <>
+        <div>
         <div className="container-name">
             <div className="logo-link">
             <NavLink  to="/" exact >
@@ -46,8 +46,11 @@ const NameTableau = () => {
                 </form>
             )}
         </div>
+        <div  className="top-log">
+        <ConnectIcon />
+        </div>
         <hr className="sep-line"/>
-        </>
+        </div>
     )
 }
 

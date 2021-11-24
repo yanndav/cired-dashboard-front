@@ -1,0 +1,9 @@
+.con-icon{
+    transition: filter ease 0.2s;
+}
+
+.con-icon:hover{
+    color: #0AAACB;
+    cursor: pointer;
+    filter: drop-shadow(3px 3px 7px rgba(168, 168, 168, 0.801));
+}

@@ -29,6 +29,7 @@
 }
 
 .module-select-container{
+    width: 1000px;
     min-width: 35%;
     height:fit-content;
     border-radius: 7px;

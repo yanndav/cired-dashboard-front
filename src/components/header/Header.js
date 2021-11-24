@@ -3,6 +3,7 @@ import './Header.css'
 
 // Modules
 import { NavLink, useLocation } from 'react-router-dom';
+import ConnectIcon from '../../userBoard/components/connectIcon/ConnectIcon';
 
 const Header = () => {
     const location = useLocation().pathname;
@@ -23,12 +24,15 @@ const Header = () => {
             </div>
             <nav>
             <ul className="navig-container">
-                <NavLink to="/#apropos" exact className="navig-pages" activeClassName="link-current">
+                {/* <NavLink to="/#apropos" exact className="navig-pages" activeClassName="link-current">
                 À propos
-                </NavLink>
-                <NavLink to="/connexion" exact className="navig-pages" activeClassName="link-current">
+                </NavLink> */}
+                <div className="navig-pages">
+                <ConnectIcon/>
+                </div>
+                {/* <NavLink to="/user-board" exact className="navig-pages" activeClassName="link-current">
                    Connexion
-                </NavLink>
+                </NavLink> */}
             </ul>
             </nav>
           

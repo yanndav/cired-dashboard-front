@@ -1,4 +1,4 @@
-import Header from "../components/header/Header"
+import Header from "../../../components/header/Header"
 import './Connection.css'
 
 
@@ -11,7 +11,7 @@ const Connection = () => {
 
     return (
         <>
-        <Header/>
+        {/* <Header/> */}
         <div className="container-connection">
 
             <div class="container-boutons">
@@ -41,7 +41,7 @@ const Connection = () => {
                 <input className="in" placeholder="Mot de passe" type="password"/>
                 {!connect&&
                 <input className="in" placeholder="Confirmer le mot de passe" type="password"/>}
-                <input className="aller" type="button" value="Aller"/>
+                <input className="aller" type="button" value={connect?"Se connecter":"S'inscrire"}/>
             </form>
             
         </div>

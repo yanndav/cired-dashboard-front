@@ -22,7 +22,7 @@ const Acceuil = () => {
                     Créer un tableau de bord pour votre territoire
                 </p>
                 </NavLink>
-                <NavLink to="/connexion" className="lien-bouton bouton-accueil" exact>
+                <NavLink to="/user-board" className="lien-bouton bouton-accueil" exact>
                 <p >
                     Se connecter / s'inscrire
                     <br/>
