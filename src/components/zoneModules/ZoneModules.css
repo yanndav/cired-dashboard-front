@@ -1,0 +1,49 @@
+.zone-modules {
+  margin: 40px 0px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner span {
+  margin-top: 100px;
+  width: 100px;
+  height: 100px;
+}
+.graph {
+  position: relative;
+
+  margin: 20px;
+  width: 600px;
+  max-width: 100%;
+  height: 500px;
+  background-color: rgba(255, 255, 255, 0.26);
+  box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438);
+  border-radius: 4px;
+  padding: 10px;
+}
+.map-title {
+  margin: 20px 20px;
+  text-align: justify;
+}
+
+.map-container {
+  height: 420px;
+  width: 95%;
+  position: relative;
+  margin: auto;
+}
+.map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
