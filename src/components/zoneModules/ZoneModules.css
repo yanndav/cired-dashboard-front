@@ -1,7 +1,7 @@
 .zone-modules {
   margin: 40px 0px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex-direction: row;
   flex-wrap: wrap;
   row-gap: 20px;
@@ -23,14 +23,13 @@
   margin: 20px;
   width: 600px;
   max-width: 100%;
-  height: 500px;
+  height: fit-content;
   background-color: rgba(255, 255, 255, 0.26);
   box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438);
   border-radius: 4px;
   padding: 10px;
 }
 .map-title {
-  margin: 20px 20px;
   text-align: justify;
 }
 
@@ -40,10 +39,81 @@
   position: relative;
   margin: auto;
 }
+
 .map {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
   height: 100%;
+}
+.header-graph {
+  margin: 20px 20px;
+}
+.legend-title {
+  margin: 0px;
+}
+.legend-container {
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.legendgroup {
+  margin: 10px;
+  display: flex;
+  display: row;
+}
+.legend-rect {
+  width: 30px;
+  height: 20px;
+  opacity: 0.8;
+  margin-right: 10px;
+}
+
+.legend-text {
+  color: black;
+  margin-right: 30px;
+}
+.legend-text:hover {
+  cursor: pointer;
+}
+
+.auteur:hover {
+  cursor: pointer;
+  color: #0aaacb;
+}
+.popup {
+  z-index: 100000;
+  position: absolute;
+  padding: 15px;
+  background-color: #0aaacb;
+  box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 97% auto;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.link-icon {
+  color: white;
+}
+.link-icon:hover {
+  transform: rotate(50deg);
+}
+.nom-base {
+  color: white;
+  margin: 0px 15px 0px 4px;
+  text-align: justify;
+}
+
+.croix {
+  position: relative;
+  margin: 0px;
+  margin-right: 5px;
+}
+.croix:hover {
+  cursor: pointer;
+  color: white;
 }

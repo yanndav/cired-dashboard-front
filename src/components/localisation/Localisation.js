@@ -53,7 +53,6 @@ const Localisation = ({
 
   useEffect(() => {
     if ((remove.length > 0) & map) {
-      console.log(remove);
       removerTerritoryFromAnalysis(
         null,
         remove[0],

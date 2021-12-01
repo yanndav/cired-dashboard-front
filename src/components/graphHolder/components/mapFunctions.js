@@ -2,8 +2,8 @@ import "leaflet/dist/leaflet.css";
 import L, { popup } from "leaflet";
 import * as d3 from "d3";
 
-const removeSelectionnes = (map, id) => {
-  d3SelectTerritoire(map, id).remove();
+const removeSelectionnes = (id) => {
+  d3SelectTerritoire(id).remove();
 };
 
 const id_gen = (CODGEO) =>
@@ -11,7 +11,7 @@ const id_gen = (CODGEO) =>
     .map((d) => num_to_let(d))
     .join("");
 
-const d3SelectTerritoire = (map, id) => {
+const d3SelectTerritoire = (id) => {
   // Fonction qui sélectionne les territoires voisins
   const g = d3
     .select("#" + id)
@@ -52,6 +52,20 @@ const num_to_let = (num) => {
   }
 };
 
+const zoomToTextSize = (map) => {
+  // Fonction qui converti le niveau de zoom en taille de texte
+  let zoomMove = zoomInit(map);
+  if (zoomMove < 9) {
+    return "0em";
+  } else if (zoomMove === 9) {
+    return "0.7em";
+  } else if (zoomMove === 10) {
+    return "0.8em";
+  } else if (zoomMove === 11) {
+    return "1em";
+  }
+};
+
 // Fonctions outils ---------------
 const zoomInit = (map) => {
   // Function to retrieve the zoom level
@@ -62,7 +76,7 @@ const zoomInit = (map) => {
   }
 };
 
-const updateShape = (geographies, map, data, id) => {
+const updateShape = (geographies, map, id, colors) => {
   // Fonction qui charge les territoires sélectionnés
   const ZOOM = zoomInit(map);
 
@@ -80,11 +94,10 @@ const updateShape = (geographies, map, data, id) => {
   //----------------------
 
   // Suppression des territoires
-  removeSelectionnes(map, id);
+  removeSelectionnes(id);
 
   // Ajout des territoires à la carte
-  console.log(geographies);
-  const d = d3SelectTerritoire(map, id)
+  const d = d3SelectTerritoire(id)
     .selectAll("g")
     .data(geographies)
     .enter()
@@ -116,23 +129,20 @@ const updateShape = (geographies, map, data, id) => {
   // });
 
   d.append("path")
-    .attr("fill-opacity", 0)
+    .attr("fill-opacity", 0.8)
     .attr("stroke", "grey")
     .attr("pointer-events", "auto")
-    .attr("class", ` z${ZOOM} legendTerritoire leaflet-interactive`)
-    .attr("d", pathCreator);
+    .attr("class", ` z${ZOOM}  leaflet-interactive`)
+    .attr("d", pathCreator)
+    .attr("fill", (d) => colors[d.properties.VALEUR]);
 
-  //   d.append("text")
-  //     .attr("class", "legendTerritoire-text")
-  //     .attr("visibility", ZOOM > 9 ? "visible" : "hidden")
-  //     .attr("font-size", zoomToTextSize(map))
-  //     .text((d) => d.properties.LIBGEO[0])
-  //     .attr("x", function (d) {
-  //       return pathCreator.centroid(d)[0];
-  //     })
-  //     .attr("y", function (d) {
-  //       return pathCreator.centroid(d)[1];
-  //     });
+  d.append("text")
+    .attr("class", "legendTerritoire-text")
+    .attr("visibility", ZOOM > 10 ? "visible" : "hidden")
+    .attr("font-size", zoomToTextSize(map))
+    .text((d) => d.properties.LIBGEO[0])
+    .attr("x", (d) => pathCreator.centroid(d)[0])
+    .attr("y", (d) => pathCreator.centroid(d)[1]);
 
   d.exit().remove();
 };

@@ -13,6 +13,7 @@ const ZoneModules = ({
 }) => {
   const [zone, setZone] = useState(territories);
   const [modules, setModules] = useState(selectedModules);
+  const [geo, setGeo] = useState(geographies);
 
   useEffect(() => {
     setZone(territories);
@@ -21,6 +22,10 @@ const ZoneModules = ({
   useEffect(() => {
     setModules(selectedModules);
   }, [selectedModules]);
+
+  useEffect(() => {
+    setGeo(geographies);
+  }, [geographies]);
 
   return (
     <div className="zone-modules">
@@ -35,7 +40,7 @@ const ZoneModules = ({
               <Module
                 module={c}
                 zone={zone}
-                geographies={geographies}
+                geographies={geo}
                 center={center}
                 API_URL={API_URL}
               />

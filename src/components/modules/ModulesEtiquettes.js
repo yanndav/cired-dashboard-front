@@ -6,7 +6,7 @@ const ModulesEtiquettes = ({ selectedModules, setSelectedModules }) => {
         <EtiquetteDeModule
           d={d}
           setSelectedModules={setSelectedModules}
-          keyI={i}
+          key={i * 100}
         />
       ))}
     </div>

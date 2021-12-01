@@ -20,9 +20,7 @@ const ModulesPanneau = ({ modules, setShowModules, setSelectedModules }) => {
   const [module, setModule] = useState(null);
 
   useEffect(() => {
-    console.log(theme);
     const list = modules.filter((d) => d.THEME.includes(theme));
-    console.log(list);
     setModulesTheme(list);
   }, [theme]);
 
@@ -31,8 +29,9 @@ const ModulesPanneau = ({ modules, setShowModules, setSelectedModules }) => {
       <div className="selection">
         <div className="theme">
           <span className="titre">THÈMES</span>
-          {themes.map((d) => (
+          {themes.map((d, i) => (
             <span
+              key={i}
               className="module-bouton"
               style={{
                 color: d === theme && "white",
@@ -48,8 +47,9 @@ const ModulesPanneau = ({ modules, setShowModules, setSelectedModules }) => {
         {theme !== "" && (
           <div className="modules">
             <span className="titre">MODULES</span>
-            {modulesTheme.map((d) => (
+            {modulesTheme.map((d, i) => (
               <span
+                key={i}
                 style={{
                   color: module !== null && d.TITRE === module.TITRE && "white",
                   backgroundColor:

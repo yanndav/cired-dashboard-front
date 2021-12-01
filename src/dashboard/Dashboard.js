@@ -32,7 +32,6 @@ const updateData = async (API_URL, territories, selectedVariables, setData) => {
   });
   const res = await response.json();
   setData(res);
-  console.log(res);
 };
 
 const Dashboard = ({ API_URL }) => {
