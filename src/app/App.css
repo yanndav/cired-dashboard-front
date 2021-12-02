@@ -1,9 +1,66 @@
-.app-container{
-    margin: 0 5%;
-    max-width: 100%;
-    position: relative;
-    min-height: 100vh;
+/* GENERAL APP SETTINGS */
+
+.linkCustom {
+  text-decoration: none;
 }
-.content-app{
-    padding-bottom: 6rem;
+
+.hoverCustom:hover {
+  color: #17c5e7;
+  cursor: pointer;
+}
+
+/* Flex positioning */
+.flx-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flx-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.flx-sb {
+  justify-content: space-around;
+}
+
+.flx-shrink {
+  flex-shrink: 1;
+}
+
+.flx-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flx-gap-big {
+  gap: 50px;
+}
+
+.flx-gap-small {
+  gap: 15px;
+}
+
+/* Text specifics */
+
+.emphase {
+  /* For text emphasis */
+  font-weight: bolder;
+  color: #0aaacb;
+}
+
+.big {
+  font-size: 2.5em;
+}
+
+/* APP PAGE SPECIFICS */
+.app-container {
+  margin: 0;
+  max-width: 100%;
+  position: relative;
+  min-height: 100vh;
+}
+.content-app {
+  padding-bottom: 6rem;
 }

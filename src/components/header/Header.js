@@ -1,43 +1,52 @@
 // Styling
-import './Header.css'
+import "./Header.css";
 
 // Modules
-import { NavLink, useLocation } from 'react-router-dom';
-import ConnectIcon from '../../userBoard/components/connectIcon/ConnectIcon';
+import { NavLink, useLocation } from "react-router-dom";
+import ConnectIcon from "../../userBoard/components/connectIcon/ConnectIcon";
+
+import { useState } from "react";
 
 const Header = () => {
-    const location = useLocation().pathname;
-    
-    return (
-        <div className="header-container">
-            <div className="titre">
-                
-                <NavLink to="/" className="link-nom">
-                    <h1 className="nom-site">
-                    <img className="logo-nom" src="logo-site-HD.png" alt="Transitions" width="35em"/>
-                        Transitions Viewer
-                    </h1>
-                </NavLink>
-                {!location.includes('/tableau')&&
-                <h2 className="slogan-site">Un outil pour mesurer les transitions sur votre territoire</h2>
-                }
-            </div>
-            <nav>
-            <ul className="navig-container">
-                {/* <NavLink to="/#apropos" exact className="navig-pages" activeClassName="link-current">
-                À propos
-                </NavLink> */}
-                <div className="navig-pages">
-                <ConnectIcon/>
-                </div>
-                {/* <NavLink to="/user-board" exact className="navig-pages" activeClassName="link-current">
-                   Connexion
-                </NavLink> */}
-            </ul>
-            </nav>
-          
-        </div>
-    )
-}
+  const [hover, setHover] = useState(false);
+  const location = useLocation().pathname;
 
-export default Header
+  return (
+    <div className="header-container">
+      <div className="titre">
+        <NavLink to="/" className="linkCustom">
+          <div
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+          >
+            <img
+              className={`logo-nom ${hover ? "hovered" : ""}`}
+              src="logo-site-HD.png"
+              alt="Transitions"
+              width={hover ? "40em" : "35em"}
+              style={{
+                marginRight: hover && "5px",
+                marginTop: hover && "-5px",
+                top: hover && "-50",
+              }}
+            />
+            <h1 className={`nom-site  ${hover ? "hovered" : ""}`}>
+              Transitions Viewer
+            </h1>
+          </div>
+        </NavLink>
+      </div>
+      <ul className="navig-container">
+        <div
+          className={`navig-pages hoverCustom ${
+            location.includes("/user-board") ? "link-current" : ""
+          }`}
+        >
+          <ConnectIcon />
+        </div>
+      </ul>
+    </div>
+  );
+};
+
+export default Header;

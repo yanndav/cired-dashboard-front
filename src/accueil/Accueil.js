@@ -8,61 +8,62 @@ const Accueil = () => {
     <>
       <Header />
       <div className="container-accueil">
-        <p className="intro">
-          Bienvenue sur <span class="tw">Transitions Viewer</span>, un outil
-          conçu pour aider à la compréhension des enjeux territoriaux et guider
-          la prise de décision.
-          <br />À partir de sources de données officielles et de savoirs
-          experts, nous décrivons, modélisons et expliquons les transitions en
-          cours sur votre territoire.
-        </p>
-
-        <div className="container-boutons">
-          <NavLink to="/tableau" className="lien-bouton bouton-accueil" exact>
-            <p>Créer un tableau de bord pour votre territoire</p>
-          </NavLink>
-          <NavLink
-            to="/user-board"
-            className="lien-bouton bouton-accueil"
-            exact
-          >
-            <p>
-              Se connecter / s'inscrire
-              <br />
-              <span className="legend-bouton">
-                {" "}
-                (Personnaliser et sauvegarder son tableau){" "}
-              </span>
-            </p>
-          </NavLink>
-        </div>
-
-        <div className="presentation" id="apropos">
-          <p className="question">Comment ça marche ?</p>
-          <div className="boite">
-            <div className="logo-boite">🔍️</div>
-            <div className="explication-boite">
-              Commencez par définir le périmètre territorial qui vous intéresse.
-              À partir de la barre de recherche et de l’outil dédié vous pouvez
-              sélectionner les communes, intercommunalités, départements et/ou
-              régions qui vous intéressent.
-            </div>
+        <div class="flx-column flx-gap-big">
+          <div>
+            <h2 className="big">
+              Créer un tableau de bord pour suivre votre territoire.
+            </h2>
+            <h3>
+              À partir de sources de données officielles et de savoirs experts,
+              nous décrivons, modélisons et expliquons les transitions en cours
+              sur votre territoire.
+            </h3>
           </div>
-          <div className="boite">
-            <div className="logo-boite">🎛️</div>
-            <div className="explication-boite">
-              Construisez votre tableau de bord en sélectionnant des modules
-              d’analyse dans une bibliothèque construite à partir de savoirs
-              experts et de données officielles, et sur toute une gamme de
-              thématiques : démographie, tissu productif, usages du sol, etc...{" "}
+          <div className="flx-row flx-sb flx-gap-big flx-shrink">
+            <div className="flx-row flx-center">
+              <NavLink
+                to="/tableau"
+                className="lien-bouton bouton-accueil"
+                exact
+              >
+                <p> Créer un tableau</p>
+              </NavLink>
             </div>
-          </div>
-          <div className="boite">
-            <div className="logo-boite">💾</div>
-            <div className="explication-boite">
-              Personnalisez les analyses et les représentations de données,
-              enregistrez vos découpages territoriaux et vos tableaux de bords.
-              Finalement, partagez vos résultats.
+
+            <div className="flx-column flx-gap-small" id="apropos">
+              <h3>Comment ça marche ?</h3>
+              <div className="flx-row flx-center">
+                <div className="logo-boite">🔍️</div>
+                <div className="explication-boite">
+                  <span className="emphase">
+                    Définissez votre périmètre territorial
+                  </span>
+                  . À partir de la barre de recherche et de l’outil dédié vous
+                  pouvez sélectionner les communes, intercommunalités,
+                  départements et/ou régions qui vous intéressent.
+                </div>
+              </div>
+              <div className="flx-row flx-center">
+                <div className="logo-boite">🎛️</div>
+                <div className="explication-boite">
+                  <span className="emphase">
+                    Sélectionnez des modules d’analyse
+                  </span>
+                  . Proposés et conçus par des experts et à partir de données
+                  officielles, les modules couvrent une large gamme thématique :
+                  démographie, tissu productif, usages du sol, etc...{" "}
+                </div>
+              </div>
+              <div className="flx-row flx-center">
+                <div className="logo-boite">💾</div>
+                <div className="explication-boite">
+                  <span className="emphase">
+                    Personnalisez, enregistrez et partagez
+                  </span>
+                  . Ajustez le tableau de bord à vos besoins et diffusez les
+                  analyses de votre territoire.
+                </div>
+              </div>
             </div>
           </div>
         </div>
