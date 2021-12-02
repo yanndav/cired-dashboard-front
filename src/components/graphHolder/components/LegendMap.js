@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useRef } from "react";
 
 import PopupSource from "./PopupSource";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 const getModalites = (data, clef) => {
   let code = data.MODALITES.filter((c) => c.CODE === clef);
@@ -27,13 +28,14 @@ const LegendMap = ({ colors, clef, idx, data }) => {
       >
         {" "}
       </div>
-      <div
-        ref={legendRef}
-        onClick={() => setPop((prev) => !prev)}
-        className="legend-text"
-        style={{ color: pop && "#0aaacb" }}
-      >
+      <div ref={legendRef} className="legend-text">
         {modalites["LIBELLE"]}
+        <IoMdInformationCircleOutline
+          className="info"
+          style={{ color: pop && "#0aaacb" }}
+          onClick={() => setPop((prev) => !prev)}
+          size={15}
+        />
       </div>
       {pop && (
         <PopupSource

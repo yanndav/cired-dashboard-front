@@ -1,8 +1,8 @@
 .zone-modules {
-  margin: 40px 0px;
+  margin: 10px 0px;
   display: flex;
   justify-content: left;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   row-gap: 20px;
 }
@@ -102,6 +102,12 @@
 .link-icon:hover {
   transform: rotate(50deg);
 }
+.info {
+  margin-left: 5px;
+}
+.info:hover {
+  color: #0aaacb;
+}
 .nom-base {
   color: white;
   margin: 0px 15px 0px 4px;
@@ -116,4 +122,26 @@
 .croix:hover {
   cursor: pointer;
   color: white;
+}
+.zone-elements-modules {
+  margin: 40px 0px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+.titre-module {
+  margin: 10px 0px;
+  font-size: 2em;
+  color: #0aaacb;
+}
+.auteur-module {
+  margin: 0px;
+}
+
+.description {
+  text-align: justify;
+  margin: 0px;
 }

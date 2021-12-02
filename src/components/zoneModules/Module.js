@@ -24,6 +24,26 @@ const updateData = async (API_URL, territoires, variable, nivgeo, setData) => {
   setData(data);
 };
 
+const getGeo = async (API_URL, data, setGeo) => {
+  const responseGeo = await fetch(`${API_URL}/getLocationsShape`, {
+    body: JSON.stringify({
+      locations: data.DATA.map((c) => c.CODGEO),
+      nivgeo: data.DATA[0].NIVGEO,
+      annee: 2021,
+    }),
+    method: "POST",
+    headers: {
+      // Authorization: bearer,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+
+  const res = await responseGeo.json();
+
+  setGeo(res);
+};
+
 const style = {
   position: "relative",
   top: "50%",
@@ -31,17 +51,20 @@ const style = {
   //   transform: "translate(-50%, -50%)",
 };
 
-const Module = ({ module, zone, geographies, center, API_URL }) => {
+const Module = ({ module, geographies, center, API_URL }) => {
   // Téléchargement des données
   const [data, setData] = useState(null);
   const [load, setLoad] = useState(true); // while loading the data
+  const [geo, setGeo] = useState(null);
 
   const graphType = module.REPRESENTATION.TYPE;
 
   useEffect(() => {
     updateData(
       API_URL,
-      zone.map((c) => c.CODGEO[0]),
+      geographies.map((c) => {
+        return { CODGEO: c.properties.CODGEO[0], NIVGEO: c.properties.TYPE };
+      }),
       module.DONNEES.VARIABLE,
       module.DONNEES.NIVGEO,
       setData
@@ -53,7 +76,9 @@ const Module = ({ module, zone, geographies, center, API_URL }) => {
   useEffect(() => {
     updateData(
       API_URL,
-      zone.map((c) => c.CODGEO[0]),
+      geographies.map((c) => {
+        return { CODGEO: c.properties.CODGEO[0], NIVGEO: c.properties.TYPE };
+      }),
       module.DONNEES.VARIABLE,
       module.DONNEES.NIVGEO,
       setData
@@ -63,9 +88,13 @@ const Module = ({ module, zone, geographies, center, API_URL }) => {
   }, [geographies]);
 
   useEffect(() => {
-    data && setLoad(false);
+    data && geo && setLoad(false);
+    data && getGeo(API_URL, data, setGeo);
   }, [data]);
 
+  useEffect(() => {
+    data && geo && setLoad(false);
+  }, [geo]);
   return (
     <div className="graph">
       {load ? (
@@ -74,12 +103,7 @@ const Module = ({ module, zone, geographies, center, API_URL }) => {
         </div>
       ) : (
         graphType === "CARTE" && (
-          <Map
-            module={module}
-            data={data}
-            geographies={geographies}
-            center={center}
-          />
+          <Map module={module} data={data} geographies={geo} center={center} />
         )
       )}
     </div>

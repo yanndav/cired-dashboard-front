@@ -65,7 +65,6 @@ const Dashboard = ({ API_URL }) => {
         </div>
       </div>
       <ZoneModules
-        territories={territories}
         selectedModules={selectedModules}
         geographies={geographies}
         center={center}
