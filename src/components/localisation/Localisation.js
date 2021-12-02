@@ -2,7 +2,7 @@
 import "./Localisation.css";
 
 // React modules
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import L from "leaflet";
 
@@ -31,16 +31,18 @@ const Localisation = ({
   setGeographies,
   center,
   setCenter,
+  param,
+  setParam,
 }) => {
   // State variables
   const [query, setQuery] = useState(""); // La recherche de l'utilisateur
-  const [panelTerritories, setPanelTerritories] = useState(false); // ouvre/ferme module territoire
+  const [importParam, setImportParam] = useState(false); // ouvre/ferme module territoire
   const [suggestions, setSuggestions] = useState([]); //suggestions de villes
   const [nomZonage, setNomZonage] = useState(""); //Nom du zonage
   const [editZonage, setEditZonage] = useState(false); //ouvre/ferme edition zonage
   const [remove, setRemove] = useState([]); //geo to remove
   const [map, setMap] = useState(null); // map reference
-  const [layer, setLayer] = useState(null);
+  // const [layer, setLayer] = useState(null);
 
   // Effects
   // Lance les recherches de territoires
@@ -66,30 +68,40 @@ const Localisation = ({
     }
   }, [remove]);
 
+  useEffect(() => {
+    setImportParam(param);
+    console.log(param);
+  }, [param]);
   return (
-    <div className="module-localisation">
-      {territories.length > 0 && !panelTerritories ? (
+    <div
+      className={`module-localisation ${
+        param.localisation ? "spacing-large" : ""
+      }  ${param.modules ? "spacing-small" : ""} ${
+        !param.modules && !param.localisation ? "localisation-norm" : ""
+      }`}
+    >
+      {territories.length > 0 && !param.localisation ? (
         <TerritoriesSelected
           territories={territories}
           nomZonage={nomZonage}
-          setPanelTerritories={setPanelTerritories}
+          setParam={setParam}
         />
       ) : (
         <SearchBarTerritoires
           query={query}
           API_URL={API_URL}
           setSuggestions={setSuggestions}
-          panelTerritories={panelTerritories}
-          setPanelTerritories={setPanelTerritories}
+          param={param}
+          setParam={setParam}
           setQuery={setQuery}
         />
       )}
 
       {/* Ouverture de la boîte de paramètres territoriaux */}
-      {panelTerritories && <hr className="separation" />}
+      {param.localisation && <hr className="separation" />}
 
       {/* Drop down of suggestions */}
-      {suggestions.length > 0 && panelTerritories && (
+      {suggestions.length > 0 && param.localisation && (
         <SuggestionsDrop
           suggestions={suggestions}
           setTerritories={setTerritories}
@@ -104,7 +116,7 @@ const Localisation = ({
         />
       )}
 
-      {panelTerritories && (
+      {param.localisation && (
         <>
           <div className="parametre-territoire">
             {/* Nommer le découpage territorial */}
@@ -135,7 +147,6 @@ const Localisation = ({
               <LocalisationMap
                 geographies={geographies}
                 setMap={setMap}
-                setLayer={setLayer}
                 map={map}
                 API_URL={API_URL}
                 setTerritories={setTerritories}
@@ -148,7 +159,9 @@ const Localisation = ({
           </div>
           <MdKeyboardArrowUp
             className="arrow-btn right"
-            onClick={() => setPanelTerritories(!panelTerritories)}
+            onClick={() =>
+              setParam({ ...param, localisation: !param.localisation })
+            }
             size={25}
           />
         </>

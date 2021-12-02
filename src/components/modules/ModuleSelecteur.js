@@ -17,20 +17,21 @@ const getModules = async (API_URL) => {
   return data;
 };
 
-const ModuleSelecteur = ({ API_URL, setSelectedModules }) => {
-  const [showModules, setShowModules] = useState(false);
+const ModuleSelecteur = ({ API_URL, setSelectedModules, param, setParam }) => {
   const [modulesOptions, setModulesOptions] = useState([]);
 
   useEffect(async () => {
-    const modules_data = await getModules(API_URL);
-    setModulesOptions(modules_data);
-  }, [showModules]);
+    if (param.modules) {
+      const modules_data = await getModules(API_URL);
+      setModulesOptions(modules_data);
+    }
+  }, [param.modules]);
 
   return (
     <>
-      {!showModules ? (
+      {!param.modules ? (
         <div
-          onClick={() => setShowModules((prev) => !prev)}
+          onClick={() => setParam({ localisation: false, modules: true })}
           className="module-bouton"
         >
           <div className="icon-module">🎛️</div>
@@ -39,7 +40,7 @@ const ModuleSelecteur = ({ API_URL, setSelectedModules }) => {
       ) : (
         <ModulesPanneau
           modules={modulesOptions}
-          setShowModules={setShowModules}
+          setParam={setParam}
           setSelectedModules={setSelectedModules}
         />
       )}

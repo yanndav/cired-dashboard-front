@@ -12,3 +12,13 @@
   size: 2em;
   color: black;
 }
+
+.spacing-large {
+  width: 1000px;
+  max-width: 100%;
+}
+
+.spacing-small {
+  width: 300px;
+  max-width: 100%;
+}

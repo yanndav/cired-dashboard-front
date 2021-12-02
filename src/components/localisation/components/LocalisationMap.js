@@ -24,7 +24,6 @@ import {
 const LocalisationMap = ({
   geographies,
   setMap,
-  setLayer,
   map,
   API_URL,
   setTerritories,
@@ -128,7 +127,7 @@ const LocalisationMap = ({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Events />
-          <LayerGroup ref={setLayer}></LayerGroup>
+          {/* <LayerGroup ref={setLayer}></LayerGroup> */}
         </MapContainer>
       </div>
     </>

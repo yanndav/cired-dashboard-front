@@ -16,11 +16,11 @@ const Dashboard = ({ API_URL }) => {
   const [selectedModules, setSelectedModules] = useState([]); // Names of selected modules
   const [geographies, setGeographies] = useState([]); // Geographies to be placed
   const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
-
+  const [param, setParam] = useState({ localisation: false, modules: false });
   return (
     <div className="tableau-container">
       <NameTableau />
-      <div className="flx-colum flx-gap-small">
+      <div className="flx-row flx-gap-small">
         <Localisation
           API_URL={API_URL}
           territories={territories}
@@ -29,11 +29,15 @@ const Dashboard = ({ API_URL }) => {
           setGeographies={setGeographies}
           center={center}
           setCenter={setCenter}
+          param={param}
+          setParam={setParam}
         />
         <div className="flx-row flx-gap-small">
           <ModuleSelecteur
             API_URL={API_URL}
             setSelectedModules={setSelectedModules}
+            param={param}
+            setParam={setParam}
           />
           <ModulesEtiquettes
             selectedModules={selectedModules}

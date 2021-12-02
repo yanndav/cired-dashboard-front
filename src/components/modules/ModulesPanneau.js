@@ -13,7 +13,7 @@ const auteurs = (auteurs) => {
   );
 };
 
-const ModulesPanneau = ({ modules, setShowModules, setSelectedModules }) => {
+const ModulesPanneau = ({ modules, setParam, setSelectedModules }) => {
   const [theme, setTheme] = useState("");
   const themes = [...new Set(modules.map((d) => d.THEME.map((c) => c)).flat())];
   const [modulesTheme, setModulesTheme] = useState([]);
@@ -79,7 +79,7 @@ const ModulesPanneau = ({ modules, setShowModules, setSelectedModules }) => {
       </div>
       <MdKeyboardArrowUp
         className="arrow-btn mrgRg"
-        onClick={() => setShowModules((panel) => !panel)}
+        onClick={() => setParam({ localisation: false, modules: false })}
         size={25}
         //    style={{transform:`rotate(180deg)`}}
       />
