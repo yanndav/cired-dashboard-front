@@ -2,43 +2,20 @@
 import "./Dashboard.css";
 
 // React components
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-// Components
+// TV Components
 import NameTableau from "../components/nameTableau/NameTableau";
 import Localisation from "../components/localisation/Localisation";
-// import GraphsHolder from "../components/graphHolder/GraphsHolder";
-// import Legend from "../components/legend/Legend";
-// import VariablesPicker from "../components/variablesPicker/VariablesPicker";
 import ModuleSelecteur from "../components/modules/ModuleSelecteur";
 import ModulesEtiquettes from "../components/modules/ModulesEtiquettes";
 import ZoneModules from "../components/zoneModules/ZoneModules";
-// Modules
-
-const updateData = async (API_URL, territories, selectedVariables, setData) => {
-  const response = await fetch(`${API_URL}/getData`, {
-    body: JSON.stringify({
-      locations: territories.map((t) => t.CODGEO[0]),
-      variables: selectedVariables.map((vari) => {
-        return { base: vari.BASE, variable: vari.VARIABLE };
-      }),
-    }),
-    method: "POST",
-    headers: {
-      // Authorization: bearer,
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
-  const res = await response.json();
-  setData(res);
-};
 
 const Dashboard = ({ API_URL }) => {
-  const [territories, setTerritories] = useState([]);
-  const [selectedModules, setSelectedModules] = useState([]);
+  const [territories, setTerritories] = useState([]); // Name of territories selected
+  const [selectedModules, setSelectedModules] = useState([]); // Names of selected modules
   const [geographies, setGeographies] = useState([]); // Geographies to be placed
-  const [center, setCenter] = useState([46.8, 1.7]);
+  const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
 
   return (
     <>
