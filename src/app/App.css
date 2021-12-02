@@ -1,11 +1,12 @@
 /* GENERAL APP SETTINGS */
+@import "../index.css";
 
 .linkCustom {
   text-decoration: none;
 }
 
 .hoverCustom:hover {
-  color: #17c5e7;
+  color: var(--main-tv-color);
   cursor: pointer;
 }
 
@@ -13,6 +14,7 @@
 .flx-column {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .flx-row {
@@ -40,6 +42,7 @@
 
 .flx-gap-small {
   gap: 15px;
+  row-gap: 15px;
 }
 
 /* Text specifics */
@@ -47,7 +50,7 @@
 .emphase {
   /* For text emphasis */
   font-weight: bolder;
-  color: #0aaacb;
+  color: var(--main-tv-color);
 }
 
 .big {

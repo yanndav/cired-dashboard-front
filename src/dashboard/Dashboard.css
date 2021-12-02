@@ -1,15 +1,8 @@
-.parameter-box {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  row-gap: 10px;
-}
+/* PARAMETRES SPECIFIQUES AUX TABLEAUX */
+@import "../index.css";
 
-.modules-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  row-gap: 10px;
+.tableau-container {
+  padding: 20px 30px;
 }
 
 .croix {

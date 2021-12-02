@@ -18,9 +18,9 @@ const Dashboard = ({ API_URL }) => {
   const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
 
   return (
-    <>
+    <div className="tableau-container">
       <NameTableau />
-      <div className="parameter-box">
+      <div className="flx-colum flx-gap-small">
         <Localisation
           API_URL={API_URL}
           territories={territories}
@@ -30,7 +30,7 @@ const Dashboard = ({ API_URL }) => {
           center={center}
           setCenter={setCenter}
         />
-        <div className="modules-container">
+        <div className="flx-row flx-gap-small">
           <ModuleSelecteur
             API_URL={API_URL}
             setSelectedModules={setSelectedModules}
@@ -47,7 +47,7 @@ const Dashboard = ({ API_URL }) => {
         center={center}
         API_URL={API_URL}
       />
-    </>
+    </div>
   );
 };
 

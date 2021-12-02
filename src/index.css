@@ -21,4 +21,5 @@ input {
   --main-tv-color: #0aaacb;
   --main-bg-color: #f5f5f5;
   --main-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+  --border-sep: rgba(223, 223, 223, 0.76) solid 0.5px;
 }
