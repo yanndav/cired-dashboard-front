@@ -11,7 +11,7 @@ const Accueil = () => {
         <div class="flx-column flx-gap-big">
           <div>
             <h2 className="ft-2-5">
-              Créer un tableau de bord des évolutions de votre territoire.
+              Créez un tableau de bord des évolutions de votre territoire.
             </h2>
             <h3>
               À partir de sources de données officielles et de savoirs experts,

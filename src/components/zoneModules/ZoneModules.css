@@ -1,11 +1,12 @@
-.zone-modules {
+/* .zone-modules {
   margin: 10px 20px;
   display: flex;
   justify-content: left;
   flex-direction: column;
   flex-wrap: wrap;
   row-gap: 20px;
-}
+} */
+
 .spinner {
   display: flex;
   justify-content: center;
