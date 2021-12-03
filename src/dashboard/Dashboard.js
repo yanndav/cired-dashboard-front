@@ -20,7 +20,7 @@ const Dashboard = ({ API_URL }) => {
   return (
     <div className="tableau-container">
       <NameTableau />
-      <div className="flx-row flx-gap-small">
+      <div className="flx-row flx-gap-small pos-abs">
         <Localisation
           API_URL={API_URL}
           territories={territories}
@@ -32,25 +32,28 @@ const Dashboard = ({ API_URL }) => {
           param={param}
           setParam={setParam}
         />
-        <div className="flx-row flx-gap-small">
+        <div>
           <ModuleSelecteur
             API_URL={API_URL}
             setSelectedModules={setSelectedModules}
             param={param}
             setParam={setParam}
           />
-          <ModulesEtiquettes
-            selectedModules={selectedModules}
-            setSelectedModules={setSelectedModules}
-          />
         </div>
       </div>
-      <ZoneModules
-        selectedModules={selectedModules}
-        geographies={geographies}
-        center={center}
-        API_URL={API_URL}
-      />
+      <div className="modules-container">
+        <ModulesEtiquettes
+          selectedModules={selectedModules}
+          setSelectedModules={setSelectedModules}
+        />
+
+        <ZoneModules
+          selectedModules={selectedModules}
+          geographies={geographies}
+          center={center}
+          API_URL={API_URL}
+        />
+      </div>
     </div>
   );
 };

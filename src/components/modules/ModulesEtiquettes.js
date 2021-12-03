@@ -1,7 +1,8 @@
 import EtiquetteDeModule from "./EtiquetteDeModule";
+
 const ModulesEtiquettes = ({ selectedModules, setSelectedModules }) => {
   return (
-    <div className="modules-container">
+    <div className="flx-row x-overflow pdg-box">
       {selectedModules.map((d, i) => (
         <EtiquetteDeModule
           d={d}

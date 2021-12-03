@@ -2,7 +2,7 @@ import { TiDelete } from "react-icons/ti";
 
 const EtiquetteDeModule = ({ d, setSelectedModules, keyI }) => {
   return (
-    <div className="module-bouton" key={keyI}>
+    <div className="box btn-big" key={keyI}>
       <span>{d.TITRE}</span>
 
       <TiDelete

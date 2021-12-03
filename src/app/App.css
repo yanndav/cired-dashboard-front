@@ -13,6 +13,7 @@
 /* Positions */
 .pos-abs {
   position: absolute;
+  z-index: 10000;
 }
 
 /* Flex positioning */
@@ -50,8 +51,12 @@
   row-gap: 15px;
 }
 
-/* Text specifics */
+/* OVERFLOW */
+.x-overflow {
+  overflow-x: auto;
+}
 
+/* Text specifics */
 .emphase {
   /* For text emphasis */
   font-weight: bolder;
@@ -60,6 +65,29 @@
 
 .big {
   font-size: 2.5em;
+}
+
+/* BOX OPTIONS */
+.box {
+  box-shadow: var(--main-shadow);
+  background-color: var(--main-box-color);
+  border-radius: 7px;
+  width: fit-content;
+}
+.pdg-box {
+  padding: 10px 5px;
+}
+/* Boutons */
+.btn-big {
+  padding: 18px 13px;
+}
+
+.btn-small {
+  padding: 8px 7px;
+}
+/* Transitions */
+.tr-width {
+  transition: width ease 0.2s;
 }
 
 /* APP PAGE SPECIFICS */

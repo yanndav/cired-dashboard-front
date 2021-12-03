@@ -74,7 +74,7 @@ const Localisation = ({
   }, [param]);
   return (
     <div
-      className={`module-localisation ${
+      className={`box module-localisation ${
         param.localisation ? "spacing-large" : ""
       }  ${param.modules ? "spacing-small" : ""} ${
         !param.modules && !param.localisation ? "localisation-norm" : ""

@@ -28,7 +28,13 @@ const ModuleSelecteur = ({ API_URL, setSelectedModules, param, setParam }) => {
   }, [param.modules]);
 
   return (
-    <>
+    <div
+      className={` box btn-big tr-width ${
+        param.modules ? "spacing-large" : ""
+      }  ${param.localisation ? "spacing-small" : ""} ${
+        !param.localisation && !param.modules ? "norm-bouton" : ""
+      }`}
+    >
       {!param.modules ? (
         <div
           onClick={() => setParam({ localisation: false, modules: true })}
@@ -44,7 +50,7 @@ const ModuleSelecteur = ({ API_URL, setSelectedModules, param, setParam }) => {
           setSelectedModules={setSelectedModules}
         />
       )}
-    </>
+    </div>
   );
 };
 

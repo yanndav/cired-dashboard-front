@@ -38,7 +38,7 @@ const TerritoriesSelected = ({ territories, nomZonage, setParam }) => {
             );
           })
         ) : (
-          <p className="zonage">{titre}</p>
+          <span className="zonage">{titre}</span>
         )}
       </div>
 
