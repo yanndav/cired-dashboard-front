@@ -1,62 +1,65 @@
-.module-bouton {
+/* .module-bouton {
   margin: 5px;
-  /* height: fit-content;
-  width: fit-content; */
-  /* padding: 18px 13px; */
+  height: fit-content;
+  width: fit-content;
+  padding: 18px 13px;
   line-height: 10px;
   text-align: center;
-  /* box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801); */
-  /* border-radius: 7px; */
+  box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801);
+  border-radius: 7px;
   display: flex;
   flex-direction: row;
-  /* background-color: white; */
-}
+  background-color: white;
+} */
 
 .norm-bouton {
-  width: 200px;
+  width: fit-content;
 }
-.module-bouton:hover {
+/* .module-bouton:hover {
   cursor: pointer;
   color: white;
   background-color: #0aaacb;
-}
+} */
 .icon-module {
   font-size: 1.3em;
 }
-.legend-module-bouton {
-  /* padding: 11px 13px; */
+/* .legend-module-bouton {
+  padding: 11px 13px;
   margin-left: 8px;
-}
+} */
 
 .module-select-container {
   transition: width ease 0.5s;
+  position: relative;
 
-  width: 1000px;
+  /* width: inherit; */
   min-width: 35%;
+  min-height: 400px;
   height: fit-content;
+  min-height: 500px;
   border-radius: 7px;
   margin: 5px;
   /* padding: 18px 13px; */
   /* box-shadow: 3px 3px 7px rgba(168, 168, 168, 0.801); */
 }
-.selection {
+/* .selection {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
+} */
 
-.titre {
+/* .titre {
   font-weight: bolder;
-}
+} */
 
-.auteurs {
+/* .auteurs {
   font-style: italic;
   font-size: 0.9em;
-}
-
+} */
+/* 
 .description {
   font-size: 0.9em;
-}
+} */
 
 .vl {
   border-left: 0.5px solid rgb(199, 199, 199);
@@ -69,7 +72,7 @@
   margin-top: 20px;
   margin-left: 20px;
   border-radius: 7px;
-  background-color: #0aaacb;
+  background-color: var(--main-tv-color);
   color: white;
   padding: 15px 25px;
   min-width: 400px;
@@ -95,20 +98,15 @@
   color: white;
   background-color: #0aaacb;
 }
-.select-module:hover {
+/* .select-module:hover {
   background-color: white;
-  color: #0aaacb;
-}
+  color: #0aaacb; */
+/* } */
 
-.mrgRg {
-  margin: 10px 0px -10px 0px;
-  float: right;
-}
-
-.theme {
+/* .theme {
   min-width: 250px;
 }
 
 .modules {
   min-width: 250px;
-}
+} */

@@ -31,7 +31,7 @@ const SearchBarTerritoires = ({
       />
       {!param.localisation && (
         <MdKeyboardArrowUp
-          className="arrow-btn"
+          className="hoverCustom mrg-10"
           onClick={() =>
             setParam({
               localisation: true,

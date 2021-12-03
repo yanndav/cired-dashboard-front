@@ -2,7 +2,7 @@
 import "./Dashboard.css";
 
 // React components
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 // TV Components
 import NameTableau from "../components/nameTableau/NameTableau";
@@ -16,43 +16,54 @@ const Dashboard = ({ API_URL }) => {
   const [selectedModules, setSelectedModules] = useState([]); // Names of selected modules
   const [geographies, setGeographies] = useState([]); // Geographies to be placed
   const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
-  const [param, setParam] = useState({ localisation: false, modules: false });
+  const [param, setParam] = useState({ localisation: false, modules: false }); // Parameters
+  const refParam = useRef(null);
   return (
-    <div className="tableau-container">
+    <div ref={refParam}>
       <NameTableau />
-      <div className="flx-row flx-gap-small pos-abs">
-        <Localisation
-          API_URL={API_URL}
-          territories={territories}
-          setTerritories={setTerritories}
-          geographies={geographies}
-          setGeographies={setGeographies}
-          center={center}
-          setCenter={setCenter}
-          param={param}
-          setParam={setParam}
-        />
-        <div>
-          <ModuleSelecteur
+      <div className="tableau-container">
+        <div
+          className={`flx-row flx-gap-small pos-abs flx-shrink  max-95 ${
+            !param.modules && !param.localisation && "flx-nowrap"
+          }`}
+        >
+          <Localisation
             API_URL={API_URL}
-            setSelectedModules={setSelectedModules}
+            territories={territories}
+            setTerritories={setTerritories}
+            geographies={geographies}
+            setGeographies={setGeographies}
+            center={center}
+            setCenter={setCenter}
             param={param}
             setParam={setParam}
           />
+          <ModuleSelecteur
+            API_URL={API_URL}
+            setSelectedModules={setSelectedModules}
+            selectedModules={selectedModules}
+            param={param}
+            setParam={setParam}
+            refParam={refParam}
+          />
         </div>
-      </div>
-      <div className="modules-container">
-        <ModulesEtiquettes
-          selectedModules={selectedModules}
-          setSelectedModules={setSelectedModules}
-        />
+        {/* <hr
+          className="sep-line"
+          style={{ marginTop: "100px", color: "transparent }}
+        /> */}
+        <div className="tableau-modules bck-color tableau-container">
+          <ModulesEtiquettes
+            selectedModules={selectedModules}
+            setSelectedModules={setSelectedModules}
+          />
 
-        <ZoneModules
-          selectedModules={selectedModules}
-          geographies={geographies}
-          center={center}
-          API_URL={API_URL}
-        />
+          <ZoneModules
+            selectedModules={selectedModules}
+            geographies={geographies}
+            center={center}
+            API_URL={API_URL}
+          />
+        </div>
       </div>
     </div>
   );

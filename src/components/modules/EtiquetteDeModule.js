@@ -6,7 +6,7 @@ const EtiquetteDeModule = ({ d, setSelectedModules, keyI }) => {
       <span>{d.TITRE}</span>
 
       <TiDelete
-        className="croix"
+        className="hoverCustom mrg-l-10"
         onClick={() =>
           setSelectedModules((prev) => prev.filter((m) => m.TITRE !== d.TITRE))
         }

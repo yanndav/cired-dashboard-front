@@ -1,104 +1,78 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist&display=swap');
-
-.map-wrapper {
-    position: relative;
-    height: 300px;
-    width: 300px;
-  }
-  
-#map{
-    position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-}
-.content-map{
-  position: absolute;
-top: 0;
-bottom: 0;
-width: 100%;
-height: 100%;
-}
-
+@import url("https://fonts.googleapis.com/css2?family=Urbanist&display=swap");
 
 /* STYLE CLASSES FOR ZOOMING */
-.legendcity{
-  font-family: 'Urbanist', sans-serif;
-
+.legendcity {
+  font-family: "Urbanist", sans-serif;
 }
-.z9{
+.z9 {
   stroke-width: 0.2;
 }
 
-.z10{
+.z10 {
   stroke-width: 0.5;
 }
 
-.z11{
+.z11 {
   stroke-width: 0.8;
 }
 
-.z12{
+.z12 {
   stroke-width: 1.1;
 }
 
-.legendTerritoire{
+.legendTerritoire {
   fill-opacity: 0.4;
-  fill:#00d5ff;
+  fill: #00d5ff;
 }
 
-.legendTerritoire-hover{
+.legendTerritoire-hover {
   fill-opacity: 0.7;
-  fill:#ff4800;
+  fill: #ff4800;
 }
 
-
-.legendTerritoire-text{
+.legendTerritoire-text {
   text-anchor: middle;
-  font-family: 'Urbanist', sans-serif;
-  fill:rgb(0, 0, 0);
+  font-family: "Urbanist", sans-serif;
+  fill: rgb(0, 0, 0);
   /* stroke:white; */
   font-size: 0.8em;
   stroke-width: 0.2;
 }
 
-.legendTerritoire-text-hover{
+.legendTerritoire-text-hover {
   text-anchor: middle;
-  font-family: 'Urbanist', sans-serif;
-  fill:rgb(0, 0, 0);
+  font-family: "Urbanist", sans-serif;
+  fill: rgb(0, 0, 0);
   /* stroke:white; */
   font-size: 0.85em;
   stroke-width: 0.2;
 }
 
-.mouseOver{
-  stroke:#0aaecba4;
+.mouseOver {
+  stroke: #0aaecba4;
   fill: #0aaecb73;
   fill-opacity: 1;
-  pointer-events:all;
-
+  pointer-events: all;
 }
 
-.normal{
-  stroke:grey;
+.normal {
+  stroke: grey;
   fill-opacity: 0;
-  pointer-events:all;
+  pointer-events: all;
 }
 
-.legendVoisin{
+.legendVoisin {
   text-anchor: middle;
-  font-family: 'Urbanist', sans-serif;
-  fill:rgb(95, 95, 95);
-  stroke:white;
+  font-family: "Urbanist", sans-serif;
+  fill: rgb(95, 95, 95);
+  stroke: white;
   font-size: 0.7em;
   stroke-width: 0.2;
 }
 
-.legendVoisin-hover{
+.legendVoisin-hover {
   text-anchor: middle;
-  font-family: 'Urbanist', sans-serif;
+  font-family: "Urbanist", sans-serif;
   stroke-width: 0.2;
-  fill:rgb(0, 0, 0);
-
+  fill: rgb(0, 0, 0);
 }

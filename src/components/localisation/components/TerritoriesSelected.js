@@ -23,28 +23,29 @@ const TerritoriesSelected = ({ territories, nomZonage, setParam }) => {
 
   return (
     <div
-      className="search-form barre"
+      className="search-form no-overflow cursor pd-l-10"
       onClick={() => setParam({ localisation: true, modules: false })}
     >
-      <div className="over">
+      <div className="x-overflow flx-row flx-nowrap gradient-border">
         📍{" "}
         {titre === "" ? (
           selection.map((t, i) => {
-            // addShape(t,2021,API_URL,setGeographies,map)
             return (
-              <span key={i} className="selected">
+              <span
+                key={i}
+                className="ft-0-8 no-wrap btn-small mrg-2 btn-tv-color"
+              >
                 {namingLocation(t, false, selection)}
               </span>
             );
           })
         ) : (
-          <span className="zonage">{titre}</span>
+          <span className="pd-l-10 bolder">{titre}</span>
         )}
       </div>
 
       <MdKeyboardArrowUp
-        className="arrow-btn"
-        //    onClick={()=> setPanelTerritories((panel)=>!panel) }
+        className="hoverCustom mrg-10"
         size={25}
         style={{ transform: `rotate(180deg)` }}
       />

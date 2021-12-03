@@ -18,7 +18,7 @@ const NameTableau = () => {
   const [name, setName] = useState(""); // Nom du tableau
 
   return (
-    <div>
+    <div className="tableau-container">
       <div className="flx-row container-name ">
         <div className="logo-link">
           <NavLink to="/" exact>
@@ -58,7 +58,7 @@ const NameTableau = () => {
       <div className="top-log">
         <ConnectIcon />
       </div>
-      <hr className="sep-line" />
+      {/* <hr className="sep-line" /> */}
     </div>
   );
 };

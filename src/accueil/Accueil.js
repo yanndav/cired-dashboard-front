@@ -10,7 +10,7 @@ const Accueil = () => {
       <div className="container-accueil">
         <div class="flx-column flx-gap-big">
           <div>
-            <h2 className="big">
+            <h2 className="ft-2-5">
               Créer un tableau de bord des évolutions de votre territoire.
             </h2>
             <h3>

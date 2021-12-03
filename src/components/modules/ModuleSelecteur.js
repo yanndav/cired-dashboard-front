@@ -17,8 +17,16 @@ const getModules = async (API_URL) => {
   return data;
 };
 
-const ModuleSelecteur = ({ API_URL, setSelectedModules, param, setParam }) => {
+const ModuleSelecteur = ({
+  API_URL,
+  setSelectedModules,
+  selectedModules,
+  param,
+  setParam,
+  refParam,
+}) => {
   const [modulesOptions, setModulesOptions] = useState([]);
+  const [show, setShow] = useState(false);
 
   useEffect(async () => {
     if (param.modules) {
@@ -27,10 +35,16 @@ const ModuleSelecteur = ({ API_URL, setSelectedModules, param, setParam }) => {
     }
   }, [param.modules]);
 
+  useEffect(() => {
+    if (refParam) {
+      refParam.current.clientWidth > 750 && setShow(true);
+    }
+  }, [refParam]);
+
   return (
     <div
-      className={` box btn-big tr-width ${
-        param.modules ? "spacing-large" : ""
+      className={` box  max-95  tr-width ${
+        param.modules ? "spacing-large module-select-container" : ""
       }  ${param.localisation ? "spacing-small" : ""} ${
         !param.localisation && !param.modules ? "norm-bouton" : ""
       }`}
@@ -38,16 +52,17 @@ const ModuleSelecteur = ({ API_URL, setSelectedModules, param, setParam }) => {
       {!param.modules ? (
         <div
           onClick={() => setParam({ localisation: false, modules: true })}
-          className="module-bouton"
+          className="flx-row hoverCustom-lighter btn-big inherit-form flx-nowrap "
         >
           <div className="icon-module">🎛️</div>
-          <div className="legend-module-bouton">Ajouter un module</div>
+          {show && <div className="mrg-l-10">Ajouter un module</div>}
         </div>
       ) : (
         <ModulesPanneau
           modules={modulesOptions}
           setParam={setParam}
           setSelectedModules={setSelectedModules}
+          selectedModules={selectedModules}
         />
       )}
     </div>

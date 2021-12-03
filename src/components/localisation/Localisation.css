@@ -5,186 +5,137 @@
 .module-localisation {
   transition: width ease 0.5s;
   height: fit-content;
-  /* width: 700px; */
   max-width: 95%;
   min-width: 300px;
   margin: 5px;
-  /* box-shadow: var(--main-shadow);
-  border-radius: 7px; */
 }
+
+/* CARTE */
+.map-wrapper {
+  position: relative;
+  height: 550px;
+  max-width: none;
+  min-width: 400px;
+}
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*  */
+
 .localisation-norm {
   transition: width ease 0.5s;
-
-  width: 700px;
+  width: 600px;
 }
 
 .search-form {
   width: 100%;
   height: 50px;
   display: grid;
-  grid-template-columns: auto 40px;
+  grid-template-columns: auto 50px;
   align-items: center;
 }
 
-.over {
-  overflow-x: auto;
-  padding: 15px 0px;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) 2%,
-    rgb(255, 255, 255, 1) 98%,
-    rgb(255, 255, 255, 0)
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) 2%,
-    rgb(255, 255, 255, 1) 98%,
-    rgb(255, 255, 255, 0)
-  );
-  /* height: 50px; */
-}
-
-.barre {
-  overflow-x: none;
-  /* display: grid;
-  grid-template-columns: 93% auto; */
-  /* align-items: center; */
-  padding-left: 10px;
-}
-
-.barre:hover {
-  cursor: pointer;
-}
-.zonage {
-  padding-left: 10px;
-  font-weight: bolder;
-}
-.mrgRg {
-  margin-right: 30px;
-}
 .search-value {
   padding: 11px 13px;
-  /* line-height: 10px;  */
-  border-radius: 7px 7px 7px 7px;
+  border-radius: 7px;
   border: none;
-  /* width: 90%; */
   margin: auto 2px;
 }
-.space {
-  width: 95%;
-}
 
-.separation {
-  border-color: rgba(204, 204, 204, 0.486);
-  border-width: 0.2px;
-  margin: 0px 3px;
-}
-
-.propositions {
-  width: 100%;
-  max-width: 96%;
-  display: flex;
-  overflow-x: auto;
-  flex-direction: row;
-  margin: 10px 8px;
-  padding-left: 10px;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) 2%,
-    rgb(255, 255, 255, 1) 98%,
-    rgb(255, 255, 255, 0)
-  );
-  mask-image: linear-gradient(
-    to right,
-    rgb(255, 255, 255, 0),
-    rgba(255, 255, 255, 1) 2%,
-    rgb(255, 255, 255, 1) 98%,
-    rgb(255, 255, 255, 0)
-  );
-}
-
-.parametre-territoire {
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.arrow-btn {
-  margin-right: 10px;
-}
-.arrow-btn:hover {
-  color: #0aaacb;
-  cursor: pointer;
-}
 .right {
   float: right;
   margin: 10px 5px;
 }
 
-.return {
-  transform: rotate(180deg);
+.territoires-container {
+  height: 150px;
 }
-.decoupage-territoire {
+
+/* .zonage {
+  padding-left: 10px;
+  font-weight: bolder;
+} */
+/* .mrgRg {
+  margin-right: 30px;
+} */
+
+/* .propositions {
+  width: 100%;
+  max-width: 96%;
+
+    } */
+
+/* .parametre-territoire {
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+    } */
+/* .arrow-btn {
+      margin-right: 10px;
+    }
+    .arrow-btn:hover {
+      color: #0aaacb;
+      cursor: pointer;
+} */
+
+/* .space {
+  width: 95%;
+} */
+/* .decoupage-territoire {
   border-radius: 8px;
   background-color: rgb(214, 214, 214);
   width: fit-content;
   padding: 8px;
-}
+} */
 
-.name-stable-territoire:hover {
+/* .name-stable-territoire:hover {
   font-style: italic;
-}
+} */
 
-.form-name {
+/* .form-name {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-.name-edit-territoire {
+} */
+/* .name-edit-territoire {
   border: none;
   background-color: inherit;
   font-size: inherit;
   margin-top: 0px;
   padding: 0px;
-  font-style: italic;
-}
+} */
 
-.save {
+/* .save {
   margin: auto;
   padding: 0px;
-}
+} */
 
-.selection-territoires {
+/* .selection-territoires {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
+} */
 
-.section-titre {
+/* .section-titre {
   font-weight: bolder;
-}
+} */
 
-.nb-ter {
+/* .nb-ter {
   border-radius: 25px;
   background-color: #06646e;
   color: white;
   padding: 3px 6px;
-}
+} */
 
-.list-territoires {
-  width: 400px;
-  height: 300px;
-  max-width: 50%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-content: flex-start;
-  overflow-y: auto;
-}
-
-.item-list {
+/* .item-list {
   font-size: 0.8em;
   text-align: left;
   vertical-align: middle;
@@ -194,8 +145,8 @@
   color: white;
   border-radius: 7px;
   white-space: nowrap;
-}
-.search-go {
+} */
+/* .search-go {
   padding: 10px 25px;
   font-size: 1.1em;
   background-color: #0aaacb;
@@ -203,50 +154,50 @@
   border-radius: 0px 7px 7px 0px;
   border: none;
   align-self: start;
-}
+} */
 
-.search-bar {
+/* .search-bar {
   display: flex;
   flex-direction: row;
-}
+} */
 
-.search-go:hover {
+/* .search-go:hover {
   background-color: #17c5e7;
   cursor: pointer;
-}
+} */
 
-.selected-list {
+/* .selected-list {
   max-width: 30%;
   height: 20px;
   margin: auto 2px;
   display: flex;
-}
+} */
 
-.selected-list-min {
+/* .selected-list-min {
   margin-top: auto;
   display: flex;
   flex-direction: row;
-}
+} */
 
-.drop-btn {
+/* .drop-btn {
   margin-top: -7px;
   color: #0aaacb;
 }
 .drop-btn:hover {
   color: #06646e;
   cursor: pointer;
-}
+} */
 
-.drop-header {
+/* .drop-header {
   display: grid;
   grid-template-columns: 85% auto;
 }
 .drop-title {
   margin-top: 7px;
   font-size: 0.8em;
-}
+} */
 
-.aggregate {
+/* .aggregate {
   width: 20px;
   max-width: 20px;
 }
@@ -254,28 +205,16 @@
   font-weight: bolder;
   cursor: pointer;
   background-color: #06646e;
-}
+} */
 
-.selected {
-  white-space: nowrap;
-  font-size: 0.8em;
-  text-align: left;
-  height: max-content;
-  padding: 8px 10px;
-  margin: 2px;
-  background-color: #0abecb;
-  color: white;
-  border-radius: 7px;
-}
-
-.modal {
+/* .modal {
   max-height: 200px;
 }
 .sel-modal {
   margin: 2px 0px;
   height: max-content;
-}
-.col-items {
+} */
+/* .col-items {
   margin: 10px 2px;
   white-space: normal;
 }
@@ -292,14 +231,14 @@
 
 .close {
   transform: rotate(180deg);
-}
+} */
 
-.proposition:hover {
+/* .proposition:hover {
   background-color: #17c5e7;
   cursor: pointer;
-}
+} */
 
-.delete-territory {
+/* .delete-territory {
   color: white;
   font-size: 1.1em;
   padding-left: 7px;
@@ -308,4 +247,4 @@
 .delete-territory:hover {
   color: #06646e;
   cursor: pointer;
-}
+} */

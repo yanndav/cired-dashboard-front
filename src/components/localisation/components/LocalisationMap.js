@@ -1,15 +1,8 @@
 import "./LocalisationMap.css";
-import {
-  MapContainer,
-  TileLayer,
-  LayerGroup,
-  SVGOverlay,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import * as topojson from "topojson-client";
 
 import { useEffect, useState } from "react";
 
@@ -32,9 +25,17 @@ const LocalisationMap = ({
   center,
   setCenter,
 }) => {
-  const zoom = 4.5;
+  const zoom = 6;
   const [count, setCount] = useState(0);
   const [voisinnage, setVoisinnage] = useState([]);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setShow(true), 500);
+    return () => {
+      setShow(false);
+    };
+  }, []);
 
   useEffect(() => {
     map &&
@@ -59,7 +60,7 @@ const LocalisationMap = ({
     }
 
     if (geographies.length === 1 && count === 0) {
-      map.setView(centroid(geographies), 9);
+      map.setView(centroid(geographies), 10);
       setCount(1);
     }
   }, [geographies]);
@@ -115,20 +116,21 @@ const LocalisationMap = ({
   return (
     <>
       <div className="map-wrapper">
-        <MapContainer
-          id="map"
-          center={center}
-          zoom={zoom}
-          scrollWheelZoom={true}
-          whenCreated={setMap}
-        >
-          <TileLayer
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | &copy; CIRED-ENPC'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Events />
-          {/* <LayerGroup ref={setLayer}></LayerGroup> */}
-        </MapContainer>
+        {show && (
+          <MapContainer
+            id="map"
+            center={center}
+            zoom={zoom}
+            scrollWheelZoom={true}
+            whenCreated={setMap}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | &copy; CIRED-ENPC'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Events />
+          </MapContainer>
+        )}
       </div>
     </>
   );

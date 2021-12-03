@@ -118,7 +118,7 @@ const Localisation = ({
 
       {param.localisation && (
         <>
-          <div className="parametre-territoire">
+          <div className="mrg-20 flx-column">
             {/* Nommer le découpage territorial */}
             {territories.length > 1 && (
               <NomZonage
@@ -130,14 +130,16 @@ const Localisation = ({
             )}
 
             {/* Liste des territoires sélectionnés */}
-            <p className="section-titre">
+            <p className="bolder">
               📍 Territoires sélectionnées{" "}
               {territories.length > 0 && (
-                <span className="nb-ter">{territories.length}</span>
+                <span className="btn-tv-color btn-tiny">
+                  {territories.length}
+                </span>
               )}
               :
             </p>
-            <div className="selection-territoires">
+            <div className="flx-col">
               <ListeTerritoiresSelectionnes
                 territories={territories}
                 setTerritories={setTerritories}
@@ -158,7 +160,7 @@ const Localisation = ({
             </div>
           </div>
           <MdKeyboardArrowUp
-            className="arrow-btn right"
+            className="hoverCustom mrg-10 flt-r "
             onClick={() =>
               setParam({ ...param, localisation: !param.localisation })
             }
