@@ -68,10 +68,10 @@ const Localisation = ({
     }
   }, [remove]);
 
-  useEffect(() => {
-    setImportParam(param);
-    console.log(param);
-  }, [param]);
+  // useEffect(() => {
+  //   setImportParam(param);
+  //   console.log(param);
+  // }, [param]);
   return (
     <div
       className={`box module-localisation ${

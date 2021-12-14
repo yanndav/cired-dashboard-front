@@ -1,48 +1,68 @@
-import React, { useState, useEffect } from "react";
+// -----------------------------------------------
+// IMPORTATIONS
+// -----------------------------------------------
+
+// Styling
 import "../../zoneModules/ZoneModules.css";
 
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
-import LegendMap from "../components/LegendMap";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+// React components
+import React, { useState, useEffect } from "react";
 
-import { updateShape, removeSelectionnes } from "../components/mapFunctions";
+// import { Slider } from "@mui/material";
 
-import Sources from "../components/Sources";
-
+// D3 components
 import { sliderBottom } from "d3-simple-slider";
 import * as d3 from "d3";
 
-const colors = ["#0ffff7", "#a2ffb7", "#c7021b", "#f77112", "#fde665"];
+// Leaflet components
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 
-const arrayYear = (data) =>
-  Array.from(
-    new Set(data.DATA.map((d) => d.VALEURS.map((c) => c.ANNEE)).flat())
-  );
+// TV Components
+import LegendMap from "../components/LegendMap";
+import Sources from "../components/Sources";
+import SliderMap from "../components/SliderMap";
+import VariablesSelect from "../components/VariablesSelect";
 
-const yearMin = (data) => Math.min(...arrayYear(data));
-const yearMax = (data) => Math.max(...arrayYear(data));
+// Map functions
+import {
+  updateShape,
+  removeSelectionnes,
+  arrayYear,
+  yearMin,
+  yearMax,
+  keyGen,
+} from "../components/mapFunctions";
 
-const dataForAYear = (data, year) =>
-  data.DATA.map((d) => {
-    let temp = d.VALEURS.filter((c) => c.ANNEE === year);
-    if (temp[0]) {
-      temp[0]["CODGEO"] = d.CODGEO;
-      return temp[0];
-    }
-  });
+//--------------------------------------------------
+// FONCTIONS DE GESTION DES DONNEES
+// ----------------------------------------------------
 
-const updatedGeographies = (data, geographies, year) => {
-  const toShow = dataForAYear(data, year);
-  return geographies.map((d) => {
-    let codgeo = d.properties.CODGEO[0].toString();
-    let to_add = toShow.filter((c) => c.CODGEO === codgeo);
-    if (to_add[0]) {
-      d.properties.VALEUR = to_add[0].VALEUR;
-    }
-    return d;
-  });
+const layersToShow = (LAYERS, year, showLayers) => {
+  const newData = [...LAYERS];
+  const newData2 = newData
+    .filter((layer) => showLayers[layer.VARIABLE.CODE]) // garde les bons layers
+    .map((layer2) => {
+      const newLayer = { ...layer2 };
+      const tempgeo = newLayer.GEOMETRY.filter(
+        (geom) => geom.properties.ANNEE === year
+      ).map((c) => c);
+      newLayer["GEOMETRY"] = tempgeo;
+      return newLayer;
+    });
+  return [...newData2];
 };
+const createShowLayers = (data) => {
+  const obj = {};
+  // Fonction qui crée le dictionnaire des layers à montrer ou pas
+  data.map((layer) => (obj[layer.VARIABLE.CODE] = true));
+  return obj;
+};
+
+// ----------------------------------------------------
+// FONCTIONS DE GESTION DE LA REPRESENTATION GRAPHIQUE
+// ----------------------------------------------------
 
 const colorScales = (data, colors, year) => {
   const set = Array.from(
@@ -54,151 +74,97 @@ const colorScales = (data, colors, year) => {
   return set.reduce((obj, k, i) => ({ ...obj, [k]: colors[i] }), {});
 };
 
-const Map = ({ module, data, geographies, center }) => {
+const getDesign = (module, layer) =>
+  module.REPRESENTATION.DESIGN.filter(
+    (c) => c.VARIABLE === layer.VARIABLE.CODE
+  )[0];
+
+const Map = ({ module, data, center }) => {
+  // ----------------------------------------------------
+  // CONSTANTES
+  // ----------------------------------------------------
+
+  const idKey = keyGen(module.NOM); //key of the map
+  const years = arrayYear(data);
+
+  // ----------------------------------------------------
+  // VARIABLES
+  // ----------------------------------------------------
+
   const [map, setMap] = useState(null); // map reference
-  const [idKey, setIdKey] = useState("map-" + data.VARIABLE.CODE); //key of the map
-  const [year, setYear] = useState(yearMin(data));
-  // const [dataToShow, setDataToShow] = useState(
-  //   data ? dataForAYear(data) : data
-  // );
+  const [showLayers, setShowLayers] = useState(createShowLayers(data)); // show layers
+  const [showYear, setShowYear] = useState(yearMin(years)); // Minimum year
+  const [layers, setLayers] = useState(
+    layersToShow(data, showYear, showLayers)
+  );
 
-  console.log(colorScales(data, colors, 2020));
-
-  useEffect(() => {
-    data && setIdKey("map-" + data.VARIABLE.CODE);
-    map &&
-      updateShape(
-        updatedGeographies(data, geographies, year),
-        map,
-        idKey,
-        colorScales(data, colors, year)
-      );
-    map && map.setView(center, 10);
-  }, [data]);
+  // ----------------------------------------------------
+  // EFFETS
+  // ----------------------------------------------------
 
   useEffect(() => {
+    // Initialisation de la carte => ajout du layer svg
     if (map) {
       L.svg().addTo(map);
-      data &&
-        updateShape(
-          updatedGeographies(data, geographies, year),
-          map,
-          idKey,
-          colorScales(data, colors, year)
-        );
       map.setView(center, 10);
+      layers &&
+        layers.map((layer) =>
+          updateShape(layer, map, idKey, getDesign(module, layer))
+        );
     }
   }, [map]);
 
   useEffect(() => {
-    data &&
-      updateShape(
-        updatedGeographies(data, geographies, year),
-        map,
-        idKey,
-        colorScales(data, colors, year)
-      );
-    map && map.setView(center, 10);
-  }, [geographies]);
+    // Mise à jour des données affichées
+    // Fonction année + variable sélectionnée
+    setLayers(layersToShow(data, showYear, showLayers));
+  }, [showLayers, showYear]);
 
   useEffect(() => {
-    data &&
-      updateShape(
-        updatedGeographies(data, geographies, year),
-        map,
-        idKey,
-        colorScales(data, colors, year)
+    layers.length === 0 &&
+      data.map((layer) =>
+        removeSelectionnes(idKey, keyGen(layer.VARIABLE.CODE))
       );
-  }, [year]);
+
+    map &&
+      layers.map((layer) =>
+        updateShape(layer, map, idKey, getDesign(module, layer))
+      );
+  }, [layers]);
 
   const Events = () => {
     const map = useMapEvents({
       zoomstart: (e) => {
-        removeSelectionnes(idKey);
+        data.map((layer) =>
+          removeSelectionnes(idKey, keyGen(layer.VARIABLE.CODE))
+        );
       },
       dragend: (e) => {
-        updateShape(
-          updatedGeographies(data, geographies, year),
-          map,
-          idKey,
-          colorScales(data, colors, year)
-        );
+        layers &&
+          layers.map((layer) =>
+            updateShape(layer, map, idKey, getDesign(module, layer))
+          );
       },
       zoomend: (e) => {
-        updateShape(
-          updatedGeographies(data, geographies, year),
-          map,
-          idKey,
-          colorScales(data, colors, year)
-        );
+        layers &&
+          layers.map((layer) =>
+            updateShape(layer, map, idKey, getDesign(module, layer))
+          );
       },
     });
     return null;
   };
 
-  const changeYear = (year) => {
-    setYear(year);
-  };
-
-  // const sources = (sources, year) => {
-  //   const temp = sources.filter((c) => c.ANNEE.includes(year));
-  //   if (temp.length === 1) {
-  //     console.log(temp);
-  //     return (
-  //       <p>
-  //         Source: <span>{temp[0].AUTEUR}</span>
-  //       </p>
-  //     );
-  //   }
-  //   if (temp.length === 0) {
-  //     return "Pas de source déclarée 🤔";
-  //   } else {
-  //     console.log(temp);
-  //     return (
-  //       "Sources: " +
-  //       temp.map((d, i) =>
-  //         temp.length > i ? d.AUTEUR + ", " : "et " + d.AUTEUR
-  //       )
-  //     );
-  //   }
-  // };
-  const slider = sliderBottom()
-    .min(yearMin(data))
-    .max(yearMax(data))
-    .value(year)
-    .tickValues(arrayYear(data))
-    .marks(arrayYear(data))
-    .tickFormat(d3.format("d"))
-    .width(500)
-    .on("end", (d) => {
-      changeYear(d);
-    });
-
-  const d3selectSlider = (idKey) => {
-    // Fonction qui sélectionne les territoires voisins
-    const g = d3.select("#slider" + idKey);
-
-    if (g.select("#selector" + idKey).empty()) {
-      return g
-        .attr("width", 600)
-        .attr("height", 100)
-        .append("g")
-        .attr("id", "selector" + idKey)
-        .attr("transform", "translate(50,30)");
-      // .attr("width", 550);
-    } else {
-      return g.select("#selector" + idKey);
-    }
-  };
-
-  d3selectSlider(idKey).remove();
-  d3selectSlider(idKey).call(slider);
-
   return (
     <div>
       <div className="header-graph">
-        <h4 className="map-title">{module.NOM + " en " + year}</h4>
-        <Sources sources={data.SOURCES} year={year} />
+        <h4 className="map-title">{module.NOM + " en " + showYear}</h4>
+        <VariablesSelect
+          data={data}
+          showLayers={showLayers}
+          setShowLayers={setShowLayers}
+        />
+        {/* <Sources sources={data.SOURCES} year={year} /> */}
       </div>
 
       <div className="map-container">
@@ -206,7 +172,7 @@ const Map = ({ module, data, geographies, center }) => {
           className="map"
           id={idKey}
           center={center}
-          // scrollWheelZoom={true}
+          scrollWheelZoom={false}
           whenCreated={setMap}
         >
           <TileLayer
@@ -216,10 +182,11 @@ const Map = ({ module, data, geographies, center }) => {
           <Events />
         </MapContainer>
       </div>
-      <svg id={"slider" + idKey} className="slider"></svg>
-      {/* <h5 className="legend-title">Légende:</h5> */}
+
+      <SliderMap years={years} setShowYear={setShowYear} />
+
       <div id={"legend" + idKey} className="legend-container">
-        {Object.keys(colorScales(data, colors, year)).map((clef, idx) => {
+        {/* {Object.keys(colorScales(data, colors, year)).map((clef, idx) => {
           return (
             <LegendMap
               colors={colorScales(data, colors, year)}
@@ -228,10 +195,50 @@ const Map = ({ module, data, geographies, center }) => {
               data={data}
             />
           );
-        })}
+        })} */}
       </div>
     </div>
   );
 };
 
 export default Map;
+
+// -----------------------
+// POUBELLE
+
+// const sources = (sources, year) => {
+//   const temp = sources.filter((c) => c.ANNEE.includes(year));
+//   if (temp.length === 1) {
+//     console.log(temp);
+//     return (
+//       <p>
+//         Source: <span>{temp[0].AUTEUR}</span>
+//       </p>
+//     );
+//   }
+//   if (temp.length === 0) {
+//     return "Pas de source déclarée 🤔";
+//   } else {
+//     console.log(temp);
+//     return (
+//       "Sources: " +
+//       temp.map((d, i) =>
+//         temp.length > i ? d.AUTEUR + ", " : "et " + d.AUTEUR
+//       )
+//     );
+//   }
+// };
+
+// const updatedGeographies = (data, geographies, year, showLayers) => {
+//   // Récupère les données pour la bonne année
+//   const toShow = dataToShow(data, year, showLayers);
+
+//   // return geographies.map((d) => {
+//   //   let codgeo = d.properties.CODGEO[0].toString();
+//   //   let to_add = toShow.filter((c) => c.CODGEO === codgeo);
+//   //   if (to_add[0]) {
+//   //     d.properties.VALEUR = to_add[0].VALEUR;
+//   //   }
+//   //   return d;
+//   // });
+// };

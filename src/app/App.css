@@ -208,7 +208,10 @@
 .tr-width {
   transition: width ease 0.2s;
 }
-
+.css-adeloa-MuiSlider-root {
+  color: var(--main-tv-color) !important;
+  font-family: var(--main-font-fam);
+}
 /* WIDTH */
 .width-ctt {
   width: fit-content;
@@ -222,6 +225,9 @@
   max-width: 85%;
 }
 
+.width-70p {
+  width: 90px;
+}
 /* HEIGHT */
 .max-h-200p {
   height: fit-content;
@@ -278,6 +284,9 @@
 }
 
 /* TEXT OPTIONS*/
+.ft-tv {
+  font-family: var(--main-font-fam);
+}
 .bolder {
   font-weight: bolder;
 }
@@ -293,9 +302,18 @@
 .no-wrap {
   white-space: nowrap;
 }
-.ft-2-5 {
-  font-size: 2.5em;
-}
 .ft-0-8 {
   font-size: 0.8em;
+}
+
+.ft-1 {
+  font-size: 1em;
+}
+
+.ft-1-2 {
+  font-size: 1.2em;
+}
+
+.ft-2-5 {
+  font-size: 2.5em;
 }

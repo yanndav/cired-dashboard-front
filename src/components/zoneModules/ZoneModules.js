@@ -38,7 +38,7 @@ const ZoneModules = ({ selectedModules, geographies, center, API_URL }) => {
                   <p className="description mrg-20 ">{d.DESCRIPTION}</p>
                 </>
                 <div className="zone-elements-modules mrg-20 ">
-                  {d.INSTRUCTIONS.map((c) => (
+                  {d.INSTRUCTIONS.map((c, i) => (
                     <Module
                       module={c}
                       geographies={geo}

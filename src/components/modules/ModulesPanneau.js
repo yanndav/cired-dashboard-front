@@ -86,7 +86,7 @@ const ModulesPanneau = ({
             ) : (
               <p
                 onClick={() => setSelectedModules((prev) => [...prev, module])}
-                class="hoverCustom-white select-module"
+                className="hoverCustom-white select-module"
               >
                 Ajouter le module
               </p>
