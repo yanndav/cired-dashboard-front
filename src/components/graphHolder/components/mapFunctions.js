@@ -123,7 +123,7 @@ const getLegend = (layer, geom) => {
 };
 
 const getTerritory = (geom) => {
-  return geom.properties.CODGEO;
+  return geom.properties.LIBGEO;
 };
 
 const setWidth = (geom, layer) => {
@@ -274,7 +274,7 @@ const updateShape = (layer, map, id, design) => {
     .attr("d", pathCreator)
     .attr("fill", "blue")
     .on("mouseover", (e) => {
-      return toolTip(
+      toolTip(
         g,
         layer,
         e.target.__data__,
