@@ -3,7 +3,7 @@
 // ---------------------------
 // Map functions
 import { keyGen } from "./mapFunctions";
-
+import VariableSelectItem from "./VariableSelectItem";
 // react components
 import { useEffect, useState } from "react";
 
@@ -29,22 +29,11 @@ const VariablesSelect = ({ data, showLayers, setShowLayers }) => {
     <div className="flx-row flx-gap-small">
       {/* <span className="btn-small">Variable{data.length > 1 && "s"}:</span> */}
       {data.map((layer) => (
-        <span
-          className="btn-tv-color btn-small ft-0-8 italic"
-          key={"var-" + keyGen(layer.VARIABLE.CODE)}
-        >
-          <input
-            type="checkbox"
-            defaultChecked={show[layer.VARIABLE.CODE]}
-            onChange={() =>
-              setShowLayers({
-                ...show,
-                [layer.VARIABLE.CODE]: !show[layer.VARIABLE.CODE],
-              })
-            }
-          ></input>
-          {layer.VARIABLE.LIBELLE}
-        </span>
+        <VariableSelectItem
+          show={show}
+          layer={layer}
+          setShowLayers={setShowLayers}
+        />
       ))}
     </div>
   );

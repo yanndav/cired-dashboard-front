@@ -21,7 +21,6 @@ const updateData = async (
       instructions: instru,
       graphType: graphType,
     };
-    console.log(doc);
     const response = await fetch(`${API_URL}/getModuleElement`, {
       body: JSON.stringify(doc),
       method: "POST",
@@ -34,7 +33,6 @@ const updateData = async (
 
     const data = await response.json();
     results.push(data);
-    // console.log(results);
   }
   setData(results);
   setLoad(false);

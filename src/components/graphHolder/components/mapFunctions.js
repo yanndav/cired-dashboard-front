@@ -4,8 +4,65 @@ import * as d3 from "d3";
 import { width } from "@mui/system";
 
 // --------------------------------------------
+// FONCTIONS DE LEGENDE
+// --------------------------------------------
+
+const colors = [
+  "#001219",
+  "#005f73",
+  "#0a9396",
+  "#94d2bd",
+  "#e9d8a6",
+  "#ee9b00",
+  "#ca6702",
+  "#bb3e03",
+  "#ae2012",
+  "#9b2226",
+];
+
+const getModalites = (layer) =>
+  // Fonction qui récupère les modalités du layer
+  Array.from(
+    new Set({ ...layer }.GEOMETRY.map((geom) => geom.properties.VALEUR))
+  );
+
+const setColorsScales = (modalites, colors) => {
+  // Fonction qui crée un Array de la taille du nombre de modalités
+  return Array(modalites.length).fill(colors).flat();
+};
+
+const setColorsLegend = (layer, colors) => {
+  // Fonction qui crée un dictionnaire.
+  // Clé = modalité, valeur = couleur
+
+  const modalites = getModalites(layer);
+  const colorsArray = setColorsScales(layer, colors);
+  return modalites.reduce((obj, k, i) => ({ ...obj, [k]: colorsArray[i] }), {});
+};
+
+const setColorGeom = (geom, colorsLegend) => {
+  return colorsLegend[geom.properties.VALEUR];
+};
+
+const setFill = (shapes, design, colorsLegend) => {
+  const remplissage = design.REMPLISSAGE;
+
+  if (remplissage === "MODALITE") {
+    return shapes.attr("fill", (geom) => setColorGeom(geom, colorsLegend));
+  } else if (remplissage == "NONE") {
+    return shapes.attr("fill", "transparent");
+  }
+  // else if (contour === "FIN") {
+  //   return shapes
+  //     .attr("stroke", "rgba(223, 223, 223, 0.76)")
+  //     .attr("stroke-width", "1");
+  // } else if (contour === "NONE") {
+  //   return shapes.attr("stroke", "transparent").attr("stroke-width", "-10");
+  // }
+};
+// --------------------------------------------
 // FONCTIONS DE CLE
-// ----------------------------------------------------
+// --------------------------------------------
 
 const keyGen = (nom) =>
   // Fonction qui génère une clé à partir d'un string
@@ -118,8 +175,10 @@ const zoomInit = (map) => {
 };
 
 const getLegend = (layer, geom) => {
-  return layer.MODALITES.filter((c) => c.CODE === geom.properties.VALEUR)[0]
-    .LIBELLE;
+  const legend = layer.MODALITES.filter(
+    (c) => c.CODE.toString() === geom.properties.VALEUR.toString()
+  );
+  return legend[0] !== undefined ? legend[0].LIBELLE : "";
 };
 
 const getTerritory = (geom) => {
@@ -130,7 +189,9 @@ const setWidth = (geom, layer) => {
   const legend = getLegend(layer, geom);
   const territory = getTerritory(geom);
   const width =
-    territory.length >= legend.territory ? territory.length : legend.length;
+    territory.length * 1.2 >= legend.length
+      ? territory.length * 1.2
+      : legend.length;
   return width * 8;
 };
 
@@ -139,7 +200,7 @@ const getTranslate = (pathCreator, geom, e, layer) => {
     "translate(" +
     (pathCreator.centroid(geom)[0] - setWidth(geom, layer) / 2) +
     "," +
-    (e.target.parentElement.childNodes[0].getBBox()["y"] -
+    (pathCreator.centroid(geom)[1] -
       e.target.parentElement.childNodes[0].getBBox()["height"] / 2 -
       30) +
     ")"
@@ -212,6 +273,7 @@ const toolTip = (g, layer, geom, translate) => {
 };
 
 const setStroke = (shapes, design) => {
+  // Fonction qui définit les contours
   const contour = design.CONTOUR;
 
   if (contour === "EPAIS") {
@@ -226,8 +288,6 @@ const setStroke = (shapes, design) => {
 };
 
 const updateShape = (layer, map, id, design) => {
-  // console.log("les donnees dy layer", layer.GEOMETRY);
-  console.log(design);
   // Fonction qui charge les territoires sélectionnés
   const ZOOM = zoomInit(map);
 
@@ -247,47 +307,62 @@ const updateShape = (layer, map, id, design) => {
   // Suppression des territoires
   removeSelectionnes(id, keyGen(layer.VARIABLE.CODE));
 
-  // Ajout des territoires à la carte
-  let g = d3SelectTerritoire(id, keyGen(layer.VARIABLE.CODE));
-  let groupShapes = g
-    .selectAll("g")
-    .attr("id", "shapes-" + keyGen(layer.VARIABLE.CODE))
-    .data(layer.GEOMETRY)
-    .enter()
-    .append("g")
-    .attr(
-      "id",
-      (geom) =>
-        "shape-" +
-        keyGen(layer.VARIABLE.CODE) +
-        "-" +
-        id_gen(geom.properties.CODGEO)
-    )
-    .attr("class", "leaflet-interactive")
-    .attr("pointer-events", "auto");
+  if (layer) {
+    const colorsLegend = setColorsLegend(layer, colors);
 
-  let shapes = groupShapes
-    .append("path")
-    .attr("fill-opacity", 0.8)
-    .attr("pointer-events", "auto")
-    .attr("class", ` leaflet-interactive`)
-    .attr("d", pathCreator)
-    .attr("fill", "blue")
-    .on("mouseover", (e) => {
-      toolTip(
-        g,
-        layer,
-        e.target.__data__,
-        getTranslate(pathCreator, e.target.__data__, e, layer)
-      );
-    })
-    .on("mouseout", (e) => {
-      removeToolTip(g, layer, e.target.__data__);
-    });
+    // Ajout des territoires à la carte
+    let g = d3SelectTerritoire(id, keyGen(layer.VARIABLE.CODE));
+    let groupShapes = g
+      .selectAll("g")
+      .attr("id", "shapes-" + keyGen(layer.VARIABLE.CODE))
+      .data(layer.GEOMETRY)
+      .enter()
+      .append("g")
+      .attr(
+        "id",
+        (geom) =>
+          "shape-" +
+          keyGen(layer.VARIABLE.CODE) +
+          "-" +
+          id_gen(geom.properties.CODGEO)
+      )
+      .attr("class", "leaflet-interactive")
+      .attr("pointer-events", "auto");
 
-  setStroke(shapes, design);
+    let shapes = groupShapes
+      .append("path")
+      .attr("fill-opacity", 0.8)
+      .attr("pointer-events", "auto")
+      .attr("class", ` leaflet-interactive`)
+      .attr("d", pathCreator)
+      .on("mouseover", (e) => {
+        d3.select(e.target).style("filter", "brightness(200%)");
+        toolTip(
+          g,
+          layer,
+          e.target.__data__,
+          getTranslate(pathCreator, e.target.__data__, e, layer)
+        );
+      })
+      .on("mouseout", (e) => {
+        d3.select(e.target).style("filter", "brightness(100%)");
+        removeToolTip(g, layer, e.target.__data__);
+      });
 
-  return shapes.exit().remove();
+    setStroke(shapes, design);
+    setFill(shapes, design, colorsLegend);
+    return shapes.exit().remove();
+  }
 };
 
-export { updateShape, removeSelectionnes, arrayYear, yearMax, yearMin, keyGen };
+export {
+  updateShape,
+  removeSelectionnes,
+  arrayYear,
+  yearMax,
+  yearMin,
+  keyGen,
+  getModalites,
+  colors,
+  setColorsLegend,
+};

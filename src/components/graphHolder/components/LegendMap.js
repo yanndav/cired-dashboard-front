@@ -1,50 +1,37 @@
 import React from "react";
 import { useState, useRef } from "react";
 
-import PopupSource from "./PopupSource";
-import { IoMdInformationCircleOutline } from "react-icons/io";
+import LegendItem from "./LegendItem";
 
-const getModalites = (data, clef) => {
-  let code = data.MODALITES.filter((c) => c.CODE === clef);
-  console.log(clef);
-  if (code) {
-    return code[0];
-  }
-};
+import { colors, keyGen, setColorsLegend } from "./mapFunctions";
 
-const LegendMap = ({ colors, clef, idx, data }) => {
-  const legendRef = useRef(null);
-  const [pop, setPop] = useState(false);
+// const getModalites = (data, clef) => {
+//   let code = data.MODALITES.filter((c) => c.CODE === clef);
+//   console.log(clef);
+//   if (code) {
+//     return code[0];
+//   }
+// };
 
-  const modalites = getModalites(data, clef);
+const LegendMap = ({ layer, idKey }) => {
+  const couleurs = setColorsLegend(layer, colors);
+  const modalites = layer.MODALITES;
 
   return (
-    <div key={idx} className="legendgroup">
-      <div
-        className="legend-rect"
-        style={{
-          backgroundColor: colors[clef],
-        }}
-      >
-        {" "}
-      </div>
-      <div ref={legendRef} className="legend-text">
-        {modalites["LIBELLE"]}
-        <IoMdInformationCircleOutline
-          className="info"
-          style={{ color: pop && "#0aaacb" }}
-          onClick={() => setPop((prev) => !prev)}
-          size={15}
-        />
-      </div>
-      {pop && (
-        <PopupSource
-          sourceRef={legendRef}
-          texte={modalites.DEFINITION}
-          lien={null}
-          setPop={setPop}
-        />
-      )}
+    <div key={"legend-" + idKey + "-" + keyGen(layer.VARIABLE.CODE)}>
+      <p>{layer.VARIABLE.LIBELLE}:</p>
+      {Object.keys(couleurs).map((mod, idx) => {
+        return (
+          <LegendItem
+            idKey={idKey + "-" + keyGen(layer.VARIABLE.CODE)}
+            couleurs={couleurs}
+            mod={mod}
+            modalite={modalites.filter((c) => c.CODE === mod)[0]}
+            idx={idx}
+          />
+        );
+      })}
+      <hr className="sep-line" />
     </div>
   );
 };

@@ -31,7 +31,7 @@ import {
   removeSelectionnes,
   arrayYear,
   yearMin,
-  yearMax,
+  getModalites,
   keyGen,
 } from "../components/mapFunctions";
 
@@ -63,16 +63,6 @@ const createShowLayers = (data) => {
 // ----------------------------------------------------
 // FONCTIONS DE GESTION DE LA REPRESENTATION GRAPHIQUE
 // ----------------------------------------------------
-
-const colorScales = (data, colors, year) => {
-  const set = Array.from(
-    new Set(
-      data.MODALITES.filter((d) => d.ANNEE.includes(year)).map((d) => d.CODE)
-    )
-  );
-
-  return set.reduce((obj, k, i) => ({ ...obj, [k]: colors[i] }), {});
-};
 
 const getDesign = (module, layer) =>
   module.REPRESENTATION.DESIGN.filter(
@@ -182,18 +172,20 @@ const Map = ({ module, data, center }) => {
           <Events />
         </MapContainer>
       </div>
-
-      <SliderMap years={years} setShowYear={setShowYear} />
+      {years.length > 1 && (
+        <SliderMap years={years} setShowYear={setShowYear} />
+      )}
 
       <div id={"legend" + idKey} className="legend-container">
+        {layers.map(
+          (layer) =>
+            getDesign(module, layer).SHOWLEGEND && (
+              <LegendMap layer={layer} idKey={idKey} />
+            )
+        )}
         {/* {Object.keys(colorScales(data, colors, year)).map((clef, idx) => {
           return (
-            <LegendMap
-              colors={colorScales(data, colors, year)}
-              clef={clef}
-              idx={idx}
-              data={data}
-            />
+            
           );
         })} */}
       </div>
