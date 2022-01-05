@@ -111,14 +111,14 @@ const updateVoisinnage = async (
   // Téléchargement des données
   let data = await apiVoisinnage(API_URL, map);
 
-  // Suppression des villes déjà sélectionnées + correction coordonnées
-  const ids = geographies.map((d) => d.properties.CODGEO[0]);
-  data = data
-    .filter((d) => !ids.some((a) => a.includes(d.properties.CODGEO[0])))
-    .map((d) => {
-      d.geometry.coordinates = [d.geometry.coordinates];
-      return d;
-    });
+  // Suppression des villes déjà sélectionnées
+  const ids = geographies.map((d) => d.properties.CODGEO);
+  data = data.filter((d) => !ids.some((a) => a.includes(d.properties.CODGEO)));
+  // + correction coordonnées
+  // .map((d) => {
+  //   d.geometry.coordinates = d.geometry.coordinates;
+  //   return d;
+  // });
   //  Mise a jour state voisinnage
   setVoisinnage(data);
 
@@ -126,12 +126,12 @@ const updateVoisinnage = async (
   let ajout = null;
   let suppr = null;
   if (voisinnage_start.length !== 0) {
-    const id_start = voisinnage_start.map((d) => d.properties.CODGEO[0]);
-    const id_end = data.map((d) => d.properties.CODGEO[0]);
+    const id_start = voisinnage_start.map((d) => d.properties.CODGEO);
+    const id_end = data.map((d) => d.properties.CODGEO);
     suppr = voisinnage_start.filter(
-      (a) => !id_end.includes(a.properties.CODGEO[0])
+      (a) => !id_end.includes(a.properties.CODGEO)
     );
-    ajout = data.filter((a) => !id_start.includes(a.properties.CODGEO[0]));
+    ajout = data.filter((a) => !id_start.includes(a.properties.CODGEO));
   } else {
     ajout = data;
     suppr = [];
@@ -254,7 +254,7 @@ const majLegendeVille = (map) => {
 
 const removeVoisinnage = (map, voisinnages_suppr) => {
   if (voisinnages_suppr && voisinnages_suppr.length > 0) {
-    const ids = voisinnages_suppr.map((d) => id_gen(d.properties.CODGEO[0]));
+    const ids = voisinnages_suppr.map((d) => id_gen(d.properties.CODGEO));
     ids.map((d) => d3SelectVoisinnage(map).select(`#${d}`).remove());
   } else {
     d3SelectVoisinnage(map).remove();
@@ -313,7 +313,7 @@ const getVoisinnage = async (
       .data(data)
       .enter()
       .append("g")
-      .attr("id", (d) => id_gen(d.properties.CODGEO[0]))
+      .attr("id", (d) => id_gen(d.properties.CODGEO))
       // .attr('class','leaflet-interactive')
       .attr("pointer-events", "all")
       .on("mouseover", (d) => {
@@ -351,7 +351,7 @@ const getVoisinnage = async (
       .attr("class", "legendVoisin")
       .attr("visibility", ZOOM > 10 ? "visible" : "hidden")
       .attr("font-size", zoomToTextSize(map))
-      .text((d) => d.properties.LIBGEO[0])
+      .text((d) => d.properties.LIBGEO)
       .attr("x", function (d) {
         return pathCreator.centroid(d)[0];
       })
@@ -425,7 +425,7 @@ const addShapeToGeo = async (t, year, API_URL, setGeographies) => {
   const data = await apiShape(API_URL, t, year);
 
   let data_clean = data[0];
-  data_clean.geometry.coordinates = [data_clean.geometry.coordinates];
+  // data_clean.geometry.coordinates = [data_clean.geometry.coordinates];
   setGeographies((prev) => [...prev, data_clean]);
 };
 
@@ -465,7 +465,7 @@ const updateShape = (
     .data(geographies)
     .enter()
     .append("g")
-    .attr("id", (d) => id_gen(d.properties.CODGEO[0]))
+    .attr("id", (d) => id_gen(d.properties.CODGEO))
     // .attr('class','leaflet-interactive')
     .attr("pointer-events", "all")
     .on("mouseover", (d) => {
@@ -502,7 +502,7 @@ const updateShape = (
     .attr("class", "legendTerritoire-text")
     .attr("visibility", ZOOM > 9 ? "visible" : "hidden")
     .attr("font-size", zoomToTextSize(map))
-    .text((d) => d.properties.LIBGEO[0])
+    .text((d) => d.properties.LIBGEO)
     .attr("x", function (d) {
       return pathCreator.centroid(d)[0];
     })
@@ -553,24 +553,18 @@ const removerTerritoryFromAnalysis = (e, t, setTerritories, setGeographies) => {
 
 // Function setting the naming of locations
 const namingLocation = (t, shorten = false, territories) => {
-  if ((t.LIBGEO[0].length > 10) & (shorten === true)) {
+  if ((t.LIBGEO.length > 10) & (shorten === true)) {
     if (territories.length > 1) {
       return (
-        t.LIBGEO[0].substring(0, 6) +
-        "... (" +
-        t.CODGEO[0].substring(0, 2) +
-        ")"
+        t.LIBGEO.substring(0, 6) + "... (" + t.CODGEO.substring(0, 2) + ")"
       );
     } else {
       return (
-        t.LIBGEO[0].substring(0, 10) +
-        "... (" +
-        t.CODGEO[0].substring(0, 2) +
-        ")"
+        t.LIBGEO.substring(0, 10) + "... (" + t.CODGEO.substring(0, 2) + ")"
       );
     }
   } else {
-    return t.LIBGEO[0] + " (" + t.CODGEO[0].substring(0, 2) + ")";
+    return t.LIBGEO + " (" + t.CODGEO.substring(0, 2) + ")";
   }
 };
 

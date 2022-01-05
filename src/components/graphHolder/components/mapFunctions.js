@@ -8,8 +8,8 @@ import { width } from "@mui/system";
 // --------------------------------------------
 
 const colors = [
-  "#001219",
   "#005f73",
+  "#001219",
   "#0a9396",
   "#94d2bd",
   "#e9d8a6",
@@ -36,7 +36,7 @@ const setColorsLegend = (layer, colors) => {
   // Clé = modalité, valeur = couleur
 
   const modalites = getModalites(layer);
-  const colorsArray = setColorsScales(layer, colors);
+  const colorsArray = setColorsScales(modalites, colors);
   return modalites.reduce((obj, k, i) => ({ ...obj, [k]: colorsArray[i] }), {});
 };
 
@@ -178,7 +178,9 @@ const getLegend = (layer, geom) => {
   const legend = layer.MODALITES.filter(
     (c) => c.CODE.toString() === geom.properties.VALEUR.toString()
   );
-  return legend[0] !== undefined ? legend[0].LIBELLE : "";
+  return legend[0] !== undefined
+    ? layer.VARIABLE.LIBELLE + " : " + legend[0].LIBELLE
+    : "";
 };
 
 const getTerritory = (geom) => {
@@ -309,7 +311,7 @@ const updateShape = (layer, map, id, design) => {
 
   if (layer) {
     const colorsLegend = setColorsLegend(layer, colors);
-
+    console.log(colorsLegend);
     // Ajout des territoires à la carte
     let g = d3SelectTerritoire(id, keyGen(layer.VARIABLE.CODE));
     let groupShapes = g

@@ -36,6 +36,7 @@ const updateData = async (
   }
   setData(results);
   setLoad(false);
+  console.log(results);
 };
 
 // const getGeo = async (API_URL, data, setGeo) => {
