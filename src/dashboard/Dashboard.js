@@ -5,11 +5,11 @@ import "./Dashboard.css";
 import { useState, useRef } from "react";
 
 // TV Components
-import NameTableau from "../components/nameTableau/NameTableau";
-import Localisation from "../components/localisation/Localisation";
-import ModuleSelecteur from "../components/modules/ModuleSelecteur";
-import ModulesEtiquettes from "../components/modules/ModulesEtiquettes";
-import ZoneModules from "../components/zoneModules/ZoneModules";
+import NameTableau from "./components/nameTableau/NameTableau";
+import Localisation from "./components/localisation/Localisation";
+import ModuleSelecteur from "./components/modules/ModuleSelecteur";
+import ModulesEtiquettes from "./components/modules/ModulesEtiquettes";
+import ZoneModules from "./components/zoneModules/ZoneModules";
 
 const Dashboard = ({ API_URL }) => {
   const [territories, setTerritories] = useState([]); // Name of territories selected

@@ -18,12 +18,12 @@ const LegendMap = ({ layer, idKey }) => {
   const modalites = layer.MODALITES;
 
   return (
-    <div key={"legend-" + idKey + "-" + keyGen(layer.VARIABLE.CODE)}>
+    <div key={"legend-" + idKey + "-" + keyGen(layer)}>
       <p>{layer.VARIABLE.LIBELLE}:</p>
       {Object.keys(couleurs).map((mod, idx) => {
         return (
           <LegendItem
-            idKey={idKey + "-" + keyGen(layer.VARIABLE.CODE)}
+            idKey={idKey + "-" + keyGen(layer)}
             couleurs={couleurs}
             mod={mod}
             modalite={modalites.filter((c) => c.CODE === mod)[0]}

@@ -24,7 +24,7 @@ const getModalites = (layer) =>
   // Fonction qui récupère les modalités du layer
   Array.from(
     new Set({ ...layer }.GEOMETRY.map((geom) => geom.properties.VALEUR))
-  );
+  ).sort();
 
 const setColorsScales = (modalites, colors) => {
   // Fonction qui crée un Array de la taille du nombre de modalités
@@ -60,18 +60,40 @@ const setFill = (shapes, design, colorsLegend) => {
   //   return shapes.attr("stroke", "transparent").attr("stroke-width", "-10");
   // }
 };
+
+const setStroke = (shapes, design, colorsLegend) => {
+  // Fonction qui définit les contours
+  const contour = design.CONTOUR;
+
+  if (contour === "EPAIS") {
+    return shapes.attr("stroke", "#0aaacb").attr("stroke-width", "3");
+  } else if (contour === "FIN") {
+    return shapes
+      .attr("stroke", "rgba(223, 223, 223, 0.76)")
+      .attr("stroke-width", "1");
+  } else if (contour === "NONE") {
+    return shapes.attr("stroke", "transparent").attr("stroke-width", "-10");
+  } else if (contour === "MODALITE") {
+    return shapes
+      .attr("stroke", (geom) => setColorGeom(geom, colorsLegend))
+      .attr("stroke-width", "1");
+  }
+};
+
 // --------------------------------------------
 // FONCTIONS DE CLE
 // --------------------------------------------
-
-const keyGen = (nom) =>
-  // Fonction qui génère une clé à partir d'un string
-  nom
+const simplify = (string) =>
+  string
     .replace(/\s/g, "")
     .toLowerCase()
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
     .replace(/[^a-zA-Z]/g, "");
+
+const keyGen = (layer) =>
+  // Fonction qui génère une clé à partir d'un string
+  simplify(layer.VARIABLE.CODE) + "-lay" + layer.LAYER;
 
 const id_gen = (CODGEO) =>
   CODGEO.split("")
@@ -125,6 +147,23 @@ const yearMax = (years) => Math.max(...years);
 // ----------------------------------------------------
 //  FONCTIONS DE GESTION DES ELEMENTS DE CARTOGRAPHIE
 // ----------------------------------------------------
+const d3SelectToolTipArea = (idmap) => {
+  let g = d3.select("#" + idmap);
+  if (g.select("svg").empty()) {
+    g = g.append("svg").select("svg");
+  } else {
+    g = g.select("svg");
+  }
+  // if (g.select("#" + idmap + "-tooltip").empty()) {
+  //   return g
+  //     .append("g")
+  //     .attr("id", idmap + "-tooltip")
+  //     .attr("class", "leaflet-zoom-hide");
+  // } else {
+  //   return g.select("#" + idmap + "-tooltip");
+  // }
+  return g;
+};
 
 const d3SelectTerritoire = (idmap, idlayer) => {
   // Fonction qui sélectionne les territoires
@@ -148,6 +187,7 @@ const d3SelectTerritoire = (idmap, idlayer) => {
 
 const removeSelectionnes = (idmap, idlayer) => {
   d3SelectTerritoire(idmap, idlayer).remove();
+  d3SelectToolTipArea(idmap).select(".tooltip").remove();
 };
 
 const zoomToTextSize = (map) => {
@@ -210,12 +250,7 @@ const getTranslate = (pathCreator, geom, e, layer) => {
 };
 
 const removeToolTip = (g, layer, geom) => {
-  g.select(
-    "#tooltip-" +
-      keyGen(layer.VARIABLE.CODE) +
-      "-" +
-      id_gen(geom.properties.CODGEO)
-  )
+  g.select("#tooltip-" + keyGen(layer) + "-" + id_gen(geom.properties.CODGEO))
     .style("opacity", "0")
     .remove();
 };
@@ -225,16 +260,14 @@ const toolTip = (g, layer, geom, translate) => {
     .append("g")
     .attr(
       "id",
-      "tooltip-" +
-        keyGen(layer.VARIABLE.CODE) +
-        "-" +
-        id_gen(geom.properties.CODGEO)
+      "tooltip-" + keyGen(layer) + "-" + id_gen(geom.properties.CODGEO)
     )
     .attr("transform", translate)
     .style("transition", "opacity 0.3s ease")
     .style("opacity", "100")
     .attr("width", setWidth(geom, layer))
-    .attr("height", "50px");
+    .attr("height", "50px")
+    .attr("class", "tooltip");
 
   toolTip
     .append("rect")
@@ -274,21 +307,6 @@ const toolTip = (g, layer, geom, translate) => {
   return toolTip;
 };
 
-const setStroke = (shapes, design) => {
-  // Fonction qui définit les contours
-  const contour = design.CONTOUR;
-
-  if (contour === "EPAIS") {
-    return shapes.attr("stroke", "#0aaacb").attr("stroke-width", "4");
-  } else if (contour === "FIN") {
-    return shapes
-      .attr("stroke", "rgba(223, 223, 223, 0.76)")
-      .attr("stroke-width", "1");
-  } else if (contour === "NONE") {
-    return shapes.attr("stroke", "transparent").attr("stroke-width", "-10");
-  }
-};
-
 const updateShape = (layer, map, id, design) => {
   // Fonction qui charge les territoires sélectionnés
   const ZOOM = zoomInit(map);
@@ -307,26 +325,24 @@ const updateShape = (layer, map, id, design) => {
   //----------------------
 
   // Suppression des territoires
-  removeSelectionnes(id, keyGen(layer.VARIABLE.CODE));
+  removeSelectionnes(id, keyGen(layer));
 
   if (layer) {
     const colorsLegend = setColorsLegend(layer, colors);
     console.log(colorsLegend);
     // Ajout des territoires à la carte
-    let g = d3SelectTerritoire(id, keyGen(layer.VARIABLE.CODE));
+    let g = d3SelectTerritoire(id, keyGen(layer));
+    let tltip = d3SelectToolTipArea(id);
     let groupShapes = g
       .selectAll("g")
-      .attr("id", "shapes-" + keyGen(layer.VARIABLE.CODE))
+      .attr("id", "shapes-" + keyGen(layer))
       .data(layer.GEOMETRY)
       .enter()
       .append("g")
       .attr(
         "id",
         (geom) =>
-          "shape-" +
-          keyGen(layer.VARIABLE.CODE) +
-          "-" +
-          id_gen(geom.properties.CODGEO)
+          "shape-" + keyGen(layer) + "-" + id_gen(geom.properties.CODGEO)
       )
       .attr("class", "leaflet-interactive")
       .attr("pointer-events", "auto");
@@ -335,23 +351,28 @@ const updateShape = (layer, map, id, design) => {
       .append("path")
       .attr("fill-opacity", 0.8)
       .attr("pointer-events", "auto")
-      .attr("class", ` leaflet-interactive`)
-      .attr("d", pathCreator)
-      .on("mouseover", (e) => {
-        d3.select(e.target).style("filter", "brightness(200%)");
-        toolTip(
-          g,
-          layer,
-          e.target.__data__,
-          getTranslate(pathCreator, e.target.__data__, e, layer)
-        );
-      })
-      .on("mouseout", (e) => {
-        d3.select(e.target).style("filter", "brightness(100%)");
-        removeToolTip(g, layer, e.target.__data__);
-      });
+      .attr("d", pathCreator);
 
-    setStroke(shapes, design);
+    if (design.CLICKABLE) {
+      shapes
+        .attr("class", ` leaflet-interactive`)
+
+        .on("mouseover", (e) => {
+          d3.select(e.target).style("filter", "brightness(200%)");
+          toolTip(
+            tltip,
+            layer,
+            e.target.__data__,
+            getTranslate(pathCreator, e.target.__data__, e, layer)
+          );
+        })
+        .on("mouseout", (e) => {
+          d3.select(e.target).style("filter", "brightness(100%)");
+          removeToolTip(tltip, layer, e.target.__data__);
+        });
+    }
+
+    setStroke(shapes, design, colorsLegend);
     setFill(shapes, design, colorsLegend);
     return shapes.exit().remove();
   }
@@ -365,6 +386,7 @@ export {
   yearMin,
   keyGen,
   getModalites,
+  simplify,
   colors,
   setColorsLegend,
 };

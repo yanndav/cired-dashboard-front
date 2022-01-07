@@ -12,16 +12,17 @@ const VariableSelectItem = ({ show, layer, setShowLayers }) => {
     <>
       <span
         className="btn-tv-color btn-small ft-0-8 italic"
-        key={"var-" + keyGen(layer.VARIABLE.CODE)}
+        key={"var-" + keyGen(layer)}
         ref={legendRef}
       >
         <input
           type="checkbox"
-          defaultChecked={show[layer.VARIABLE.CODE]}
+          defaultChecked={show["l" + layer.LAYER.toString()]}
           onChange={() =>
             setShowLayers({
               ...show,
-              [layer.VARIABLE.CODE]: !show[layer.VARIABLE.CODE],
+              ["l" + layer.LAYER.toString()]:
+                !show["l" + layer.LAYER.toString()],
             })
           }
         ></input>

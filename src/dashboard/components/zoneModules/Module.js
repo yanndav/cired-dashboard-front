@@ -32,6 +32,7 @@ const updateData = async (
     });
 
     const data = await response.json();
+    data["LAYER"] = instru.LAYER;
     results.push(data);
   }
   setData(results);
@@ -78,7 +79,7 @@ const Module = ({ module, geographies, center, API_URL }) => {
     updateData(
       API_URL,
       geographies.map((c) => {
-        return { CODGEO: c.properties.CODGEO[0], NIVGEO: c.properties.TYPE };
+        return { CODGEO: c.properties.CODGEO, NIVGEO: c.properties.TYPE };
       }),
       module.DONNEES,
       graphType,
@@ -91,7 +92,7 @@ const Module = ({ module, geographies, center, API_URL }) => {
     updateData(
       API_URL,
       geographies.map((c) => {
-        return { CODGEO: c.properties.CODGEO[0], NIVGEO: c.properties.TYPE };
+        return { CODGEO: c.properties.CODGEO, NIVGEO: c.properties.TYPE };
       }),
       module.DONNEES,
       graphType,

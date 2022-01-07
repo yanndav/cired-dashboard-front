@@ -33,6 +33,7 @@ import {
   yearMin,
   getModalites,
   keyGen,
+  simplify,
 } from "../components/mapFunctions";
 
 //--------------------------------------------------
@@ -42,7 +43,7 @@ import {
 const layersToShow = (LAYERS, year, showLayers) => {
   const newData = [...LAYERS];
   const newData2 = newData
-    .filter((layer) => showLayers[layer.VARIABLE.CODE]) // garde les bons layers
+    .filter((layer) => showLayers["l" + layer.LAYER.toString()]) // garde les bons layers
     .map((layer2) => {
       const newLayer = { ...layer2 };
       const tempgeo = newLayer.GEOMETRY.filter(
@@ -56,7 +57,7 @@ const layersToShow = (LAYERS, year, showLayers) => {
 const createShowLayers = (data) => {
   const obj = {};
   // Fonction qui crée le dictionnaire des layers à montrer ou pas
-  data.map((layer) => (obj[layer.VARIABLE.CODE] = true));
+  data.map((layer) => (obj["l" + layer.LAYER.toString()] = true));
   return obj;
 };
 
@@ -65,16 +66,14 @@ const createShowLayers = (data) => {
 // ----------------------------------------------------
 
 const getDesign = (module, layer) =>
-  module.REPRESENTATION.DESIGN.filter(
-    (c) => c.VARIABLE === layer.VARIABLE.CODE
-  )[0];
+  module.REPRESENTATION.DESIGN.filter((c) => c.LAYER === layer.LAYER)[0];
 
 const Map = ({ module, data, center }) => {
   // ----------------------------------------------------
   // CONSTANTES
   // ----------------------------------------------------
 
-  const idKey = keyGen(module.NOM); //key of the map
+  const idKey = simplify(module.NOM); //key of the map
   const years = arrayYear(data);
 
   // ----------------------------------------------------
@@ -112,34 +111,36 @@ const Map = ({ module, data, center }) => {
 
   useEffect(() => {
     layers.length === 0 &&
-      data.map((layer) =>
-        removeSelectionnes(idKey, keyGen(layer.VARIABLE.CODE))
-      );
+      data.map((layer) => removeSelectionnes(idKey, keyGen(layer)));
 
     map &&
-      layers.map((layer) =>
-        updateShape(layer, map, idKey, getDesign(module, layer))
-      );
+      layers
+        .sort((a, b) => b.LAYER - a.LAYER)
+        .map((layer) =>
+          updateShape(layer, map, idKey, getDesign(module, layer))
+        );
   }, [layers]);
 
   const Events = () => {
     const map = useMapEvents({
       zoomstart: (e) => {
-        data.map((layer) =>
-          removeSelectionnes(idKey, keyGen(layer.VARIABLE.CODE))
-        );
+        data.map((layer) => removeSelectionnes(idKey, keyGen(layer)));
       },
       dragend: (e) => {
         layers &&
-          layers.map((layer) =>
-            updateShape(layer, map, idKey, getDesign(module, layer))
-          );
+          layers
+            .sort((a, b) => b.LAYER - a.LAYER)
+            .map((layer) =>
+              updateShape(layer, map, idKey, getDesign(module, layer))
+            );
       },
       zoomend: (e) => {
         layers &&
-          layers.map((layer) =>
-            updateShape(layer, map, idKey, getDesign(module, layer))
-          );
+          layers
+            .sort((a, b) => b.LAYER - a.LAYER)
+            .map((layer) =>
+              updateShape(layer, map, idKey, getDesign(module, layer))
+            );
       },
     });
     return null;

@@ -1,6 +1,6 @@
 /* PARAMETRES PROPRE AU MODULE DE LOCALISATION */
 /* Import des variables: */
-@import "../../index.css";
+@import "../../../index.css";
 
 .module-localisation {
   transition: width ease 0.5s;

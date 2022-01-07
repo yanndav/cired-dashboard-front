@@ -131,7 +131,7 @@ const Localisation = ({
 
             {/* Liste des territoires sélectionnés */}
             <p className="bolder">
-              📍 Territoires sélectionnées{" "}
+              📍 Territoires sélectionnés{" "}
               {territories.length > 0 && (
                 <span className="btn-tv-color btn-tiny">
                   {territories.length}

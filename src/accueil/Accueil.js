@@ -1,6 +1,6 @@
 import "./Accueil.css";
 
-import Header from "../components/header/Header";
+import Header from "../app/components/header/Header";
 import { NavLink } from "react-router-dom";
 
 const Accueil = () => {
@@ -11,11 +11,11 @@ const Accueil = () => {
         <div class="flx-column flx-gap-big">
           <div>
             <h2 className="ft-2-5">
-              Créez un tableau de bord des évolutions de votre territoire.
+              Créez un tableau de bord des données de votre territoire.
             </h2>
             <h3>
               À partir de sources de données officielles et de savoirs experts,
-              nous décrivons, modélisons et expliquons les transitions en cours
+              nous décrivons, modélisons et analysons les transitions en cours
               sur votre territoire.
             </h3>
           </div>

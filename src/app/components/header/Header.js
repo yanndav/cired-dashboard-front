@@ -3,7 +3,7 @@ import "./Header.css";
 
 // Modules
 import { NavLink, useLocation } from "react-router-dom";
-import ConnectIcon from "../../userBoard/components/connectIcon/ConnectIcon";
+import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon";
 
 import { useState } from "react";
 
