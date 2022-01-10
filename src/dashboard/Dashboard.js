@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// -- PAGE CENTRALE DU TABLEAU DE BORD
+// -- Décembre 2021
+// -----------------------------------------------------------------------
+
+// IMPORTATIONS -------------------------------------
 // Styling
 import "./Dashboard.css";
 
@@ -10,6 +16,8 @@ import Localisation from "./components/localisation/Localisation";
 import ModuleSelecteur from "./components/modules/ModuleSelecteur";
 import ModulesEtiquettes from "./components/modules/ModulesEtiquettes";
 import ZoneModules from "./components/zoneModules/ZoneModules";
+
+// COMPOSANT -------------------------------------
 
 const Dashboard = ({ API_URL }) => {
   const [territories, setTerritories] = useState([]); // Name of territories selected

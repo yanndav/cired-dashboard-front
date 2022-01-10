@@ -2,10 +2,7 @@
 import "../Localisation.css";
 import { useEffect, useState } from "react";
 
-import {
-  namingLocation,
-  removerTerritoryFromAnalysis,
-} from "../LocalisationFunctions";
+import { namingLocation } from "../LocalisationFunctions";
 
 import { MdKeyboardArrowUp } from "react-icons/md";
 

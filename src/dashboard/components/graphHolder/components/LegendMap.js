@@ -1,17 +1,8 @@
 import React from "react";
-import { useState, useRef } from "react";
 
 import LegendItem from "./LegendItem";
 
 import { colors, keyGen, setColorsLegend } from "./mapFunctions";
-
-// const getModalites = (data, clef) => {
-//   let code = data.MODALITES.filter((c) => c.CODE === clef);
-//   console.log(clef);
-//   if (code) {
-//     return code[0];
-//   }
-// };
 
 const LegendMap = ({ layer, idKey }) => {
   const couleurs = setColorsLegend(layer, colors);
@@ -21,12 +12,18 @@ const LegendMap = ({ layer, idKey }) => {
     <div key={"legend-" + idKey + "-" + keyGen(layer)}>
       <p>{layer.VARIABLE.LIBELLE}:</p>
       {Object.keys(couleurs).map((mod, idx) => {
+        console.log(mod);
+        console.log(modalites);
+        console.log(modalites.filter((c) => c.CODE == mod));
+
         return (
           <LegendItem
             idKey={idKey + "-" + keyGen(layer)}
             couleurs={couleurs}
             mod={mod}
-            modalite={modalites.filter((c) => c.CODE === mod)[0]}
+            modalite={
+              modalites.filter((c) => c.CODE.toString() === mod.toString())[0]
+            }
             idx={idx}
           />
         );

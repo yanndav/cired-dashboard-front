@@ -1,7 +1,14 @@
-import "./Accueil.css";
+// -----------------------------------------------------------------------
+// -- PAGE D'ACCUEIL DE TV
+// -- Décembre 2021
+// -----------------------------------------------------------------------
 
+// IMPORTATIONS -----------------------------
+import "./Accueil.css";
 import Header from "../app/components/header/Header";
 import { NavLink } from "react-router-dom";
+
+// COMPOSANT --------------------------------
 
 const Accueil = () => {
   return (

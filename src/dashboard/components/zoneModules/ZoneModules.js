@@ -18,11 +18,11 @@ const ZoneModules = ({ selectedModules, geographies, center, API_URL }) => {
 
   return (
     <div className="mrg-20 flx-column flx-gap-small">
-      {geographies.length === 0 || modules.length == 0
-        ? `Sélectionnez ${geographies.length == 0 ? "un territoire" : ""} ${
-            geographies.length === 0 && modules.length == 0 ? "et " : ""
+      {geographies.length === 0 || modules.length === 0
+        ? `Sélectionnez ${geographies.length === 0 ? "un territoire" : ""} ${
+            geographies.length === 0 && modules.length === 0 ? "et " : ""
           } ${
-            modules.length == 0 ? "un module" : ""
+            modules.length === 0 ? "un module" : ""
           } pour générer votre tableau de bord`
         : modules.map((d) => {
             return (

@@ -15,7 +15,7 @@ const PopupSource = ({ sourceRef, texte, lien, setPop }) => {
         <p className="nom-base">
           {texte + "   "}
           {lien && (
-            <a href={lien} target="_blank">
+            <a href={lien} target="_blank" rel="noreferrer">
               <BiLink className="link-icon" size={17} />
             </a>
           )}

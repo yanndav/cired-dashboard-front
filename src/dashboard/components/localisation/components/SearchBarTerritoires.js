@@ -12,9 +12,7 @@ const SearchBarTerritoires = ({
   setParam,
   setQuery,
 }) => {
-  {
-    /* Search bar strictly speaking */
-  }
+  /* Search bar strictly speaking */
 
   return (
     <form

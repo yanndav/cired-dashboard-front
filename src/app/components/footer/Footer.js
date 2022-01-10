@@ -1,6 +1,13 @@
+// -----------------------------------------------------------------------
+// -- FOOTER DU SITE
+// -- Décembre 2021
+// -----------------------------------------------------------------------
+
+// IMPORTATIONS ------------------
 import React from "react";
 import "./Footer.css";
 
+// COMPOSANT ------------------
 const Footer = () => {
   return (
     <div className="footer-container">

@@ -3,8 +3,6 @@
 
 import { Slider } from "@mui/material";
 
-import { yearMin, yearMax } from "./mapFunctions";
-
 const SliderMap = ({ years, setShowYear }) => {
   // ------------------------------------------------
   // COMPOSANT QUI RETOURNE UN SLIDER DE SELECTION DE L'ANNEE
@@ -25,8 +23,6 @@ const SliderMap = ({ years, setShowYear }) => {
   function valueLabelFormat(value) {
     return marks.findIndex((mark) => mark.value === value) + 1;
   }
-
-  const yearmin = yearMin(years);
 
   const changeYear = (MARKS, value) => {
     setShowYear(MARKS.filter((c) => c.value === value)[0].label);

@@ -2,7 +2,6 @@
 //  IMPORTATIONS
 // ---------------------------
 // Map functions
-import { keyGen } from "./mapFunctions";
 import VariableSelectItem from "./VariableSelectItem";
 // react components
 import { useEffect, useState } from "react";
@@ -17,13 +16,6 @@ const VariablesSelect = ({ data, showLayers, setShowLayers }) => {
   useEffect(() => {
     setShow(showLayers);
   }, [showLayers]);
-
-  // const updateLayers = (show, layer) => {
-  //   const layert = show;
-  //   layert[layer.VARIABLE.CODE] = !show[layer.VARIABLE.CODE];
-  //   console.log(layert);
-  //   return layert;
-  // };
 
   return (
     <div className="flx-row flx-gap-small">

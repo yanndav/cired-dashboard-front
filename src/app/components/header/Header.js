@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// -- HEADER DU SITE
+// -- Décembre 2021
+// -----------------------------------------------------------------------
+
+// IMPORTATIONS ------------------------
 // Styling
 import "./Header.css";
 
@@ -7,6 +13,7 @@ import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon";
 
 import { useState } from "react";
 
+// COMPOSANT ------------------------
 const Header = () => {
   const [hover, setHover] = useState(false);
   const location = useLocation().pathname;

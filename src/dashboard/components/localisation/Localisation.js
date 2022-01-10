@@ -4,8 +4,6 @@ import "./Localisation.css";
 // React modules
 import { useState, useEffect } from "react";
 
-import L from "leaflet";
-
 // Import map function
 import TerritoriesSelected from "./components/TerritoriesSelected";
 import SearchBarTerritoires from "./components/SearchBarTerritoires";
@@ -36,7 +34,6 @@ const Localisation = ({
 }) => {
   // State variables
   const [query, setQuery] = useState(""); // La recherche de l'utilisateur
-  const [importParam, setImportParam] = useState(false); // ouvre/ferme module territoire
   const [suggestions, setSuggestions] = useState([]); //suggestions de villes
   const [nomZonage, setNomZonage] = useState(""); //Nom du zonage
   const [editZonage, setEditZonage] = useState(false); //ouvre/ferme edition zonage
@@ -66,12 +63,8 @@ const Localisation = ({
       );
       setRemove([]);
     }
-  }, [remove]);
+  }, [remove, geographies, map, setGeographies, setTerritories, territories]);
 
-  // useEffect(() => {
-  //   setImportParam(param);
-  //   console.log(param);
-  // }, [param]);
   return (
     <div
       className={`box module-localisation ${

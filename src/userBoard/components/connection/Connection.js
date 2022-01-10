@@ -1,14 +1,21 @@
-import Header from "../../../app/components/header/Header";
+// -----------------------------------------------------------------------
+// -- MODULE DE CONNEXION OU D'INSCRIPTION AU SITE
+// -- Décembre 2021
+// -----------------------------------------------------------------------
+
+// IMPORTATIONS --------------------------
+// Styling
 import "./Connection.css";
 
+// React hook
 import { useState } from "react";
 
+// COMPOSANT -----------------------------
 const Connection = () => {
   const [connect, setConnect] = useState(true);
 
   return (
     <>
-      {/* <Header/> */}
       <div className="container-connection">
         <div class="container-boutons">
           <span

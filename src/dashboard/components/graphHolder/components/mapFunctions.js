@@ -1,7 +1,6 @@
 import "leaflet/dist/leaflet.css";
-import L, { popup } from "leaflet";
+import L from "leaflet";
 import * as d3 from "d3";
-import { width } from "@mui/system";
 
 // --------------------------------------------
 // FONCTIONS DE LEGENDE
@@ -49,7 +48,7 @@ const setFill = (shapes, design, colorsLegend) => {
 
   if (remplissage === "MODALITE") {
     return shapes.attr("fill", (geom) => setColorGeom(geom, colorsLegend));
-  } else if (remplissage == "NONE") {
+  } else if (remplissage === "NONE") {
     return shapes.attr("fill", "transparent");
   }
   // else if (contour === "FIN") {
@@ -190,29 +189,29 @@ const removeSelectionnes = (idmap, idlayer) => {
   d3SelectToolTipArea(idmap).select(".tooltip").remove();
 };
 
-const zoomToTextSize = (map) => {
-  // Fonction qui converti le niveau de zoom en taille de texte
-  let zoomMove = zoomInit(map);
-  if (zoomMove < 9) {
-    return "0em";
-  } else if (zoomMove === 9) {
-    return "0.7em";
-  } else if (zoomMove === 10) {
-    return "0.8em";
-  } else if (zoomMove === 11) {
-    return "1em";
-  }
-};
+// const zoomToTextSize = (map) => {
+//   // Fonction qui converti le niveau de zoom en taille de texte
+//   let zoomMove = zoomInit(map);
+//   if (zoomMove < 9) {
+//     return "0em";
+//   } else if (zoomMove === 9) {
+//     return "0.7em";
+//   } else if (zoomMove === 10) {
+//     return "0.8em";
+//   } else if (zoomMove === 11) {
+//     return "1em";
+//   }
+// };
 
 // Fonctions outils ---------------
-const zoomInit = (map) => {
-  // Function to retrieve the zoom level
-  if (map) {
-    return map.getZoom();
-  } else {
-    return 4.5;
-  }
-};
+// const zoomInit = (map) => {
+//   // Function to retrieve the zoom level
+//   if (map) {
+//     return map.getZoom();
+//   } else {
+//     return 4.5;
+//   }
+// };
 
 const getLegend = (layer, geom) => {
   const legend = layer.MODALITES.filter(
@@ -309,7 +308,7 @@ const toolTip = (g, layer, geom, translate) => {
 
 const updateShape = (layer, map, id, design) => {
   // Fonction qui charge les territoires sélectionnés
-  const ZOOM = zoomInit(map);
+  // const ZOOM = zoomInit(map);
 
   // Fonctions pour D3 et leaflet----------------------
 
@@ -329,7 +328,6 @@ const updateShape = (layer, map, id, design) => {
 
   if (layer) {
     const colorsLegend = setColorsLegend(layer, colors);
-    console.log(colorsLegend);
     // Ajout des territoires à la carte
     let g = d3SelectTerritoire(id, keyGen(layer));
     let tltip = d3SelectToolTipArea(id);

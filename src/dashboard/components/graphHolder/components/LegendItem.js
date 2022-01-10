@@ -8,6 +8,7 @@ const LegendItem = ({ idKey, couleurs, mod, modalite, idx }) => {
   const legendRef = useRef(null);
   const [pop, setPop] = useState(false);
 
+  console.log(modalite);
   return (
     <div className="legendgroup" key={"legitem-" + idKey + "-" + idx}>
       <div

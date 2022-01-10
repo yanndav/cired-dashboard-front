@@ -56,7 +56,7 @@ const LocalisationMap = ({
         setRemove
       );
       setCount(geographies.length);
-      geographies.length != 0 && map.panTo(centroid(geographies));
+      geographies.length !== 0 && map.panTo(centroid(geographies));
     }
 
     if (geographies.length === 1 && count === 0) {

@@ -1,5 +1,5 @@
 import "leaflet/dist/leaflet.css";
-import L, { popup } from "leaflet";
+import L from "leaflet";
 import * as d3 from "d3";
 
 import "./components/LocalisationMap.css";
@@ -29,29 +29,29 @@ const num_to_let = (num) => {
   }
 };
 
-const let_to_num = (lett) => {
-  if (lett === "z") {
-    return "0";
-  } else if (lett === "u") {
-    return "1";
-  } else if (lett === "d") {
-    return "2";
-  } else if (lett === "t") {
-    return "3";
-  } else if (lett === "q") {
-    return "4";
-  } else if (lett === "c") {
-    return "5";
-  } else if (lett === "s") {
-    return "6";
-  } else if (lett === "S") {
-    return "7";
-  } else if (lett === "h") {
-    return "8";
-  } else if (lett === "n") {
-    return "9";
-  }
-};
+// const let_to_num = (lett) => {
+//   if (lett === "z") {
+//     return "0";
+//   } else if (lett === "u") {
+//     return "1";
+//   } else if (lett === "d") {
+//     return "2";
+//   } else if (lett === "t") {
+//     return "3";
+//   } else if (lett === "q") {
+//     return "4";
+//   } else if (lett === "c") {
+//     return "5";
+//   } else if (lett === "s") {
+//     return "6";
+//   } else if (lett === "S") {
+//     return "7";
+//   } else if (lett === "h") {
+//     return "8";
+//   } else if (lett === "n") {
+//     return "9";
+//   }
+// };
 
 const id_gen = (CODGEO) =>
   CODGEO.split("")
@@ -363,8 +363,8 @@ const getVoisinnage = async (
 };
 
 // Function to correct lgtltd reversion
-const revertLtLg = (coordinates) =>
-  coordinates.map((c) => [parseFloat(c[1]), parseFloat(c[0])]);
+// const revertLtLg = (coordinates) =>
+//   coordinates.map((c) => [parseFloat(c[1]), parseFloat(c[0])]);
 
 // Functrion to get center
 const centroid = (territories) => {

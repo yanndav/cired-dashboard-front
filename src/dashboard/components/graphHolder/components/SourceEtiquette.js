@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import "../../zoneModules/ZoneModules.css";
 import PopupSource from "./PopupSource";
 
@@ -7,9 +7,6 @@ const SourceEtiquette = ({ source }) => {
   const sourceRef = useRef(null);
   const [pop, setPop] = useState(false);
 
-  useEffect(() => {
-    console.log(sourceRef.current.offsetTop);
-  }, [pop]);
   return (
     <>
       <span

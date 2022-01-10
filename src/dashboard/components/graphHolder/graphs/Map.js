@@ -8,12 +8,6 @@ import "../../zoneModules/ZoneModules.css";
 // React components
 import React, { useState, useEffect } from "react";
 
-// import { Slider } from "@mui/material";
-
-// D3 components
-import { sliderBottom } from "d3-simple-slider";
-import * as d3 from "d3";
-
 // Leaflet components
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -21,7 +15,6 @@ import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 
 // TV Components
 import LegendMap from "../components/LegendMap";
-import Sources from "../components/Sources";
 import SliderMap from "../components/SliderMap";
 import VariablesSelect from "../components/VariablesSelect";
 
@@ -31,7 +24,6 @@ import {
   removeSelectionnes,
   arrayYear,
   yearMin,
-  getModalites,
   keyGen,
   simplify,
 } from "../components/mapFunctions";
@@ -101,13 +93,13 @@ const Map = ({ module, data, center }) => {
           updateShape(layer, map, idKey, getDesign(module, layer))
         );
     }
-  }, [map]);
+  }, [map, center, idKey, layers, module]);
 
   useEffect(() => {
     // Mise à jour des données affichées
     // Fonction année + variable sélectionnée
     setLayers(layersToShow(data, showYear, showLayers));
-  }, [showLayers, showYear]);
+  }, [showLayers, showYear, data]);
 
   useEffect(() => {
     layers.length === 0 &&
@@ -119,7 +111,7 @@ const Map = ({ module, data, center }) => {
         .map((layer) =>
           updateShape(layer, map, idKey, getDesign(module, layer))
         );
-  }, [layers]);
+  }, [layers, data, idKey, map, module]);
 
   const Events = () => {
     const map = useMapEvents({
@@ -177,7 +169,9 @@ const Map = ({ module, data, center }) => {
         <SliderMap years={years} setShowYear={setShowYear} />
       )}
 
-      <div id={"legend" + idKey} className="legend-container">
+      <div id={"legend" + idKey} className="flx-column">
+        {console.log(module)}
+        {console.log(layers)}
         {layers.map(
           (layer) =>
             getDesign(module, layer).SHOWLEGEND && (
@@ -195,43 +189,3 @@ const Map = ({ module, data, center }) => {
 };
 
 export default Map;
-
-// -----------------------
-// POUBELLE
-
-// const sources = (sources, year) => {
-//   const temp = sources.filter((c) => c.ANNEE.includes(year));
-//   if (temp.length === 1) {
-//     console.log(temp);
-//     return (
-//       <p>
-//         Source: <span>{temp[0].AUTEUR}</span>
-//       </p>
-//     );
-//   }
-//   if (temp.length === 0) {
-//     return "Pas de source déclarée 🤔";
-//   } else {
-//     console.log(temp);
-//     return (
-//       "Sources: " +
-//       temp.map((d, i) =>
-//         temp.length > i ? d.AUTEUR + ", " : "et " + d.AUTEUR
-//       )
-//     );
-//   }
-// };
-
-// const updatedGeographies = (data, geographies, year, showLayers) => {
-//   // Récupère les données pour la bonne année
-//   const toShow = dataToShow(data, year, showLayers);
-
-//   // return geographies.map((d) => {
-//   //   let codgeo = d.properties.CODGEO[0].toString();
-//   //   let to_add = toShow.filter((c) => c.CODGEO === codgeo);
-//   //   if (to_add[0]) {
-//   //     d.properties.VALEUR = to_add[0].VALEUR;
-//   //   }
-//   //   return d;
-//   // });
-// };

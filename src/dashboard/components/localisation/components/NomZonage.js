@@ -4,14 +4,13 @@ import "../Localisation.css";
 import { FaSave } from "react-icons/fa";
 
 const NomZonage = ({ editZonage, setEditZonage, nomZonage, setNomZonage }) => {
-  {
-    /* Nommer le découpage territorial */
-  }
+  /* Nommer le découpage territorial */
+
   return (
     <div className="btn-tv-bg-color pdg-box width-ctt">
       {!editZonage ? (
         <div onClick={() => setEditZonage(true)} className="hoverItalic">
-          {nomZonage == "" ? "Nommer et sauvegarder ce zonage" : nomZonage}
+          {nomZonage === "" ? "Nommer et sauvegarder ce zonage" : nomZonage}
         </div>
       ) : (
         <form

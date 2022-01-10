@@ -1,8 +1,14 @@
-import React from "react";
+// -----------------------------------------------------------------------
+// -- PAGE PERSONNELLE DE L'UTILISATEUR
+// -- Décembre 2021
+// -----------------------------------------------------------------------
+
+// IMPORTATIONS ------------------------
 import Header from "../app/components/header/Header";
 import Connection from "./components/connection/Connection";
 import { useState, useEffect } from "react";
 
+// COMPOSANT ------------------------
 const UserBoard = ({ user }) => {
   const [userInfo, setUserInfo] = useState(user);
 
