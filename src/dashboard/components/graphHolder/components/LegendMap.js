@@ -1,34 +1,34 @@
-import React from "react";
-
 import LegendItem from "./LegendItem";
+
+import { useState, useEffect } from "react";
 
 import { colors, keyGen, setColorsLegend } from "./mapFunctions";
 
 const LegendMap = ({ layer, idKey }) => {
   const couleurs = setColorsLegend(layer, colors);
-  const modalites = layer.MODALITES;
+  console.log("le layer", layer["GEOMETRY"][0]);
+  const year = layer.GEOMETRY[0].properties.ANNEE;
 
   return (
     <div key={"legend-" + idKey + "-" + keyGen(layer)}>
       <p>{layer.VARIABLE.LIBELLE}:</p>
-      {Object.keys(couleurs).map((mod, idx) => {
-        console.log(mod);
-        console.log(modalites);
-        console.log(modalites.filter((c) => c.CODE == mod));
-
+      {couleurs.map((couleur, idx) => {
         return (
           <LegendItem
             idKey={idKey + "-" + keyGen(layer)}
-            couleurs={couleurs}
-            mod={mod}
+            couleur={couleur}
             modalite={
-              modalites.filter((c) => c.CODE.toString() === mod.toString())[0]
+              layer.MODALITES.filter(
+                (c) =>
+                  (c.CODE.toString() === couleur.CODE.toString()) &
+                  c.ANNEE.includes(year)
+              )[0]
             }
             idx={idx}
           />
         );
       })}
-      <hr className="sep-line" />
+      {/* <hr className="sep-line" /> */}
     </div>
   );
 };

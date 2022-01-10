@@ -13,8 +13,8 @@ import { useState, useRef } from "react";
 // TV Components
 import NameTableau from "./components/nameTableau/NameTableau";
 import Localisation from "./components/localisation/Localisation";
-import ModuleSelecteur from "./components/modules/ModuleSelecteur";
-import ModulesEtiquettes from "./components/modules/ModulesEtiquettes";
+import ModuleSelecteur from "./components/selecteurModules/ModuleSelecteur";
+import ModulesEtiquettes from "./components/selecteurModules/ModulesEtiquettes";
 import ZoneModules from "./components/zoneModules/ZoneModules";
 
 // COMPOSANT -------------------------------------

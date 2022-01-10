@@ -23,6 +23,7 @@ import {
   updateShape,
   removeSelectionnes,
   arrayYear,
+  layerYears,
   yearMin,
   keyGen,
   simplify,
@@ -93,11 +94,12 @@ const Map = ({ module, data, center }) => {
           updateShape(layer, map, idKey, getDesign(module, layer))
         );
     }
-  }, [map, center, idKey, layers, module]);
+  }, [map]);
 
   useEffect(() => {
     // Mise à jour des données affichées
     // Fonction année + variable sélectionnée
+
     setLayers(layersToShow(data, showYear, showLayers));
   }, [showLayers, showYear, data]);
 
@@ -111,7 +113,7 @@ const Map = ({ module, data, center }) => {
         .map((layer) =>
           updateShape(layer, map, idKey, getDesign(module, layer))
         );
-  }, [layers, data, idKey, map, module]);
+  }, [layers]);
 
   const Events = () => {
     const map = useMapEvents({
@@ -141,7 +143,6 @@ const Map = ({ module, data, center }) => {
   return (
     <div>
       <div className="header-graph">
-        <h4 className="map-title">{module.NOM + " en " + showYear}</h4>
         <VariablesSelect
           data={data}
           showLayers={showLayers}
@@ -170,11 +171,10 @@ const Map = ({ module, data, center }) => {
       )}
 
       <div id={"legend" + idKey} className="flx-column">
-        {console.log(module)}
-        {console.log(layers)}
         {layers.map(
           (layer) =>
-            getDesign(module, layer).SHOWLEGEND && (
+            getDesign(module, layer).SHOWLEGEND &&
+            layerYears(layer).includes(showYear) && (
               <LegendMap layer={layer} idKey={idKey} />
             )
         )}

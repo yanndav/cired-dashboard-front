@@ -21,9 +21,15 @@ const colors = [
 
 const getModalites = (layer) =>
   // Fonction qui récupère les modalités du layer
-  Array.from(
-    new Set({ ...layer }.GEOMETRY.map((geom) => geom.properties.VALEUR))
-  ).sort();
+  [
+    ...new Set(
+      { ...layer }.GEOMETRY.map((geom) => {
+        return { CODE: geom.properties.VALEUR, ANNEE: geom.properties.ANNEE };
+      }).map((o) => JSON.stringify(o))
+    ),
+  ]
+    .map((str) => JSON.parse(str))
+    .sort();
 
 const setColorsScales = (modalites, colors) => {
   // Fonction qui crée un Array de la taille du nombre de modalités
@@ -36,11 +42,13 @@ const setColorsLegend = (layer, colors) => {
 
   const modalites = getModalites(layer);
   const colorsArray = setColorsScales(modalites, colors);
-  return modalites.reduce((obj, k, i) => ({ ...obj, [k]: colorsArray[i] }), {});
+  return modalites.map((k, i) => ({ ...k, COULEUR: colorsArray[i] }));
 };
 
 const setColorGeom = (geom, colorsLegend) => {
-  return colorsLegend[geom.properties.VALEUR];
+  return colorsLegend.filter((c) => c.CODE === geom.properties.VALEUR)[0][
+    "COULEUR"
+  ];
 };
 
 const setFill = (shapes, design, colorsLegend) => {
@@ -137,6 +145,11 @@ const arrayYear = (data) =>
     )
   );
 
+const layerYears = (layer) =>
+  Array.from(
+    new Set(layer.GEOMETRY.map((geom) => geom.properties.ANNEE).flat())
+  );
+
 // Fonction qui retourne l'année minimum
 const yearMin = (years) => Math.min(...years);
 
@@ -204,14 +217,14 @@ const removeSelectionnes = (idmap, idlayer) => {
 // };
 
 // Fonctions outils ---------------
-// const zoomInit = (map) => {
-//   // Function to retrieve the zoom level
-//   if (map) {
-//     return map.getZoom();
-//   } else {
-//     return 4.5;
-//   }
-// };
+const zoomInit = (map) => {
+  // Function to retrieve the zoom level
+  if (map) {
+    return map.getZoom();
+  } else {
+    return 4.5;
+  }
+};
 
 const getLegend = (layer, geom) => {
   const legend = layer.MODALITES.filter(
@@ -308,7 +321,7 @@ const toolTip = (g, layer, geom, translate) => {
 
 const updateShape = (layer, map, id, design) => {
   // Fonction qui charge les territoires sélectionnés
-  // const ZOOM = zoomInit(map);
+  const ZOOM = zoomInit(map);
 
   // Fonctions pour D3 et leaflet----------------------
 
@@ -380,6 +393,7 @@ export {
   updateShape,
   removeSelectionnes,
   arrayYear,
+  layerYears,
   yearMax,
   yearMin,
   keyGen,

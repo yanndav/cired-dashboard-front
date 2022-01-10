@@ -21,15 +21,15 @@
 .graph {
   position: relative;
 
-  margin: 20px;
+  /* margin: 20px; */
   width: 600px;
   max-width: 100%;
   min-height: 400px;
   height: fit-content;
-  background-color: rgba(255, 255, 255, 0.26);
-  box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438);
+  /* background-color: rgba(255, 255, 255, 0.26); */
+  /* box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438); */
   border-radius: 4px;
-  padding: 10px;
+  /* padding: 10px; */
 }
 .map-title {
   text-align: justify;
@@ -125,14 +125,14 @@
   cursor: pointer;
   color: white;
 }
-.zone-elements-modules {
+/* .zone-elements-modules {
   margin: 40px 0px;
   display: flex;
-  justify-content: space-around;
-  flex-direction: row;
+  justify-content: center;
+  flex-direction: column;
   flex-wrap: wrap;
-  row-gap: 20px;
-}
+  row-gap: 50px;
+} */
 
 .titre-module {
   margin: 10px 0px;

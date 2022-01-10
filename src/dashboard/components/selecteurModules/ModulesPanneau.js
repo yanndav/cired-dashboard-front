@@ -49,7 +49,7 @@ const ModulesPanneau = ({
             ))}
           </div>
         </div>
-        {theme !== "" && <div class="vl"></div>}
+        {theme !== "" && <div className="vl"></div>}
         {theme !== "" && (
           <div className="flx-col mrg-t-20">
             <span className="bolder mrg-tb-20">MODULES</span>

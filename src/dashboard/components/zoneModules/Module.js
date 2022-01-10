@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 
 import Map from "../graphHolder/graphs/Map";
+import LoaderMap from "./LoaderMap";
 import "./ZoneModules.css";
+import Description from "./legendeModule/LegendeModule";
+import LegendeModule from "./legendeModule/LegendeModule";
 
 const updateData = async (
   API_URL,
@@ -70,7 +73,6 @@ const Module = ({ module, geographies, center, API_URL }) => {
   // Téléchargement des données
   const [data, setData] = useState(null);
   const [load, setLoad] = useState(true); // while loading the data
-  // const [geo, setGeo] = useState(null);
 
   const graphType = module.REPRESENTATION.TYPE;
 
@@ -101,16 +103,22 @@ const Module = ({ module, geographies, center, API_URL }) => {
   }, [geographies]);
 
   return (
-    <div className="graph">
-      {load ? (
-        <div className="spinner">
-          <ClipLoader color={"#0AAACB"} style={style} />
+    <div className className="width-ctt">
+      <div className="ft-1-6 ft-tv bold mrg-0 mrg-t-40">{module.NOM}</div>
+      <div className="flx-row flx-sb   flx-row-gap-big">
+        <LegendeModule />
+        <div className="graph">
+          {graphType === "CARTE" &&
+            (load ? (
+              // <div className="spinner">
+              //   {/* <ClipLoader color={"#0AAACB"} style={style} /> */}
+              // </div>
+              <LoaderMap />
+            ) : (
+              <Map module={module} data={data} center={center} />
+            ))}
         </div>
-      ) : (
-        graphType === "CARTE" && (
-          <Map module={module} data={data} center={center} />
-        )
-      )}
+      </div>
     </div>
   );
 };

@@ -86,6 +86,11 @@
   flex-wrap: wrap;
 }
 
+.flx-bas-adapt {
+  flex-basis: 20em;
+  flex-grow: 0.8;
+  flex-shrink: 6;
+}
 .flx-row {
   display: flex;
   flex-direction: row;
@@ -94,6 +99,9 @@
 
 .flx-sb {
   justify-content: space-around;
+}
+.flx-v-center {
+  align-items: center;
 }
 
 .flx-shrink {
@@ -111,9 +119,11 @@
 .flx-left {
   align-content: flex-start;
 }
-
+.flx-row-gap-big {
+  row-gap: 40px;
+}
 .flx-gap-big {
-  gap: 50px;
+  gap: 70px;
 }
 
 .flx-gap-small {
@@ -224,10 +234,18 @@
 .max-95 {
   max-width: 85%;
 }
+.max-500 {
+  max-width: 500px;
+}
 
 .width-70p {
   width: 90px;
 }
+
+.min-300 {
+  min-width: 300px;
+}
+
 /* HEIGHT */
 .max-h-200p {
   height: fit-content;
@@ -254,11 +272,17 @@
 }
 
 /* MARGINS */
+.mrg-0 {
+  margin: 0px;
+}
 .mrg-2 {
   margin: 2px;
 }
 .mrg-10 {
   margin: 10px;
+}
+.mrg-5pc {
+  margin: 10px 10%;
 }
 
 .mrg-20 {
@@ -266,6 +290,9 @@
 }
 .mrg-t-20 {
   margin-top: 20px;
+}
+.mrg-t-40 {
+  margin-top: 40px;
 }
 .mrg-tb-20 {
   margin: 20px 0px;
@@ -312,6 +339,14 @@
 
 .ft-1-2 {
   font-size: 1.2em;
+}
+
+.ft-1-6 {
+  font-size: 1.6em;
+}
+
+.ft-2 {
+  font-size: 2em;
 }
 
 .ft-2-5 {
