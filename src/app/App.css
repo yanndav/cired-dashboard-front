@@ -91,6 +91,13 @@
   flex-grow: 0.8;
   flex-shrink: 6;
 }
+
+.flx-invert :nth-child(even) > .flx-row-gap-big {
+  flex-direction: row-reverse;
+}
+.paragraph br {
+  margin-bottom: 20px;
+}
 .flx-row {
   display: flex;
   flex-direction: row;
@@ -162,6 +169,10 @@
   );
 }
 
+.paragraph {
+  line-height: 1.5em;
+  text-align: justify;
+}
 /* BOX OPTIONS */
 .box {
   box-shadow: var(--main-shadow);

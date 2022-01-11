@@ -6,7 +6,6 @@ import { colors, keyGen, setColorsLegend } from "./mapFunctions";
 
 const LegendMap = ({ layer, idKey }) => {
   const couleurs = setColorsLegend(layer, colors);
-  console.log("le layer", layer["GEOMETRY"][0]);
   const year = layer.GEOMETRY[0].properties.ANNEE;
 
   return (

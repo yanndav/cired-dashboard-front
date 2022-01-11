@@ -48,6 +48,7 @@ const Module = ({ module, geographies, center, API_URL }) => {
   const [load, setLoad] = useState(true); // while loading the data
 
   const graphType = module.REPRESENTATION.TYPE;
+  const aLegende = module.hasOwnProperty("LEGENDES");
 
   useEffect(() => {
     updateData(
@@ -79,7 +80,12 @@ const Module = ({ module, geographies, center, API_URL }) => {
     <div className className="width-ctt">
       <div className="ft-1-6 ft-tv bold mrg-0 mrg-t-40">{module.NOM}</div>
       <div className="flx-row flx-sb   flx-row-gap-big">
-        {load ? <LoaderLegende /> : <LegendeModule />}
+        {aLegende &&
+          (load || data === null || data.length == 0 ? (
+            <LoaderLegende />
+          ) : (
+            <LegendeModule module={module} layers={data} />
+          ))}
         <div className="graph">
           {graphType === "CARTE" &&
             (load ? (

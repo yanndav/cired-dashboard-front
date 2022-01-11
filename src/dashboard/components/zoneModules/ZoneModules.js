@@ -48,7 +48,7 @@ const ZoneModules = ({ selectedModules, geographies, center, API_URL }) => {
                     le {d.DATE.toLowerCase()}
                   </h4>
                   <Markdown className="description " value={d.DESCRIPTION} />
-                  <div className="flx-column flx-center flx-row-gap-big">
+                  <div className="flx-column flx-center flx-row-gap-big flx-invert">
                     {d.INSTRUCTIONS.map((c, i) => (
                       <Module
                         module={c}
