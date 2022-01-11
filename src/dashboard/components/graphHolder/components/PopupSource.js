@@ -1,27 +1,23 @@
 import React from "react";
 import { TiDelete } from "react-icons/ti";
 import { BiLink } from "react-icons/bi";
-
-const PopupSource = ({ sourceRef, texte, lien, setPop }) => {
+import Markdown from "marked-react";
+const PopupSource = ({ texte, lien, setPop }) => {
   return (
-    <div
-      class="popup"
-      style={{
-        top: sourceRef.current.offsetTop + 20,
-        left: sourceRef.current.offsetLeft,
-      }}
-    >
-      <div>
-        <p className="nom-base">
-          {texte + "   "}
-          {lien && (
-            <a href={lien} target="_blank" rel="noreferrer">
-              <BiLink className="link-icon" size={17} />
-            </a>
-          )}
-        </p>
+    <div class="backModal">
+      <div className="popup">
+        <div className="flx-column mrg-20">
+          <div className="nom-base">
+            <Markdown className="description " value={texte} />
+            {lien && (
+              <a href={lien} target="_blank" rel="noreferrer">
+                <BiLink className="link-icon" size={17} />
+              </a>
+            )}
+          </div>
+        </div>
+        <TiDelete className="croix" onClick={() => setPop((prev) => !prev)} />
       </div>
-      <TiDelete className="croix" onClick={() => setPop((prev) => !prev)} />
     </div>
   );
 };

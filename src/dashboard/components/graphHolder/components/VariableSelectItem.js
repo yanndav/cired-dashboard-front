@@ -1,19 +1,61 @@
 import React from "react";
 import { keyGen } from "./mapFunctions";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import PopupSource from "./PopupSource";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import { listSubheaderClasses } from "@mui/material";
+
+const addSources = (layer) =>
+  `
+  ## Sources des données:
+  
+  ` +
+  layer.SOURCES.map(
+    (c) => `- [${c.NOM}](${c.LIEN}), ${c.AUTEUR}  
+      
+  `
+  ).join("");
+
+const addTitle = (layer) => `# ${layer.VARIABLE.LIBELLE.toUpperCase()}  
+
+`;
+
+const addDefinition = (layer) => `
+## Definition:
+
+"${layer.VARIABLE.DEFINITION.replace(
+  "\n  ",
+  `
+`
+)}"
+
+_[Voir la définition à la source 🔗](${layer.VARIABLE.LIEN})_
+
+`;
+
+const addLineBreak = () => `
+\n
+\n
+
+
+`;
+const genererLegende = (layer) =>
+  addTitle(layer) +
+  addDefinition(layer) +
+  addLineBreak() +
+  addLineBreak() +
+  addSources(layer);
 
 const VariableSelectItem = ({ show, layer, setShowLayers }) => {
-  const legendRef = useRef(null);
   const [pop, setPop] = useState(false);
+  const texte = genererLegende(layer);
+
   return (
     <>
       <span
         className="btn-tv-color btn-small ft-0-8 italic"
         key={"var-" + keyGen(layer)}
-        ref={legendRef}
       >
         <input
           type="checkbox"
@@ -35,12 +77,7 @@ const VariableSelectItem = ({ show, layer, setShowLayers }) => {
         />
       </span>
       {pop && (
-        <PopupSource
-          sourceRef={legendRef}
-          texte={layer.VARIABLE.DEFINITION}
-          lien={layer.VARIABLE.LIEN}
-          setPop={setPop}
-        />
+        <PopupSource texte={texte} lien={layer.VARIABLE.LIEN} setPop={setPop} />
       )}
     </>
   );

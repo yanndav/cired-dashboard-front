@@ -10,9 +10,9 @@ const colors = [
   "#005f73",
   "#001219",
   "#0a9396",
-  "#94d2bd",
+  // "#94d2bd",
   "#e9d8a6",
-  "#ee9b00",
+  // "#ee9b00",
   "#ca6702",
   "#bb3e03",
   "#ae2012",
@@ -29,7 +29,7 @@ const getModalites = (layer) =>
     ),
   ]
     .map((str) => JSON.parse(str))
-    .sort();
+    .sort((a, b) => a.CODE - b.CODE);
 
 const setColorsScales = (modalites, colors) => {
   // Fonction qui crée un Array de la taille du nombre de modalités
@@ -77,7 +77,7 @@ const setStroke = (shapes, design, colorsLegend) => {
   } else if (contour === "FIN") {
     return shapes
       .attr("stroke", "rgba(223, 223, 223, 0.76)")
-      .attr("stroke-width", "1");
+      .attr("stroke-width", "1.5");
   } else if (contour === "NONE") {
     return shapes.attr("stroke", "transparent").attr("stroke-width", "-10");
   } else if (contour === "MODALITE") {

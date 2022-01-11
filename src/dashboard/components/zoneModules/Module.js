@@ -4,8 +4,8 @@ import { ClipLoader } from "react-spinners";
 import Map from "../graphHolder/graphs/Map";
 import LoaderMap from "./LoaderMap";
 import "./ZoneModules.css";
-import Description from "./legendeModule/LegendeModule";
 import LegendeModule from "./legendeModule/LegendeModule";
+import LoaderLegende from "./LoaderLegende";
 
 const updateData = async (
   API_URL,
@@ -40,33 +40,6 @@ const updateData = async (
   }
   setData(results);
   setLoad(false);
-};
-
-// const getGeo = async (API_URL, data, setGeo) => {
-//   const responseGeo = await fetch(`${API_URL}/getLocationsShape`, {
-//     body: JSON.stringify({
-//       locations: data.DATA.map((c) => c.CODGEO),
-//       nivgeo: data.DATA[0].NIVGEO,
-//       annee: 2021,
-//     }),
-//     method: "POST",
-//     headers: {
-//       // Authorization: bearer,
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   const res = await responseGeo.json();
-
-//   setGeo(res);
-// };
-
-const style = {
-  position: "relative",
-  top: "50%",
-  left: "50%",
-  //   transform: "translate(-50%, -50%)",
 };
 
 const Module = ({ module, geographies, center, API_URL }) => {
@@ -106,13 +79,10 @@ const Module = ({ module, geographies, center, API_URL }) => {
     <div className className="width-ctt">
       <div className="ft-1-6 ft-tv bold mrg-0 mrg-t-40">{module.NOM}</div>
       <div className="flx-row flx-sb   flx-row-gap-big">
-        <LegendeModule />
+        {load ? <LoaderLegende /> : <LegendeModule />}
         <div className="graph">
           {graphType === "CARTE" &&
             (load ? (
-              // <div className="spinner">
-              //   {/* <ClipLoader color={"#0AAACB"} style={style} /> */}
-              // </div>
               <LoaderMap />
             ) : (
               <Map module={module} data={data} center={center} />

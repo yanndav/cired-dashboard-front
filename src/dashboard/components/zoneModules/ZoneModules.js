@@ -1,6 +1,7 @@
 import "./ZoneModules.css";
 
 import Module from "./Module";
+import Markdown from "marked-react";
 
 import { useState, useEffect } from "react";
 const auteurs = (module) => {
@@ -46,7 +47,7 @@ const ZoneModules = ({ selectedModules, geographies, center, API_URL }) => {
                     Par{" " + auteurs(d) + " "}
                     le {d.DATE.toLowerCase()}
                   </h4>
-                  <p className="description ">{d.DESCRIPTION}</p>
+                  <Markdown className="description " value={d.DESCRIPTION} />
                   <div className="flx-column flx-center flx-row-gap-big">
                     {d.INSTRUCTIONS.map((c, i) => (
                       <Module
