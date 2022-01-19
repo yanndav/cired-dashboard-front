@@ -1,8 +1,8 @@
 // React Components
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // D3 components
-import { scaleLinear, scaleTime } from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import { min, max, extent } from "d3-array";
 import scaleDomain from "../components/ScaleDomain";
 
@@ -14,73 +14,54 @@ import { Path } from "../components/Path";
 import Title from "../components/Title";
 import GraphLegend from "../components/GraphLegend";
 
-// Import legend functions
-import {
-  legendLocation,
-  getTimes,
-  legendTime,
-} from "../../legend/LegendFunctions";
-// import { namingLocation } from '../../searchBar/SearchFunctions';
+// Imports
+import { setGraphColors } from "../components/graphFunctions";
 
-const TitleCreator = (nameVar, territories, data) => {
-  const title =
-    nameVar +
-    " à " +
-    legendLocation(territories) +
-    " entre " +
-    legendTime(getTimes(data));
-  const lines = title.match(/.{1,64}(\s|$)/g);
-  return lines;
-};
-
-const LineChart = ({
-  data,
-  xVariable,
-  yVariable,
-  color,
-  nameVar,
-  width,
-  height,
-  territories,
-}) => {
-  const title = TitleCreator(nameVar, territories, data);
-  const top = 35 + title.length * 10;
-
-  const margin = { top: top, right: 20, bottom: 100, left: 70 };
-
+const LineChart = ({ module, layer }) => {
+  // Dimensions:
+  const width = 600;
+  const height = 500;
+  const margin = { top: 20, right: 40, bottom: 100, left: 60 };
   const innerWidth = +width - margin.right - margin.left;
   const innerHeight = +height - margin.top - margin.bottom;
 
+  // Constantes
+  const [donnees, setDonnees] = useState(layer["DATA"]);
+
+  useEffect(() => {
+    setDonnees(layer["DATA"]);
+  }, [layer]);
+
   const xScale = scaleLinear()
-    .domain(extent(data, (d) => d[xVariable]))
+    .domain(extent(donnees, (d) => d["ANNEE"]))
     .range([0, innerWidth])
     .nice();
 
   const yScale = scaleLinear()
     .domain([
-      min(data, (d) => d[yVariable]) - scaleDomain(data, yVariable),
-      max(data, (d) => d[yVariable]) + scaleDomain(data, yVariable),
+      min(donnees, (d) => d["VALEUR"]) - scaleDomain(donnees, "VALEUR"),
+      max(donnees, (d) => d["VALEUR"]) + scaleDomain(donnees, "VALEUR"),
     ])
     .range([innerHeight, 0])
     .nice();
 
-  const [showX, setShowX] = useState(null);
-  const [showY, setShowY] = useState(null);
+  const colors = setGraphColors(donnees);
 
-  const uniqueColors = [...new Set(data.map((item) => item[color]))];
-  const colorsPick = [
-    "#FF8C00",
-    "#9932CC",
-    "#8B0000",
-    "#8FBC8F",
-    "#483D8B",
-    "#00CED1",
-  ];
+  // const [showX, setShowX] = useState(null);
+
+  // const uniqueColors = [...new Set(data.map((item) => item[color]))];
+  // const colorsPick = [
+  //   "#FF8C00",
+  //   "#9932CC",
+  //   "#8B0000",
+  //   "#8FBC8F",
+  //   "#483D8B",
+  //   "#00CED1",
+  // ];
 
   return (
     <svg height={height} width={width} className="graph">
       <g transform={`translate(${margin.left},${margin.top})`}>
-        <Title title={title} top={top} />
         <AxisBottomContinuous
           xScale={xScale}
           innerHeight={innerHeight}
@@ -91,53 +72,52 @@ const LineChart = ({
           yScale={yScale}
           innerWidth={innerWidth}
           innerHeight={innerHeight}
-          nameVar={nameVar}
+          nameVar={"a remplacer var nom variable"}
         />
-
-        {uniqueColors.map((col, i) => {
-          const show_y = col == showY;
-          return (
-            <>
-              <Path
-                data={data.filter((item) => item[color] === col)}
-                xScale={xScale}
-                yScale={yScale}
-                xVariable={xVariable}
-                yVariable={yVariable}
-                color={colorsPick[i]}
-                showY={show_y}
-                setShowY={setShowY}
-                group={col}
-              />
-
-              <Dots
-                data={data.filter((item) => item[color] === col)}
-                xScale={xScale}
-                yScale={yScale}
-                xVariable={xVariable}
-                yVariable={yVariable}
-                radius={2.5}
-                color={colorsPick[i]}
-                innerHeight={innerHeight}
-                showX={showX}
-                setShowX={setShowX}
-                showY={show_y}
-              />
-
-              <GraphLegend
-                territories={territories}
-                colorsPick={colorsPick}
-                innerHeight={innerHeight}
-                innerWidth={innerWidth}
-                showY={showY}
-                setShowY={setShowY}
-              />
-            </>
-          );
-        })}
+        {colors.map((cl) => (
+          <g>
+            <Dots
+              data={donnees.filter((dt) => dt.CODGEO === cl.CODGEO)}
+              xScale={xScale}
+              yScale={yScale}
+              radius={2.5}
+              innerHeight={innerHeight}
+              couleur={cl.COULEUR}
+            />
+            <Path
+              data={donnees.filter((dt) => dt.CODGEO === cl.CODGEO)}
+              xScale={xScale}
+              yScale={yScale}
+              couleur={cl.COULEUR}
+            />
+          </g>
+        ))}
       </g>
     </svg>
   );
 };
 
 export default LineChart;
+
+// <GraphLegend
+//   territories={territories}
+//   colorsPick={colorsPick}
+//   innerHeight={innerHeight}
+//   innerWidth={innerWidth}
+//   showY={showY}
+//   setShowY={setShowY}
+// />
+
+//     {donnees.map((col, i) => { */}
+//  const show_y = col == showY;
+//  return (
+//  <>
+
+// <GraphLegend
+//   territories={territories}
+//   colorsPick={colorsPick}
+//   innerHeight={innerHeight}
+//   innerWidth={innerWidth}
+//   showY={showY}
+//   setShowY={setShowY}
+// />

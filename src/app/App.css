@@ -212,6 +212,7 @@
 
 .btn-small {
   padding: 9px 10px;
+  transition: height 2s ease;
 }
 
 .btn-tiny {
@@ -253,6 +254,9 @@
   width: 90px;
 }
 
+.w-400p {
+  max-width: 350px;
+}
 .min-300 {
   min-width: 300px;
 }
@@ -320,7 +324,10 @@
 .mrg-r-10 {
   margin-right: 10px;
 }
-
+/* PADDING */
+.pdg-20 {
+  padding: 10px 20px;
+}
 /* TEXT OPTIONS*/
 .ft-tv {
   font-family: var(--main-font-fam);

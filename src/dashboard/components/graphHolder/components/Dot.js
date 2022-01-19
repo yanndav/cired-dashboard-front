@@ -1,14 +1,15 @@
+import "./graphStyling.css";
+
 import { useState } from "react";
-
-const Dot = ({d,xScale,yScale,xVariable,yVariable,radius,color,innerHeight,setShowX,show,showY}) => {
-
-    return(
-        <g
-        onMouseOver={()=>setShowX(d[xVariable])}
-        onClick={()=>setShowX(d[xVariable])}
-        onDoubleClick={()=>setShowX(null)}
-        onMouseOut={()=>setShowX(null)}>
-            {
+const Dot = ({ d, xScale, yScale, radius, color, innerHeight }) => {
+  return (
+    <g
+    // onMouseOver={()=>setShowX(d[xVariable])}
+    // onClick={()=>setShowX(d[xVariable])}
+    // onDoubleClick={()=>setShowX(null)}
+    // onMouseOut={()=>setShowX(null)}
+    >
+      {/* {
                 showY && <text className="tooltip"
                 // key={xScale(d[xVariable])*yScale(d[yVariable])}
                 y={yScale(d[yVariable])}
@@ -18,9 +19,9 @@ const Dot = ({d,xScale,yScale,xVariable,yVariable,radius,color,innerHeight,setSh
                 >
                 {d[xVariable]+': '+Math.round(d[yVariable]*10)/10}
                 </text>
-            }
+            } */}
 
-                    {show && 
+      {/* {show && 
         <>
             <text className="tooltip"
             // key={xScale(d[xVariable])*yScale(d[yVariable])}
@@ -42,30 +43,24 @@ const Dot = ({d,xScale,yScale,xVariable,yVariable,radius,color,innerHeight,setSh
             y2={0}
             />
             </>
-        }
-            <line
-            className="lineXNotShow"
-            
-            // style={{stroke:setShow&&"grey",strokeWidth:20}}
-            // style={{stroke:"blue"}}
-            x1={xScale(d[xVariable])}
-            x2={xScale(d[xVariable])}
-            y1={innerHeight}
-            y2={0}
-            />
-
-
-            <circle className="dot"
-            // key={xScale(d[xVariable])*yScale(d[yVariable])}
-            cy={yScale(d[yVariable])}
-            cx={xScale(d[xVariable])}
-            r={show?radius*1.5:radius}
-            style={{fill:color}}
-            />
-
-        
-        </g>
-
-  )
-}
+        } */}
+      <line
+        className="lineXNotShow"
+        // style={{ stroke: "grey", strokeWidth: 20 }}
+        x1={xScale(d.ANNEE)}
+        x2={xScale(d.ANNEE)}
+        y1={innerHeight}
+        y2={0}
+      />
+      <circle
+        className="dot"
+        key={"dot-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
+        cy={yScale(d.VALEUR)}
+        cx={xScale(d.ANNEE)}
+        r={radius}
+        style={{ fill: color }}
+      />
+    </g>
+  );
+};
 export default Dot;

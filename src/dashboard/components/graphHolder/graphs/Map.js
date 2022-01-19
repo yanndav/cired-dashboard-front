@@ -145,8 +145,8 @@ const Map = ({ module, data, center }) => {
       <div className="header-graph">
         <VariablesSelect
           data={data}
-          showLayers={showLayers}
-          setShowLayers={setShowLayers}
+          showVariable={showLayers}
+          setShowVariable={setShowLayers}
         />
         {/* <Sources sources={data.SOURCES} year={year} /> */}
       </div>

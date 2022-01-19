@@ -6,25 +6,30 @@ import VariableSelectItem from "./VariableSelectItem";
 // react components
 import { useEffect, useState } from "react";
 
-const VariablesSelect = ({ data, showLayers, setShowLayers }) => {
+const VariablesSelect = ({
+  data,
+  showVariable,
+  setShowVariable,
+  // options,
+  // showFilter,
+  // setShowFilter,
+}) => {
   // ---------------------------------------
   // COMPOSANT QUI RETOURNE LES VARIABLES DE l'ELEMENT DE MODULE
   // ---------------------------------------
-
-  const [show, setShow] = useState(showLayers);
-
-  useEffect(() => {
-    setShow(showLayers);
-  }, [showLayers]);
 
   return (
     <div className="flx-row flx-gap-small">
       {/* <span className="btn-small">Variable{data.length > 1 && "s"}:</span> */}
       {data.map((layer) => (
         <VariableSelectItem
-          show={show}
+          show={showVariable}
           layer={layer}
-          setShowLayers={setShowLayers}
+          setShowVariable={setShowVariable}
+          // options={options[layer.VARIABLE.CODE]}
+          // variable={layer.VARIABLE.CODE}
+          // showFilter={showFilter}
+          // setShowFilter={setShowFilter}
         />
       ))}
     </div>

@@ -8,8 +8,6 @@ const valeursUniques = (bonLayer, group_var) => [
 const valeursUniquesBonLayer = (bonLayer, group_var) => {
   const set = [...new Set(bonLayer.map((c) => c.properties[group_var]))];
 
-  console.log(set);
-
   return set;
 };
 
