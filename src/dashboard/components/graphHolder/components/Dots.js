@@ -1,6 +1,14 @@
 import Dot from "./Dot";
 
-const Dots = ({ data, xScale, yScale, radius = 4, innerHeight, couleur }) => {
+const Dots = ({
+  data,
+  xScale,
+  yScale,
+  radius = 4,
+  innerHeight,
+  couleur,
+  type = "dot",
+}) => {
   return data.map((d) => {
     return (
       <Dot
@@ -10,6 +18,7 @@ const Dots = ({ data, xScale, yScale, radius = 4, innerHeight, couleur }) => {
         radius={radius}
         color={couleur}
         innerHeight={innerHeight}
+        type={type}
       />
     );
   });

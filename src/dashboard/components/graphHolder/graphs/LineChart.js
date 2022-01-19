@@ -15,7 +15,26 @@ import Title from "../components/Title";
 import GraphLegend from "../components/GraphLegend";
 
 // Imports
-import { setGraphColors } from "../components/graphFunctions";
+import { setGraphColors, setGraphFiltres } from "../components/graphFunctions";
+
+const updateData = (donnees, colors, shapes) => {
+  for (let dt of donnees) {
+    dt["COULEUR"] = colors.filter((cl) => cl.CODGEO === dt.CODGEO)[0][
+      "COULEUR"
+    ];
+  }
+  if (donnees[0] !== undefined && donnees[0].hasOwnProperty("FILTRES")) {
+    for (let dt of donnees) {
+      dt["LINETYPE"] = shapes.filter(
+        (cl) => JSON.stringify(cl.FILTRES) === JSON.stringify(dt.FILTRES)
+      )[0]["LINETYPE"];
+      dt["SHAPE"] = shapes.filter(
+        (cl) => JSON.stringify(cl.FILTRES) === JSON.stringify(dt.FILTRES)
+      )[0]["SHAPE"];
+    }
+  }
+  return donnees;
+};
 
 const LineChart = ({ module, layer }) => {
   // Dimensions:
@@ -26,11 +45,22 @@ const LineChart = ({ module, layer }) => {
   const innerHeight = +height - margin.top - margin.bottom;
 
   // Constantes
-  const [donnees, setDonnees] = useState(layer["DATA"]);
+  // const [donnees, setDonnees] = useState(layer["DATA"]);
 
-  useEffect(() => {
-    setDonnees(layer["DATA"]);
-  }, [layer]);
+  // useEffect(() => {
+  //   setDonnees(layer["DATA"]);
+  // }, [layer]);
+
+  // const [showX, setShowX] = useState(null);
+
+  const colors = setGraphColors(layer.DATA);
+
+  const shapes = layer.hasOwnProperty("FILTRES")
+    ? setGraphFiltres(layer.DATA)
+    : false;
+
+  console.log(shapes);
+  let donnees = updateData(layer.DATA, colors, shapes);
 
   const xScale = scaleLinear()
     .domain(extent(donnees, (d) => d["ANNEE"]))
@@ -44,20 +74,6 @@ const LineChart = ({ module, layer }) => {
     ])
     .range([innerHeight, 0])
     .nice();
-
-  const colors = setGraphColors(donnees);
-
-  // const [showX, setShowX] = useState(null);
-
-  // const uniqueColors = [...new Set(data.map((item) => item[color]))];
-  // const colorsPick = [
-  //   "#FF8C00",
-  //   "#9932CC",
-  //   "#8B0000",
-  //   "#8FBC8F",
-  //   "#483D8B",
-  //   "#00CED1",
-  // ];
 
   return (
     <svg height={height} width={width} className="graph">
@@ -74,24 +90,57 @@ const LineChart = ({ module, layer }) => {
           innerHeight={innerHeight}
           nameVar={"a remplacer var nom variable"}
         />
-        {colors.map((cl) => (
-          <g>
-            <Dots
-              data={donnees.filter((dt) => dt.CODGEO === cl.CODGEO)}
-              xScale={xScale}
-              yScale={yScale}
-              radius={2.5}
-              innerHeight={innerHeight}
-              couleur={cl.COULEUR}
-            />
-            <Path
-              data={donnees.filter((dt) => dt.CODGEO === cl.CODGEO)}
-              xScale={xScale}
-              yScale={yScale}
-              couleur={cl.COULEUR}
-            />
-          </g>
-        ))}
+        {colors.map((cl) => {
+          if (shapes !== false) {
+            return shapes.map((sh) => (
+              <g>
+                <Dots
+                  data={donnees.filter(
+                    (dt) =>
+                      dt.CODGEO === cl.CODGEO &&
+                      JSON.stringify(dt.FILTRES) === JSON.stringify(sh.FILTRES)
+                  )}
+                  xScale={xScale}
+                  yScale={yScale}
+                  radius={2.5}
+                  innerHeight={innerHeight}
+                  couleur={cl.COULEUR}
+                  type={sh.SHAPE}
+                />
+                <Path
+                  data={donnees.filter(
+                    (dt) =>
+                      dt.CODGEO === cl.CODGEO &&
+                      JSON.stringify(dt.FILTRES) === JSON.stringify(sh.FILTRES)
+                  )}
+                  xScale={xScale}
+                  yScale={yScale}
+                  couleur={cl.COULEUR}
+                  type={sh.LINETYPE}
+                />
+              </g>
+            ));
+          } else {
+            return (
+              <g>
+                <Dots
+                  data={donnees.filter((dt) => dt.CODGEO === cl.CODGEO)}
+                  xScale={xScale}
+                  yScale={yScale}
+                  radius={2.5}
+                  innerHeight={innerHeight}
+                  couleur={cl.COULEUR}
+                />
+                <Path
+                  data={donnees.filter((dt) => dt.CODGEO === cl.CODGEO)}
+                  xScale={xScale}
+                  yScale={yScale}
+                  couleur={cl.COULEUR}
+                />
+              </g>
+            );
+          }
+        })}
       </g>
     </svg>
   );
