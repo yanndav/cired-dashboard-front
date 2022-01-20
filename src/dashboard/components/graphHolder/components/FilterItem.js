@@ -18,7 +18,6 @@ const getFilterActivated = (layer) => {
       new Set(temp.DATA.map((dt) => Object.keys(dt.FILTRES)).flat())
     );
     for (let cat of categ) {
-      console.log(cat);
       filter[cat] = Array.from(
         new Set(temp.DATA.map((dt) => dt.FILTRES[cat]).flat())
       );

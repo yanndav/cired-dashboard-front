@@ -2,48 +2,61 @@ import "./graphStyling.css";
 
 import { useState } from "react";
 import { Polygon } from "react-leaflet";
-const Dot = ({ d, xScale, yScale, radius, color, innerHeight, type }) => {
+const Dot = ({
+  d,
+  xScale,
+  yScale,
+  radius,
+  color,
+  innerHeight,
+  type,
+  showXBar,
+  setShowXBar,
+  showY,
+}) => {
   return (
     <g
-    // onMouseOver={()=>setShowX(d[xVariable])}
-    // onClick={()=>setShowX(d[xVariable])}
-    // onDoubleClick={()=>setShowX(null)}
-    // onMouseOut={()=>setShowX(null)}
+      onMouseOver={() => setShowXBar(d.ANNEE)}
+      onClick={() => setShowXBar(d.ANNEE)}
+      onDoubleClick={() => setShowXBar(null)}
+      onMouseOut={() => setShowXBar(null)}
     >
-      {/* {
-                showY && <text className="tooltip"
-                // key={xScale(d[xVariable])*yScale(d[yVariable])}
-                y={yScale(d[yVariable])}
-                x={xScale(d[xVariable])}
-                dy={-15}
-                // style={{fill:color}}
-                >
-                {d[xVariable]+': '+Math.round(d[yVariable]*10)/10}
-                </text>
-            } */}
-      {/* {show && 
+      {showY === d.CODGEO && (
+        <text
+          className="tooltip"
+          // key={xScale(d[xVariable])*yScale(d[yVariable])}
+          y={yScale(d.VALEUR)}
+          x={xScale(d.ANNEE)}
+          dy={-3}
+          // style={{fill:color}}
+        >
+          {Math.round(d.VALEUR * 10) / 10}
+        </text>
+      )}
+      {showXBar === d.ANNEE && (
         <>
-            <text className="tooltip"
-            // key={xScale(d[xVariable])*yScale(d[yVariable])}
-            y={yScale(d[yVariable])}
-            x={xScale(d[xVariable])}
-            dy={-15}
+          <text
+            className="tooltip"
+            key={xScale(d.ANNEE) * yScale(d.VALEUR)}
+            y={yScale(d.VALEUR)}
+            x={xScale(d.ANNEE)}
+            dy={-3}
             // style={{fill:color}}
-            >
-            {d[xVariable]+': '+Math.round(d[yVariable]*10)/10}
-            </text>
+          >
+            {Math.round(d.VALEUR * 10) / 10}
+          </text>
 
-            <line
+          <line
             className="lineXShow"
             // style={{stroke:setShow&&"grey",strokeWidth:20}}
             // style={{stroke:"blue"}}
-            x1={xScale(d[xVariable])}
-            x2={xScale(d[xVariable])}
+            x1={xScale(d.ANNEE)}
+            x2={xScale(d.ANNEE)}
             y1={innerHeight}
             y2={0}
-            />
-            </>
-        } */}
+          />
+        </>
+      )}
       <line
         className="lineXNotShow"
         // style={{ stroke: "grey", strokeWidth: 20 }}

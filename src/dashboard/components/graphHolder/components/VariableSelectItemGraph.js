@@ -8,16 +8,20 @@ import { listSubheaderClasses } from "@mui/material";
 
 import VariableItemGraph from "./VariableItemGraph";
 import FilterItem from "./FilterItem";
+import SelectTerritoires from "./SelectTerritoires";
 
 const VariableSelectItem = ({
   infos,
   setData,
   activatedFilters,
   setActivatedFilters,
+  variable,
+  territoiresVar,
+  setTerritoiresVar,
 }) => {
   const nbLayers = infos.length;
   return (
-    <>
+    <div className="flx-row flx-gap-small">
       {infos.map((layer) => (
         <span className="btn-tv-color btn-small " key={"var-" + keyGen(layer)}>
           <VariableItemGraph
@@ -34,7 +38,14 @@ const VariableSelectItem = ({
           )}
         </span>
       ))}
-    </>
+      {territoiresVar[variable].length > 1 && (
+        <SelectTerritoires
+          variable={variable}
+          territoiresVar={territoiresVar}
+          setTerritoiresVar={setTerritoiresVar}
+        />
+      )}
+    </div>
   );
 };
 

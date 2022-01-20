@@ -79,6 +79,9 @@
 .lineXNotShow {
   stroke-width: 20;
   stroke: transparent;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  fill: none;
 }
 .lineXShow {
   stroke-dasharray: 5;

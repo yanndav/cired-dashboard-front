@@ -37,8 +37,7 @@ const PopupFilterItem = ({
   dt,
 }) => {
   const [pop, setPop] = useState(false);
-  console.log(vari);
-  console.log(code);
+
   return (
     <div className="btn-tv-color btn-small flx-column w-400p">
       <span>

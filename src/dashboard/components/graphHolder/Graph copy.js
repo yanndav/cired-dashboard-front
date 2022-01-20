@@ -37,7 +37,6 @@ const createShowVariable = (module) => {
 const createShowFilter = (layers) => {
   let obj = {};
   for (let lay of layers) {
-    // console.log(lay);
     obj[lay.VARIABLE.CODE] = lay.DATA[0].hasOwnProperty("FILTRES")
       ? [lay.DATA[0].FILTRES]
       : false;
@@ -57,16 +56,12 @@ const getOptionsFilter = (layer) => {
       new Set(temp.DATA.map((dt) => Object.keys(dt.FILTRES)).flat())
     );
     for (let cat of categ) {
-      console.log(cat);
       filter[cat] = Object.fromEntries(
         new Map(
           Array.from(
             new Set(temp.DATA.map((dt) => dt.FILTRES[cat]).flat())
           ).map((dt, i) => [dt, i === 0])
         )
-      );
-      console.log(
-        Array.from(new Set(temp.DATA.map((dt) => dt.FILTRES[cat]).flat()))
       );
     }
     return filter;
@@ -95,9 +90,6 @@ const Graph = ({ module, layers }) => {
   );
   const [showFilter, setShowFilter] = useState(createShowFilter([...layers]));
 
-  console.log(showFilter);
-  console.log(showVariable);
-
   return (
     <>
       {/* <VariableSelectItem infos={getInfo(layers, module)}/> */}
@@ -110,15 +102,3 @@ const Graph = ({ module, layers }) => {
 };
 
 export default Graph;
-
-// POUBELLE
-// const createShowFilter = (layers) => {
-//   let obj = {};
-//   for (let lay of layers) {
-//     // console.log(lay);
-//     obj[lay.VARIABLE.CODE] = lay.DATA[0].hasOwnProperty("FILTRES")
-//       ? lay.DATA[0].FILTRES
-//       : false;
-//   }
-//   return obj;
-// };

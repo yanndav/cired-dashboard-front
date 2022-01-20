@@ -1,9 +1,20 @@
 import LineChart from "./graphs/LineChart";
+import { useState, useEffect } from "react";
 
 import VariableSelectItemGraph from "./components/VariableSelectItemGraph";
 
+const selectData = (data, territoiresVar, variable) => {
+  return data
+    .filter((dt) => dt.SHOW === true)[0]
+    .DATA.filter(
+      (dt) =>
+        territoiresVar[variable].filter((fl) => fl.CODGEO === dt.CODGEO)[0].SHOW
+    );
+};
+
 const selectLayer = (data) => {
-  return data.filter((dt) => dt.SHOW === true)[0];
+  const temp = [...data].filter((dt) => dt.SHOW === true)[0];
+  return temp;
 };
 
 // const omitKey = (key, layer) => {
@@ -16,10 +27,15 @@ const selectLayer = (data) => {
 const Graph = ({
   module,
   data,
+  territoiresVar,
+  setTerritoiresVar,
   setData,
   activatedFilters,
   setActivatedFilters,
 }) => {
+  const variable = [...data].filter((dt) => dt.SHOW === true)[0].VARIABLE.CODE;
+  const layer = selectData(data, territoiresVar, variable);
+
   return (
     <>
       <VariableSelectItemGraph
@@ -27,85 +43,17 @@ const Graph = ({
         setData={setData}
         activatedFilters={activatedFilters}
         setActivatedFilters={setActivatedFilters}
+        variable={variable}
+        territoiresVar={territoiresVar}
+        setTerritoiresVar={setTerritoiresVar}
       />
-      <LineChart module={module} layer={selectLayer(data)} />
+      <LineChart
+        data={selectData(data, territoiresVar, variable)}
+        infos={selectLayer(data)}
+        territoiresVar={territoiresVar}
+      />
     </>
   );
 };
 
 export default Graph;
-
-// POUBELLE
-// const createShowFilter = (layers) => {
-//   let obj = {};
-//   for (let lay of layers) {
-//     // console.log(lay);
-//     obj[lay.VARIABLE.CODE] = lay.DATA[0].hasOwnProperty("FILTRES")
-//       ? lay.DATA[0].FILTRES
-//       : false;
-//   }
-//   return obj;
-// };
-
-// const createShowVariable = (module) => {
-//   let obj = {};
-//   for (let layer of module.DONNEES) {
-//     obj["l" + layer.LAYER.toString()] = layer.LAYER === 1 ? true : false;
-//   }
-//   return obj;
-// };
-
-// const createShowFilter = (layers) => {
-//   let obj = {};
-//   for (let lay of layers) {
-//     // console.log(lay);
-//     obj[lay.VARIABLE.CODE] = lay.DATA[0].hasOwnProperty("FILTRES")
-//       ? [lay.DATA[0].FILTRES]
-//       : false;
-//   }
-//   return obj;
-// };
-
-// const getVariable = (showVariable, module) =>
-//   module.DONNEES.filter((dt) => showVariable["l" + dt.LAYER.toString()])[0]
-//     .VARIABLE;
-
-// const getInfo = (layers, module) => {
-//   let temp = [...layers];
-//   let info = [];
-//   for (let lay of module.DONNEES) {
-//     let sele = temp.filter((dt) => dt.VARIABLE.CODE === lay.VARIABLE)[0];
-//     info.push({
-//       VARIABLE: sele.VARIABLE,
-//       LAYER: lay.LAYER,
-//       FILTRES: getOptionsFilter(sele),
-//     });
-//   }
-//   return info;
-// };
-
-// const getOptionsFilter = (layer) => {
-//   let temp = Object.assign({}, layer);
-//   if (layer.hasOwnProperty("FILTRES")) {
-//     let filter = {};
-//     const categ = Array.from(
-//       new Set(temp.DATA.map((dt) => Object.keys(dt.FILTRES)).flat())
-//     );
-//     for (let cat of categ) {
-//       console.log(cat);
-//       filter[cat] = Object.fromEntries(
-//         new Map(
-//           Array.from(
-//             new Set(temp.DATA.map((dt) => dt.FILTRES[cat]).flat())
-//           ).map((dt, i) => [dt, i === 0])
-//         )
-//       );
-//       console.log(
-//         Array.from(new Set(temp.DATA.map((dt) => dt.FILTRES[cat]).flat()))
-//       );
-//     }
-//     return filter;
-//   } else {
-//     return false;
-//   }
-// };

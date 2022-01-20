@@ -9,8 +9,15 @@ import LegendeModule from "./legendeModule/LegendeModule";
 import LoaderLegende from "./LoaderLegende";
 import { act } from "react-dom/test-utils";
 
-const initMeta = async (instructions, setActivatedFilters, API_URL) => {
+const initMeta = async (
+  instructions,
+  setActivatedFilters,
+  API_URL,
+  setTerritoiresVar,
+  territoires
+) => {
   let results = {};
+  let terriFin = {};
   for (let instru of instructions) {
     let doc = {
       variable: instru.VARIABLE,
@@ -27,9 +34,27 @@ const initMeta = async (instructions, setActivatedFilters, API_URL) => {
 
     let download = await response.json();
     results[instru.VARIABLE] = getFilterActivated(download, instru);
+
+    let response2 = await fetch(`${API_URL}/getTerritoiresVariable`, {
+      body: JSON.stringify({
+        variable: instru.VARIABLE,
+        territoires: territoires,
+      }),
+      method: "POST",
+      headers: {
+        // Authorization: bearer,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    let download2 = await response2.json();
+    console.log(download2);
+    terriFin[instru.VARIABLE] = download2;
   }
 
   setActivatedFilters(results);
+  setTerritoiresVar(terriFin);
 };
 
 const updateData = async (
@@ -71,7 +96,6 @@ const getFilterActivated = (layer, instru) => {
   if (layer.hasOwnProperty("FILTRES")) {
     let filter = {};
     if (instru.hasOwnProperty("FILTRES")) {
-      console.log("il  ya filtre");
       for (let elem of instru.FILTRES) {
         for (let key of Object.keys(elem)) {
           if (filter[key] === undefined) {
@@ -113,6 +137,7 @@ const Module = ({ module, geographies, center, API_URL }) => {
   // Téléchargement des données
   const [data, setData] = useState(null);
   const [activatedFilters, setActivatedFilters] = useState({});
+  const [territoiresVar, setTerritoiresVar] = useState({});
   const [load, setLoad] = useState(false); // while loading the data
   const [instructions, setInstructions] = useState(module.DONNEES);
 
@@ -123,7 +148,15 @@ const Module = ({ module, geographies, center, API_URL }) => {
     // INITIALISATION DU MODULE
     setLoad(true);
     // INITIALISATION DES CLASSES DE FILTRES
-    initMeta(instructions, setActivatedFilters, API_URL);
+    initMeta(
+      instructions,
+      setActivatedFilters,
+      API_URL,
+      setTerritoiresVar,
+      geographies.map((c) => {
+        return { CODGEO: c.properties.CODGEO, NIVGEO: c.properties.TYPE };
+      })
+    );
     // CHARGEMENT DES DONNEES
     updateData(
       API_URL,
@@ -140,6 +173,34 @@ const Module = ({ module, geographies, center, API_URL }) => {
   }, []);
 
   useEffect(() => {
+    // INITIALISATION DU MODULE quand changement de geo
+    setLoad(true);
+    // INITIALISATION DES CLASSES DE FILTRES
+    initMeta(
+      instructions,
+      setActivatedFilters,
+      API_URL,
+      setTerritoiresVar,
+      geographies.map((c) => {
+        return { CODGEO: c.properties.CODGEO, NIVGEO: c.properties.TYPE };
+      })
+    );
+    // CHARGEMENT DES DONNEES
+    updateData(
+      API_URL,
+      geographies.map((c) => {
+        return { CODGEO: c.properties.CODGEO, NIVGEO: c.properties.TYPE };
+      }),
+      instructions,
+      graphType,
+      setData,
+      setLoad
+    );
+    setInit(false);
+    setLoad(false);
+  }, [geographies]);
+
+  useEffect(() => {
     // MISE A JOUR DES DONNEES QUAND LE COMPOSANT EST DEJA INITIALISÉ
     if (init === false) {
       updateData(
@@ -152,18 +213,17 @@ const Module = ({ module, geographies, center, API_URL }) => {
         setData
       );
     }
-  }, [module, geographies, instructions]);
+  }, [module, instructions]);
 
   useEffect(() => {
     // MISE A JOUR DES INSTRUCTIONS UNE FOIS L'INITIALISATION FINIE
-    if (init === false) {
+    if (init === false && activatedFilters !== false) {
       setInstructions((prev) => {
         let oldInstru = [...prev];
         for (let id in oldInstru) {
           let key = oldInstru[id].VARIABLE;
-          console.log(key);
-          let comb = combinations(activatedFilters[key]);
-          if (comb !== false) {
+          if (activatedFilters[key] !== false) {
+            let comb = combinations(activatedFilters[key]);
             oldInstru[id]["FILTRES"] = comb;
           }
         }
@@ -173,19 +233,6 @@ const Module = ({ module, geographies, center, API_URL }) => {
     }
   }, [activatedFilters]);
 
-  // Object.keys(activatedFilters).map((key) => {
-  //   console.log(key);
-  //   let instruTemp = [...instructions];
-  //   let temp = instruTemp.filter((instru) => instru.VARIABLE === key)[0];
-  //   let comb = combinations(activatedFilters[key]);
-  //   console.log(comb);
-  //   console.log(temp);
-  //   if (comb !== false) {
-  //     temp["FILTRES"] = comb;
-  //   }
-
-  //   return temp;
-  // })
   return (
     <div className className="width-ctt">
       <div className="ft-1-6 ft-tv bold mrg-0 mrg-t-40">{module.NOM}</div>
@@ -210,6 +257,8 @@ const Module = ({ module, geographies, center, API_URL }) => {
               <Graph
                 module={module}
                 data={data}
+                territoiresVar={territoiresVar}
+                setTerritoiresVar={setTerritoiresVar}
                 setData={setData}
                 activatedFilters={activatedFilters}
                 setActivatedFilters={setActivatedFilters}
