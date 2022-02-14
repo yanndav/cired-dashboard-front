@@ -7,7 +7,6 @@ import Graph from "../graphHolder/Graph";
 import "./ZoneModules.css";
 import LegendeModule from "./legendeModule/LegendeModule";
 import LoaderLegende from "./LoaderLegende";
-import { act } from "react-dom/test-utils";
 
 const initMeta = async (
   instructions,
@@ -132,7 +131,7 @@ const combinations = (variants) => {
   })(Object.keys(variants));
 };
 
-const Module = ({ module, geographies, center, API_URL }) => {
+const ElementModule = ({ module, geographies, center, API_URL }) => {
   const [init, setInit] = useState(true);
   // Téléchargement des données
   const [data, setData] = useState(null);
@@ -270,4 +269,4 @@ const Module = ({ module, geographies, center, API_URL }) => {
   );
 };
 
-export default Module;
+export default ElementModule;

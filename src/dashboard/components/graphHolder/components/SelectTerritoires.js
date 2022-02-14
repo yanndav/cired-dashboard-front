@@ -1,5 +1,5 @@
 import React from "react";
-import { BiSelectMultiple } from "react-icons/bi";
+import { FaList } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import { useState, useEffect } from "react";
 
@@ -11,11 +11,11 @@ const SelectTerritoires = ({ variable, territoiresVar, setTerritoiresVar }) => {
   }, [territoiresVar]);
   return (
     <>
-      <span className="btn-tv-color btn-small ">
+      <span className="btn-tv-sec-color btn-small ">
         <span className="ft-0-8 italic">Sélection des territoires</span>
-        <BiSelectMultiple
-          size={15}
-          style={{ marginLeft: "10px" }}
+        <FaList
+          size={14}
+          style={{ marginLeft: "10px", marginBottom: "-2px" }}
           className="info"
           onClick={() => setPop((prev) => !prev)}
         />

@@ -205,7 +205,11 @@
   color: white;
   border-radius: 7px;
 }
-
+.btn-tv-sec-color {
+  background-color: var(--sec-tv-color);
+  color: white;
+  border-radius: 7px;
+}
 .btn-big {
   padding: 18px 13px;
 }
