@@ -37,7 +37,10 @@ const Module = ({ moduleInfo, geographies, center, API_URL }) => {
           setComparaison={setComparaison}
         />
         {comparaison.open && (
-          <ComparaisonContainer setComparaison={setComparaison} />
+          <ComparaisonContainer
+            setComparaison={setComparaison}
+            titre={moduleInfo.TITRE}
+          />
         )}
         <h4 className="mrg-tb-20">
           Par{" " + auteurs(moduleInfo) + " "}

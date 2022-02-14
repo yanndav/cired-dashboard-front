@@ -4,8 +4,8 @@ import { GrCompare } from "react-icons/gr";
 const ActivationButton = styled.div`
   width: fit-content;
   /* padding: 0px 10px; */
-  height: 35px;
-  background-color: #dadada;
+  height: 50px;
+  background-color: #eeeeee;
   border-radius: 7px;
   color: black;
   &:hover {
@@ -25,9 +25,9 @@ const ActivationArea = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  /* background: red; */
-  padding: 5px 15px 5px 8px;
+  padding: 5px 15px 5px 15px;
   margin: 0px;
+  color: #128aa1;
 `;
 
 const CompareIcon = styled(GrCompare)`
@@ -58,8 +58,8 @@ const SwitchChoice = styled.div`
   ${(props) =>
     props.choice === "ON"
       ? props.active
-        ? "color: #ebebeb"
-        : "color: #f7f7f7"
+        ? "color: #f7f7f7"
+        : "color: #ebebeb"
       : props.active
       ? "color: #ebebeb"
       : "color: #f7f7f7"};
@@ -97,8 +97,8 @@ const SwitchComparaison = ({ comparaison, setComparaison }) => {
   return (
     <ActivationButton>
       <ActivationArea onClick={openComparaison}>
-        <span>Analyse comparative</span>
         <CompareIcon />
+        <span>Analyse comparative</span>
       </ActivationArea>
       <Switch onClick={switchComparaison}>
         <SwitchChoice active={comparaison.activate} choice="ON">
