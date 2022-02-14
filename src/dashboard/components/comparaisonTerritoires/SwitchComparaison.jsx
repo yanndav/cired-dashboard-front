@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { GrCompare } from "react-icons/gr";
-import { useState } from "react";
 
 const ActivationButton = styled.div`
   width: fit-content;
-  padding: 5px 10px;
+  /* padding: 0px 10px; */
   height: 35px;
   background-color: #dadada;
   border-radius: 7px;
@@ -26,6 +25,9 @@ const ActivationArea = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
+  /* background: red; */
+  padding: 5px 15px 5px 8px;
+  margin: 0px;
 `;
 
 const CompareIcon = styled(GrCompare)`
@@ -39,9 +41,9 @@ const CompareIcon = styled(GrCompare)`
   }
 `;
 const Switch = styled.div`
-  margin-left: 20px;
+  margin-right: 5px;
   border-radius: 8px;
-  background: #b3b3b3;
+  background: #f8f8f8;
   padding: 0px 4px;
   width: 50px;
   height: 25px;
@@ -53,40 +55,58 @@ const Switch = styled.div`
 `;
 
 const SwitchChoice = styled.div`
-  ${(props) => (props.active ? "color: #1796af" : "color: #000000")};
+  ${(props) =>
+    props.choice === "ON"
+      ? props.active
+        ? "color: #ebebeb"
+        : "color: #f7f7f7"
+      : props.active
+      ? "color: #ebebeb"
+      : "color: #f7f7f7"};
   font-weight: bolder;
   font-size: 0.8em;
+  z-index: 5;
 `;
 
 const Toggle = styled.div`
   position: absolute;
   transition: 0.2s left, 0.2s ease background;
-  top: 2px;
-  width: 25px;
-  height: 21px;
+  top: -1px;
+  width: 29px;
+  height: 27px;
   border-radius: 9px;
+
   ${(props) =>
     props.active
-      ? `left:30px;
+      ? `left:0px;
     background: #18a4c0;
         `
-      : `left:2px;
-      background: #000000;`};
+      : `left:28px;
+      background: #585858;`};
 `;
 
 const SwitchComparaison = ({ comparaison, setComparaison }) => {
-  //   const [comparison, setComparison] = useState(false);
-  const switchComparison = () =>
+  // Functions
+  const switchComparaison = () =>
     setComparaison((prev) => ({ ...prev, activate: !prev.activate }));
+
+  const openComparaison = () => {
+    setComparaison((prev) => ({ ...prev, open: true }));
+  };
+
   return (
     <ActivationButton>
-      <ActivationArea>
+      <ActivationArea onClick={openComparaison}>
         <span>Analyse comparative</span>
         <CompareIcon />
       </ActivationArea>
-      <Switch onClick={switchComparison}>
-        <SwitchChoice active={comparaison.activate}>ON</SwitchChoice>
-        <SwitchChoice active={comparaison.activate}>OFF</SwitchChoice>
+      <Switch onClick={switchComparaison}>
+        <SwitchChoice active={comparaison.activate} choice="ON">
+          ON
+        </SwitchChoice>
+        <SwitchChoice active={comparaison.activate} choice="OFF">
+          OFF
+        </SwitchChoice>
         <Toggle active={comparaison.activate} />
       </Switch>
     </ActivationButton>

@@ -6,6 +6,7 @@ import { useState } from "react";
 // Internal components
 import ElementModule from "./ElementModule";
 import SwitchComparaison from "../comparaisonTerritoires/SwitchComparaison";
+import ComparaisonContainer from "../comparaisonTerritoires/ComparaisonContainer";
 
 // Functions
 const auteurs = (module) => {
@@ -22,7 +23,10 @@ const auteurs = (module) => {
 };
 
 const Module = ({ moduleInfo, geographies, center, API_URL }) => {
-  const [comparaison, setComparaison] = useState({ activate: false });
+  const [comparaison, setComparaison] = useState({
+    activate: false,
+    open: false,
+  });
   return (
     <>
       <rect className="sep-line" />
@@ -32,6 +36,9 @@ const Module = ({ moduleInfo, geographies, center, API_URL }) => {
           comparaison={comparaison}
           setComparaison={setComparaison}
         />
+        {comparaison.open && (
+          <ComparaisonContainer setComparaison={setComparaison} />
+        )}
         <h4 className="mrg-tb-20">
           Par{" " + auteurs(moduleInfo) + " "}
           le {moduleInfo.DATE.toLowerCase()}
