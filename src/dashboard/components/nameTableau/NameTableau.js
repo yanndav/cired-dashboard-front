@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { GoCheck } from "react-icons/go";
 
 // Import own components
-import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon";
+import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon.jsx";
 
 const NameTableau = () => {
   const [edit, setEdit] = useState(false); // Statut d'édition

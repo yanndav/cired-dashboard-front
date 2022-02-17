@@ -33,7 +33,7 @@ const Footer = () => {
         />
       </a>
 
-      <p>Transitions Viewer - Version Alpha 2 - Modulo - CIRED-ENPC 2022</p>
+      <p>Transitions Viewer - Version Alpha 3 - Comparo - CIRED-ENPC 2022</p>
     </div>
   );
 };

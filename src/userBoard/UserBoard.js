@@ -4,7 +4,7 @@
 // -----------------------------------------------------------------------
 
 // IMPORTATIONS ------------------------
-import Header from "../app/components/header/Header";
+import Header from "../app/components/header/Header.jsx";
 import Connection from "./components/connection/Connection";
 import { useState, useEffect } from "react";
 
