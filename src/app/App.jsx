@@ -9,8 +9,8 @@ import "./App.css";
 
 // Components
 import Footer from "./components/footer/Footer";
-import Accueil from "../accueil/Accueil.jsx";
-import Dashboard from "../dashboard/Dashboard";
+import Accueil from "../accueil/Accueil";
+import Dashboard from "../dashboard/Dashboard.jsx";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import UserBoard from "../userBoard/UserBoard";
 

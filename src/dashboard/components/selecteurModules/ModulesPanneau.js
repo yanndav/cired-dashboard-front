@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./ModuleSelecteur.css";
 
 import { MdKeyboardArrowUp } from "react-icons/md";
@@ -18,18 +18,23 @@ const ModulesPanneau = ({
   setParam,
   setSelectedModules,
   selectedModules,
+  useOutsideCloser,
 }) => {
   const [theme, setTheme] = useState("");
   const themes = [...new Set(modules.map((d) => d.THEME.map((c) => c)).flat())];
   const [modulesTheme, setModulesTheme] = useState([]);
   const [module, setModule] = useState(null);
+
+  const refMod = useRef(null);
+
   useEffect(() => {
     const list = modules.filter((d) => d.THEME.includes(theme));
     setModulesTheme(list);
   }, [theme]);
 
+  useOutsideCloser(refMod, "modules");
   return (
-    <>
+    <div ref={refMod}>
       <div className="flx-row width-100 mrg-l-30 mrg-t-20 min-h-450p ">
         <div className="flx-col mrg-t-20">
           <span className="bolder mrg-tb-20">THÈMES</span>
@@ -100,7 +105,7 @@ const ModulesPanneau = ({
         size={25}
         //    style={{transform:`rotate(180deg)`}}
       />
-    </>
+    </div>
   );
 };
 

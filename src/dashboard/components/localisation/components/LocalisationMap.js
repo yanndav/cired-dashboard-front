@@ -125,9 +125,13 @@ const LocalisationMap = ({
             whenCreated={setMap}
           >
             <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, &copy; Stadia Maps | &copy; CIRED-ENPC'
+              url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+            />
+            {/* <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | &copy; CIRED-ENPC'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+            /> */}
             <Events />
           </MapContainer>
         )}

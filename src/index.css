@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Urbanist&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Urbanist&display=swap");
 
 body {
   margin: 0;
@@ -17,10 +17,10 @@ code {
 input {
   font-family: "Urbanist", sans-serif;
 }
-
+*/
 :root {
-  --main-tv-color: #0aaacb;
-  --lighter-tv-color: #17c5e7;
+  --main-tv-color: #52b69a;
+  --lighter-tv-color: #99d98c;
   --sec-tv-color: #12ae46c9;
   --main-bg-color: #f5f5f5;
   --main-box-color: white;

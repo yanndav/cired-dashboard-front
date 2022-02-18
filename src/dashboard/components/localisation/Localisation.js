@@ -2,7 +2,7 @@
 import "./Localisation.css";
 
 // React modules
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Import map function
 import TerritoriesSelected from "./components/TerritoriesSelected";
@@ -31,6 +31,7 @@ const Localisation = ({
   setCenter,
   param,
   setParam,
+  useOutsideCloser,
 }) => {
   // State variables
   const [query, setQuery] = useState(""); // La recherche de l'utilisateur
@@ -39,7 +40,7 @@ const Localisation = ({
   const [editZonage, setEditZonage] = useState(false); //ouvre/ferme edition zonage
   const [remove, setRemove] = useState([]); //geo to remove
   const [map, setMap] = useState(null); // map reference
-  // const [layer, setLayer] = useState(null);
+  const refLoc = useRef(null);
 
   // Effects
   // Lance les recherches de territoires
@@ -65,8 +66,11 @@ const Localisation = ({
     }
   }, [remove, geographies, map, setGeographies, setTerritories, territories]);
 
+  useOutsideCloser(refLoc, "localisation");
+
   return (
     <div
+      ref={refLoc}
       className={`box module-localisation ${
         param.localisation ? "spacing-large" : ""
       }  ${param.modules ? "spacing-small" : ""} ${

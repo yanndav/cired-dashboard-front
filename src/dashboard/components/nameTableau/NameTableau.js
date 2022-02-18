@@ -1,5 +1,6 @@
 // Import du style
 import "./NameTableau.css";
+import styled from "styled-components";
 
 // Import react components
 import { useState } from "react";
@@ -13,6 +14,17 @@ import { GoCheck } from "react-icons/go";
 // Import own components
 import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon.jsx";
 
+const Logo = styled.img`
+  width: 1.7em;
+  margin-right: 10px;
+  transition: 0.1s width, 0.1s margin, 0.1s filter;
+  &:hover {
+    width: 1.9em;
+    margin-right: 7px;
+    filter: drop-shadow(3px 3px 3px rgba(168, 168, 168, 0.801));
+  }
+`;
+
 const NameTableau = () => {
   const [edit, setEdit] = useState(false); // Statut d'édition
   const [name, setName] = useState(""); // Nom du tableau
@@ -20,16 +32,9 @@ const NameTableau = () => {
   return (
     <div className="tableau-container">
       <div className="flx-row container-name ">
-        <div className="logo-link">
-          <NavLink to="/" exact>
-            <img
-              className="logo-min"
-              src="Transitions ViewerLogo-TV.svg"
-              alt="Transitions"
-              width="30em"
-            />
-          </NavLink>
-        </div>
+        <NavLink to="/" exact>
+          <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
+        </NavLink>
         {!edit ? (
           <div className="name-solid" onClick={() => setEdit(!edit)}>
             {name === "" ? "Tableau sans titre" : name}

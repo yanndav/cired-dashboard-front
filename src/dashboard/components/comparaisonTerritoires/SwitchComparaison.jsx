@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { GrCompare } from "react-icons/gr";
+import { colorsLight } from "../../../app/colorComponents";
+import { ReactComponent as Compare } from "../../../app/comparaison.svg";
 
 const ActivationButton = styled.div`
   width: fit-content;
@@ -10,10 +11,6 @@ const ActivationButton = styled.div`
   color: black;
   &:hover {
     background-color: #e6e6e6;
-    color: #126c7e;
-  }
-  &:hover path {
-    stroke: #15afce;
   }
   cursor: pointer;
   display: flex;
@@ -27,18 +24,28 @@ const ActivationArea = styled.div`
   flex-direction: row;
   padding: 5px 15px 5px 15px;
   margin: 0px;
-  color: #128aa1;
+  color: ${(props) => (props.active ? colorsLight.title : "black")};
+  svg path {
+    transition: 0.2s transform;
+  }
+
+  &:hover {
+    color: ${colorsLight.interaction};
+    path {
+      stroke: ${colorsLight.interaction};
+    }
+    .left path {
+      transform: translate(-35px, 0px);
+    }
+    .right path {
+      transform: translate(35px, 0px);
+    }
+  }
 `;
 
-const CompareIcon = styled(GrCompare)`
-  /* position: relative; */
-  margin: auto 10px;
-  width: 30px;
-  height: 30px;
-  path {
-    margin: auto;
-    stroke: #128aa1;
-  }
+const Comparaison = styled(Compare)`
+  width: 2.4em;
+  margin-right: 20px;
 `;
 const Switch = styled.div`
   margin-right: 5px;
@@ -79,7 +86,7 @@ const Toggle = styled.div`
   ${(props) =>
     props.active
       ? `left:0px;
-    background: #18a4c0;
+    background: ${colorsLight.title};
         `
       : `left:28px;
       background: #585858;`};
@@ -96,9 +103,10 @@ const SwitchComparaison = ({ comparaison, setComparaison }) => {
 
   return (
     <ActivationButton>
-      <ActivationArea onClick={openComparaison}>
-        <CompareIcon />
-        <span>Analyse comparative</span>
+      <ActivationArea onClick={openComparaison} active={comparaison.activate}>
+        {/* <CompareIcon /> */}
+        <Comparaison />
+        Analyse comparative
       </ActivationArea>
       <Switch onClick={switchComparaison}>
         <SwitchChoice active={comparaison.activate} choice="ON">

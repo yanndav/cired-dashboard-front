@@ -27,7 +27,6 @@ const RowFlexContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: center;
   gap: 70px;
   flex-shrink: 0;
   flex-wrap: wrap;
@@ -50,7 +49,7 @@ const BoutonTableau = styled(NavLink)`
   min-width: 300px;
   height: 50px;
 
-  margin: 10px;
+  margin: auto 10px;
   padding: 15px 12px;
   border-radius: 8px;
   background-color: ${colorsLight.title};
@@ -77,7 +76,7 @@ const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  max-width: 800px;
+  max-width: 600px;
   width: 85%;
 `;
 
@@ -134,7 +133,7 @@ const Accueil = () => {
               Analysez et comparez les transitions dans votre territoire.
             </TitrePage>
             <SousTitrePage>
-              Créez et personnalisez vos tableaux de bord à partir modules
+              Créez et personnalisez vos tableaux de bord à partir de modules
               d'analyse de données locales et de modélisations.
             </SousTitrePage>
           </div>
@@ -175,7 +174,7 @@ const Accueil = () => {
               </Argument>
             </Section>
             <Section>
-              <SousTitrePage>Une approche scientifique</SousTitrePage>
+              <SousTitrePage>La rigueur scientifique accessible</SousTitrePage>
               <Argument>
                 <ZoneTexte>
                   Développé dans une démarche de
@@ -224,7 +223,7 @@ const Accueil = () => {
                 <Mot size={1.3}>usage des sols</Mot>
                 <Mot size={1.8}>déchets</Mot>
                 <Mot size={0.7}>tissu productif</Mot>
-                <Mot size={1}>développement économique</Mot>
+                <Mot size={1.2}>Énergie</Mot>
               </WordCloud>
               <Argument>
                 <ZoneTexte>

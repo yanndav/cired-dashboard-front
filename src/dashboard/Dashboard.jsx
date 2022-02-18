@@ -6,9 +6,10 @@
 // IMPORTATIONS -------------------------------------
 // Styling
 import "./Dashboard.css";
+import "./../app/App.css";
 
 // React components
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // TV Components
 import NameTableau from "./components/nameTableau/NameTableau";
@@ -26,6 +27,27 @@ const Dashboard = ({ API_URL }) => {
   const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
   const [param, setParam] = useState({ localisation: false, modules: false }); // Parameters
   const refParam = useRef(null);
+
+  // Functions
+  const closeBox = (key) => {
+    setParam((prev) => ({ ...prev, [key]: false }));
+  };
+
+  const useOutsideCloser = (boxRef, key) => {
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (boxRef.current && !boxRef.current.contains(event.target)) {
+          closeBox(key);
+        }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [boxRef, key]);
+  };
+
   return (
     <div ref={refParam}>
       <NameTableau />
@@ -45,6 +67,7 @@ const Dashboard = ({ API_URL }) => {
             setCenter={setCenter}
             param={param}
             setParam={setParam}
+            useOutsideCloser={useOutsideCloser}
           />
           <ModuleSelecteur
             API_URL={API_URL}
@@ -53,12 +76,9 @@ const Dashboard = ({ API_URL }) => {
             param={param}
             setParam={setParam}
             refParam={refParam}
+            useOutsideCloser={useOutsideCloser}
           />
         </div>
-        {/* <hr
-          className="sep-line"
-          style={{ marginTop: "100px", color: "transparent }}
-        /> */}
         <div className="tableau-modules bck-color tableau-container">
           <ModulesEtiquettes
             selectedModules={selectedModules}

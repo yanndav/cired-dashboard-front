@@ -20,7 +20,8 @@ const HeaderContainer = styled.div`
   align-items: center;
 `;
 
-const TitreSite = styled.div`
+const TitreSite = styled(NavLink)`
+  text-decoration: none;
   display: flex;
   flex-direction: row;
   cursor: pointer;
@@ -55,12 +56,10 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <NavLink to="/" className="linkCustom">
-        <TitreSite>
-          <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
-          ComparaTer
-        </TitreSite>
-      </NavLink>
+      <TitreSite to="/">
+        <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
+        ComparaTer
+      </TitreSite>
       <UserBoardLink active={location.includes("/user-board")}>
         <ConnectIcon />
       </UserBoardLink>

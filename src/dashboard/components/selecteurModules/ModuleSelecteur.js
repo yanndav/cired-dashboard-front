@@ -24,16 +24,20 @@ const ModuleSelecteur = ({
   param,
   setParam,
   refParam,
+  useOutsideCloser,
 }) => {
   const [modulesOptions, setModulesOptions] = useState([]);
   const [show, setShow] = useState(false);
 
-  useEffect(async () => {
-    if (param.modules) {
-      const modules_data = await getModules(API_URL);
-      setModulesOptions(modules_data);
-    }
-  }, [param.modules]);
+  useEffect(() => {
+    const searchModules = async () => {
+      if (param.modules) {
+        const modules_data = await getModules(API_URL);
+        setModulesOptions(modules_data);
+      }
+    };
+    searchModules();
+  }, [param.modules, API_URL]);
 
   useEffect(() => {
     if (refParam) {
@@ -63,6 +67,7 @@ const ModuleSelecteur = ({
           setParam={setParam}
           setSelectedModules={setSelectedModules}
           selectedModules={selectedModules}
+          useOutsideCloser={useOutsideCloser}
         />
       )}
     </div>
