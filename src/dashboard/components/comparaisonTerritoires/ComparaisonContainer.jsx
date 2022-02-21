@@ -17,6 +17,7 @@ import PerimetreGeographique from "./PerimetreGeographique";
 import CritereInclusion from "./CriteresInclusion";
 import UniteComparaison from "./UniteComparaison";
 import PropositionPresets from "./PropositionPresets";
+import { hasCritere } from "./fonctionsComparaison";
 
 // Variables de test
 const cartes = [
@@ -40,11 +41,14 @@ const pretAComparer = (criteres) =>
   !["unite", "inclusion", "perimetre"]
     .map((key) => Object.keys(criteres).includes(key))
     .includes(false) &&
-  typeof criteres.unite.libelle !== "undefined" &&
-  typeof criteres.perimetre !== "undefined" &&
-  criteres.perimetre.length > 0 &&
-  typeof criteres.inclusion !== "undefined" &&
-  criteres.inclusion.length > 0;
+  hasCritere(criteres.unite) &&
+  hasCritere(criteres.perimetre) &&
+  hasCritere(criteres.inclusion);
+
+const vide = (criteres) =>
+  !hasCritere(criteres.unite) &&
+  !hasCritere(criteres.perimetre) &&
+  !hasCritere(criteres.inclusion);
 
 //  COMPOSANT
 const ComparaisonContainer = ({ setComparaison, titre }) => {
@@ -52,22 +56,9 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
   const boxRef = useRef(null);
   const [parametre, setParametre] = useState("default");
   const [criteres, setCriteres] = useState({
-    perimetre: [{ libelle: "Drôme" }],
-    inclusion: [
-      {
-        code: "TAAV2020",
-        libelle: "Tranche d’aire d’attraction des villes 2020",
-        modalites: [
-          { libelle: "Commune hors attraction des villes", select: false },
-          { libelle: "Aire de moins de 50 000 habitants", select: false },
-          {
-            libelle: "Aire de 50 000 à moins de 200 000 habitants",
-            select: false,
-          },
-        ],
-      },
-    ],
-    unite: { type: "GEO", nom: "EPCI", libelle: "EPCI" },
+    perimetre: [],
+    inclusion: [],
+    unite: {},
   });
 
   // Hook
@@ -95,6 +86,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
   // Exécution de la fonction de fermeture de la boîte
   useOutsideCloser(boxRef);
   console.log("comparaison", pretAComparer(criteres));
+
   return (
     <Back>
       <ModalBox ref={boxRef}>
@@ -110,7 +102,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
           sélection des territoires, ainsi que l'échelle d'analyse.
         </ParagraphSousTitre>
         {/* SI AUCUN CRITÈRE N'EST SELECTIONNÉ */}
-        {Object.keys(criteres).length === 0 && criteres.constructor === Object && (
+        {vide(criteres) && (
           <>
             <TitleSection>
               Personnalisez des critères de comparaison parmi ceux recommandés

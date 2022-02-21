@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BoiteParametre,
   TitreParametre,
@@ -22,33 +22,37 @@ import {
 
 import { hasCritere, isOpen, addS } from "./fonctionsComparaison";
 
+import BarreRecherche from "./BarreRecherche";
+
 const CritereInclusion = ({
   parametre,
   changeParametre,
   criteres,
   setCriteres,
 }) => {
+  const [tempoInclusion, setTempoInclusion] = useState([...criteres.inclusion]);
+
   return (
     <>
       {(parametre === "default" || parametre === "inclusion") && (
         <BoiteParametre
           isOpen={isOpen(parametre)}
-          hasCritere={hasCritere(criteres.inclusion)}
+          hasCritere={hasCritere(tempoInclusion)}
         >
           <ZoneSelection
             onClick={() =>
               !isOpen(parametre) &&
-              !hasCritere(criteres.inclusion) &&
+              !hasCritere(tempoInclusion) &&
               changeParametre("inclusion")
             }
           >
             <TitreParametre>
-              Critère{addS(criteres.inclusion)} d'inclusion des territoires
+              Critère{addS(tempoInclusion)} d'inclusion des territoires
             </TitreParametre>
-            {hasCritere(criteres.inclusion) && parametre === "default" ? (
+            {hasCritere(tempoInclusion) && parametre === "default" ? (
               <ZoneParametres>
-                {criteres.inclusion.map((inclusion) => (
-                  <ItemCritere>{inclusion.libelle}</ItemCritere>
+                {tempoInclusion.map((inclusion) => (
+                  <ItemCritere>{inclusion.LIBELLE}</ItemCritere>
                 ))}
                 <ItemCritere
                   clickable
@@ -70,43 +74,104 @@ const CritereInclusion = ({
 
           {parametre === "inclusion" && (
             <ZoneSelection>
+              <BarreRecherche
+                tempo={tempoInclusion}
+                setTempo={setTempoInclusion}
+                parametre="inclusion"
+              />
               <LegendeParametre>
-                Critère{addS(criteres.inclusion)} sélectionné
-                {addS(criteres.inclusion)} :
+                Critère{addS(tempoInclusion)} sélectionné
+                {addS(tempoInclusion)} :
               </LegendeParametre>
-              {hasCritere(criteres.inclusion) && (
+              {hasCritere(tempoInclusion) && (
                 <>
-                  {criteres.inclusion.map((inclusion) => (
-                    <CarteSelection>
-                      <Colonne>
-                        <TitreCarteSelection>
-                          {inclusion.libelle}
-                        </TitreCarteSelection>
-                        <PetitTexte>
-                          <AddButton />
-                          Plus d'information
-                        </PetitTexte>
-                      </Colonne>
-                      <div>
-                        Modalités:
-                        <SelectionModalite>
-                          {inclusion.modalites.map((modalite) => (
-                            <CheckBoxContainer>
-                              <CheckBox>
-                                <Checked checked={modalite.select} />
-                              </CheckBox>
-                              <span>{modalite.libelle}</span>
-                            </CheckBoxContainer>
-                          ))}
-                        </SelectionModalite>
-                      </div>
-                    </CarteSelection>
-                  ))}
+                  {tempoInclusion
+                    .sort((a, b) => a.LIBELLE.localeCompare(b.LIBELLE))
+                    .map((inclusion) => (
+                      <CarteSelection>
+                        <Colonne>
+                          <TitreCarteSelection>
+                            {inclusion.LIBELLE}
+                          </TitreCarteSelection>
+                          <PetitTexte clickable>
+                            <AddButton />
+                            Plus d'information
+                          </PetitTexte>
+                          <Action
+                            choix="ANNULER"
+                            onClick={() =>
+                              setTempoInclusion((prev) => [
+                                ...prev.filter(
+                                  (inclu) => inclu.LIBELLE !== inclusion.LIBELLE
+                                ),
+                              ])
+                            }
+                          >
+                            Supprimer ce critère
+                          </Action>
+                        </Colonne>
+                        <div>
+                          Modalités:
+                          <SelectionModalite>
+                            {inclusion.MODALITES.sort((a, b) =>
+                              a.LIBELLE.localeCompare(b.LIBELLE)
+                            ).map((modalite) => (
+                              <CheckBoxContainer>
+                                <CheckBox
+                                  onClick={() =>
+                                    setTempoInclusion((prev) => {
+                                      let toUpdate = prev.filter(
+                                        (inclu) =>
+                                          inclu.LIBELLE === inclusion.LIBELLE
+                                      )[0];
+
+                                      toUpdate.MODALITES = [
+                                        ...toUpdate.MODALITES.filter(
+                                          (mod) =>
+                                            mod.LIBELLE !== modalite.LIBELLE
+                                        ),
+                                        {
+                                          ...toUpdate.MODALITES.filter(
+                                            (mod) =>
+                                              mod.LIBELLE === modalite.LIBELLE
+                                          )[0],
+                                          SELECT: !toUpdate.MODALITES.filter(
+                                            (mod) =>
+                                              mod.LIBELLE === modalite.LIBELLE
+                                          )[0].SELECT,
+                                        },
+                                      ];
+
+                                      return [
+                                        ...prev.filter(
+                                          (inclu) =>
+                                            inclu.LIBELLE !== inclusion.LIBELLE
+                                        ),
+                                        toUpdate,
+                                      ];
+                                    })
+                                  }
+                                >
+                                  <Checked checked={modalite.SELECT} />
+                                </CheckBox>
+                                <span>{modalite.LIBELLE}</span>
+                              </CheckBoxContainer>
+                            ))}
+                          </SelectionModalite>
+                        </div>
+                      </CarteSelection>
+                    ))}
                 </>
               )}
               <ZoneAction>
                 <Action
-                  onClick={() => changeParametre("default")}
+                  onClick={() => {
+                    changeParametre("default");
+                    setCriteres((prev) => ({
+                      ...prev,
+                      inclusion: tempoInclusion,
+                    }));
+                  }}
                   choix="VALIDER"
                 >
                   Valider

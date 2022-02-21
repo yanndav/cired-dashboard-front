@@ -3,6 +3,8 @@ import { CgClose } from "react-icons/cg";
 import { colorsLight } from "../../../app/colorComponents";
 import { BsFillGearFill } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
+import { FaSave } from "react-icons/fa";
 const Back = styled.div`
   background: #f3f2f26f;
   position: fixed;
@@ -82,6 +84,24 @@ const AddButton = styled(FaPlus)`
   filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
 `;
 
+const EditButton = styled(FiEdit2)`
+  cursor: pointer;
+  color: black;
+  transform: scale(-1, 1);
+  &:hover {
+    color: ${colorsLight.background};
+  }
+  margin-right: 5px;
+`;
+
+const SaveButton = styled(FaSave)`
+  cursor: pointer;
+  color: black;
+  &:hover {
+    color: ${colorsLight.interaction};
+  }
+  filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
+`;
 const ZoneParametres = styled.div`
   margin-top: 20px;
   display: flex;
@@ -178,7 +198,7 @@ const CarteSelection = styled.div`
   display: flex;
   flex-direction: row;
   gap: 40px;
-  max-height: 100px;
+  /* height: 100px; */
 `;
 
 const TitreCarteSelection = styled.div`
@@ -187,11 +207,11 @@ const TitreCarteSelection = styled.div`
 
 const PetitTexte = styled.div`
   font-size: 0.8em;
-  cursor: pointer;
+  cursor: ${(props) => (props.clickable ? "pointer" : "normal")};
   transition: 0.2s font-style;
   width: fit-content;
   &:hover {
-    font-style: italic;
+    font-style: ${(props) => (props.clickable ? "italic" : "normal")};
     svg {
       transform: translate(5px);
     }
@@ -210,6 +230,7 @@ const SelectionModalite = styled.div`
 const Colonne = styled.div`
   display: flex;
   flex-direction: column;
+  width: 50%;
   flex-shrink: 1;
   gap: 20px;
 `;
@@ -261,6 +282,38 @@ const Checked = styled.div`
   cursor: pointer;
 `;
 
+const NomPerimetre = styled.form`
+  margin: 20px 0px;
+  border: none;
+  background: ${(props) =>
+    props.isEmpty ? colorsLight.cancel : colorsLight.topBackground};
+  border-radius: 8px;
+  padding: 10px;
+  width: fit-content;
+  &:hover {
+    color: ${(props) => !props.isEditing && colorsLight.background};
+    svg {
+      stroke: ${(props) => !props.isEditing && colorsLight.background};
+      fill: ${(props) => !props.isEditing && colorsLight.background};
+    }
+  }
+`;
+const InputNomPerimetre = styled.input`
+  font-size: 1em;
+  border: none;
+  background: none;
+`;
+
+const TerritoiresSelectionnes = styled.div`
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-height: 300px;
+  overflow-y: scroll;
+`;
+
 export {
   BoiteParametre,
   TitreParametre,
@@ -288,4 +341,9 @@ export {
   CheckBoxContainer,
   CheckBox,
   Checked,
+  NomPerimetre,
+  InputNomPerimetre,
+  EditButton,
+  SaveButton,
+  TerritoiresSelectionnes,
 };
