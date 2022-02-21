@@ -51,8 +51,8 @@ const UniteComparaison = ({
               </ZoneParametres>
             ) : (
               <LegendeParametre>
-                Choisissez l'échelle à laquelle les territoires doivent être
-                comparés.
+                Choisissez l'échelle à partir de laquelle les territoires
+                doivent être comparés.
               </LegendeParametre>
             )}
           </ZoneSelection>

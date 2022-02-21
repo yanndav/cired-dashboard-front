@@ -24,6 +24,7 @@ const ActivationArea = styled.div`
   flex-direction: row;
   padding: 5px 15px 5px 15px;
   margin: 0px;
+  height: fit-content;
   color: ${(props) => (props.active ? colorsLight.title : "black")};
   svg path {
     transition: 0.2s transform;
@@ -45,6 +46,7 @@ const ActivationArea = styled.div`
 
 const Comparaison = styled(Compare)`
   width: 2.4em;
+  height: 50px;
   margin-right: 20px;
 `;
 const Switch = styled.div`
