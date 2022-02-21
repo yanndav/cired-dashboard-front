@@ -1,7 +1,8 @@
 import "./ModuleSelecteur.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ModulesPanneau from "./ModulesPanneau";
 
+import { AppContext } from "../../../app/AppContext";
 const getModules = async (API_URL) => {
   const response = await fetch(`${API_URL}/getModules`, {
     // body: JSON.stringify({"lat":bounds.lat,"lng":bounds.lng,"zoom":zoom}),
@@ -18,7 +19,6 @@ const getModules = async (API_URL) => {
 };
 
 const ModuleSelecteur = ({
-  API_URL,
   setSelectedModules,
   selectedModules,
   param,
@@ -28,6 +28,7 @@ const ModuleSelecteur = ({
 }) => {
   const [modulesOptions, setModulesOptions] = useState([]);
   const [show, setShow] = useState(false);
+  const { API_URL } = useContext(AppContext);
 
   useEffect(() => {
     const searchModules = async () => {

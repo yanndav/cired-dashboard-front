@@ -1,7 +1,11 @@
 import "./ZoneModules.css";
 import Module from "./Module.jsx";
+import { useContext } from "react";
 
-const ZoneModules = ({ selectedModules, geographies, center, API_URL }) => {
+import { AppContext } from "../../../app/AppContext";
+const ZoneModules = ({ selectedModules, geographies, center }) => {
+  const { API_URL } = useContext(AppContext);
+
   return (
     <div className=" flx-column flx-gap-small">
       {geographies.length === 0 || selectedModules.length === 0

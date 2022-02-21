@@ -189,8 +189,12 @@ const Accueil = () => {
               <Argument>
                 <ZoneTexte>
                   Nos modules thématiques sont{" "}
-                  <Emphase>pré-configurés par des experts</Emphase> et
-                  construits à partir de données officielles et ouvertes.
+                  <Emphase>
+                    pré-configurés par un réseau de scientifiques
+                  </Emphase>{" "}
+                  désireux de rendre accessible leurs résultats de recherche.
+                  Toutes les analyses sont issues de données officielles et
+                  ouvertes.
                 </ZoneTexte>
               </Argument>
               <Argument>
@@ -205,7 +209,10 @@ const Accueil = () => {
               </Argument>
             </Section>
             <Section>
-              <SousTitrePage>Une large gamme de modules</SousTitrePage>
+              <SousTitrePage>
+                Une large gamme de modules thématiques pour soutenir les projets
+                de développement
+              </SousTitrePage>
               <Argument>
                 <ZoneTexte>
                   Le développement de modules s'appui sur les demandes des

@@ -6,15 +6,12 @@
 // IMPORTATIONS ------------------------
 import Header from "../app/components/header/Header.jsx";
 import Connection from "./components/connection/Connection";
-import { useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { AppContext } from "../app/AppContext.jsx";
 
 // COMPOSANT ------------------------
-const UserBoard = ({ user }) => {
-  const [userInfo, setUserInfo] = useState(user);
-
-  useEffect(() => {
-    setUserInfo(user);
-  }, [user]);
+const UserBoard = () => {
+  const { user, setUser } = useContext(AppContext);
 
   return (
     <>

@@ -9,8 +9,9 @@ import "./Dashboard.css";
 import "./../app/App.css";
 
 // React components
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 
+import { AppContext } from "../app/AppContext";
 // TV Components
 import NameTableau from "./components/nameTableau/NameTableau";
 import Localisation from "./components/localisation/Localisation";
@@ -20,13 +21,15 @@ import ZoneModules from "./components/zoneModules/ZoneModules";
 
 // COMPOSANT -------------------------------------
 
-const Dashboard = ({ API_URL }) => {
+const Dashboard = () => {
   const [territories, setTerritories] = useState([]); // Name of territories selected
   const [selectedModules, setSelectedModules] = useState([]); // Names of selected modules
   const [geographies, setGeographies] = useState([]); // Geographies to be placed
   const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
   const [param, setParam] = useState({ localisation: false, modules: false }); // Parameters
   const refParam = useRef(null);
+  const { API_URL } = useContext(AppContext);
+  console.log(API_URL);
 
   // Functions
   const closeBox = (key) => {
@@ -58,7 +61,6 @@ const Dashboard = ({ API_URL }) => {
           }`}
         >
           <Localisation
-            API_URL={API_URL}
             territories={territories}
             setTerritories={setTerritories}
             geographies={geographies}
@@ -70,7 +72,6 @@ const Dashboard = ({ API_URL }) => {
             useOutsideCloser={useOutsideCloser}
           />
           <ModuleSelecteur
-            API_URL={API_URL}
             setSelectedModules={setSelectedModules}
             selectedModules={selectedModules}
             param={param}
@@ -89,7 +90,6 @@ const Dashboard = ({ API_URL }) => {
             selectedModules={selectedModules}
             geographies={geographies}
             center={center}
-            API_URL={API_URL}
           />
         </div>
       </div>

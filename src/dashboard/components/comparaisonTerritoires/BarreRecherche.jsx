@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { colorsLight } from "../../../app/colorComponents";
 import { FiFilter } from "react-icons/fi";
 import { typeTerritoire } from "./fonctionsComparaison";
+import {
+  apiRecommendation,
+  handleSearch,
+} from "../localisation/LocalisationFunctions";
+
+import { AppContext } from "../../../app/AppContext";
+
 const BarreContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -72,8 +79,17 @@ const ZoneResultat = styled.div`
 const Resultat = styled.div`
   padding: 10px;
   background: ${(props) =>
-    props.isSelected ? colorsLight.title : colorsLight.topBackground};
-  color: ${(props) => (props.isSelected ? "white" : "black")};
+    typeof props.type === "undefined"
+      ? props.isSelected
+        ? colorsLight.title
+        : colorsLight.topBackground
+      : colorsLight[props.type]};
+  color: ${(props) =>
+    typeof props.type === "undefined"
+      ? props.isSelected
+        ? "white"
+        : "black"
+      : "white"};
   white-space: ${(props) =>
     props.parametre !== "perimetre" ? "normal" : "nowrap"};
   border-radius: 8px;
@@ -158,93 +174,20 @@ const fauxResultats = [
   },
 ];
 
-const fauxresultatgeo = [
-  {
-    _id: {
-      $oid: "61d4753d5bc04273debfcc6b",
-    },
-    LIBGEO: "Drôme",
-    CODGEO: "26",
-    TYPE: "DEP",
-  },
-  {
-    _id: {
-      $oid: "61d31452aa41ce50ecfdbf76",
-    },
-    LIBGEO: "Balleroy-sur-Drôme",
-    CODGEO: "14035",
-    TYPE: "COM",
-  },
-  {
-    _id: {
-      $oid: "61d31459aa41ce50ecfdc2e0",
-    },
-    LIBGEO: "Val de Drôme",
-    CODGEO: "14672",
-    TYPE: "COM",
-  },
-  {
-    _id: {
-      $oid: "61d314a0aa41ce50ecfde417",
-    },
-    LIBGEO: "Livron-sur-Drôme",
-    CODGEO: "26165",
-    TYPE: "COM",
-  },
-  {
-    _id: {
-      $oid: "61d314a0aa41ce50ecfde419",
-    },
-    LIBGEO: "Loriol-sur-Drôme",
-    CODGEO: "26166",
-    TYPE: "COM",
-  },
-  {
-    _id: {
-      $oid: "61d314a3aa41ce50ecfde58e",
-    },
-    LIBGEO: "Valdrôme",
-    CODGEO: "26361",
-    TYPE: "COM",
-  },
-  {
-    _id: {
-      $oid: "61d474b95bc04273debfc287",
-    },
-    LIBGEO: "CC du Val de Drôme en Biovallée",
-    CODGEO: "242600252",
-    TYPE: "EPCI",
-  },
-  {
-    _id: {
-      $oid: "61d4750a5bc04273debfc917",
-    },
-    LIBGEO: "CC des Baronnies en Drôme Provençale",
-    CODGEO: "200068229",
-    TYPE: "EPCI",
-  },
-  {
-    _id: {
-      $oid: "61d475125bc04273debfc9ba",
-    },
-    LIBGEO: "CC Drôme Sud Provence",
-    CODGEO: "200042901",
-    TYPE: "EPCI",
-  },
-  {
-    _id: {
-      $oid: "61d4752d5bc04273debfcbcf",
-    },
-    LIBGEO: "CC du Crestois et de Pays de Saillans Cœur de Drôme",
-    CODGEO: "200040509",
-    TYPE: "EPCI",
-  },
-];
-
 const BarreRecherche = ({ tempo, setTempo, parametre }) => {
   const [recherche, setRecherche] = useState("");
   const [openFiltres, setOpenFiltres] = useState(false);
   const [themes, setThemes] = useState([]);
+
+  const [resultats, setResultats] = useState([]);
+  const { API_URL } = useContext(AppContext);
+
+  useEffect(() => {
+    // recherche tous les deux charactères
+    if ((recherche.length % 2 === 0) & (recherche !== "")) {
+      apiRecommendation(recherche, API_URL, setResultats);
+    }
+  }, [recherche, API_URL]);
 
   return (
     <>
@@ -258,6 +201,10 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
           } `}
           parametre={parametre}
           onChange={(e) => setRecherche(e.target.value)}
+          onKeyPress={(e) =>
+            e.key === "Enter" &&
+            handleSearch(e, recherche, API_URL, setResultats)
+          }
         />
         {parametre !== "perimetre" && (
           <FilterZone onClick={() => setOpenFiltres((prev) => !prev)}>
@@ -297,8 +244,10 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
 
       <ZoneResultat parametre={parametre}>
         {parametre === "perimetre"
-          ? fauxresultatgeo
-              .filter((resultat) => resultat.LIBGEO.includes(recherche))
+          ? resultats
+              .filter((resultat) =>
+                resultat.LIBGEO.toLowerCase().includes(recherche.toLowerCase())
+              )
               .map((resultat) => (
                 <Resultat
                   isSelected={
@@ -317,6 +266,7 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
                     }))
                   }
                   parametre={parametre}
+                  type={resultat.TYPE}
                 >
                   {resultat.LIBGEO} - {typeTerritoire(resultat.TYPE)}
                 </Resultat>

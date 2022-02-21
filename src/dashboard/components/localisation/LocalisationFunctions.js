@@ -29,37 +29,12 @@ const num_to_let = (num) => {
   }
 };
 
-// const let_to_num = (lett) => {
-//   if (lett === "z") {
-//     return "0";
-//   } else if (lett === "u") {
-//     return "1";
-//   } else if (lett === "d") {
-//     return "2";
-//   } else if (lett === "t") {
-//     return "3";
-//   } else if (lett === "q") {
-//     return "4";
-//   } else if (lett === "c") {
-//     return "5";
-//   } else if (lett === "s") {
-//     return "6";
-//   } else if (lett === "S") {
-//     return "7";
-//   } else if (lett === "h") {
-//     return "8";
-//   } else if (lett === "n") {
-//     return "9";
-//   }
-// };
-
 const id_gen = (CODGEO) =>
   CODGEO.split("")
     .map((d) => num_to_let(d))
     .join("");
 
 // FUNCTIONS CALLING TO THE API
-
 const apiRecommendation = async (query, API_URL, setSuggestions) => {
   // Function to retrieve the locations on the back-end when typing on search bar
   const response = await fetch(`${API_URL}/getLocation`, {
@@ -114,11 +89,7 @@ const updateVoisinnage = async (
   // Suppression des villes déjà sélectionnées
   const ids = geographies.map((d) => d.properties.CODGEO);
   data = data.filter((d) => !ids.some((a) => a.includes(d.properties.CODGEO)));
-  // + correction coordonnées
-  // .map((d) => {
-  //   d.geometry.coordinates = d.geometry.coordinates;
-  //   return d;
-  // });
+
   //  Mise a jour state voisinnage
   setVoisinnage(data);
 

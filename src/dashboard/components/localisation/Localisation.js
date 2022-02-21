@@ -2,16 +2,17 @@
 import "./Localisation.css";
 
 // React modules
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 
 // Import map function
+import { AppContext } from "../../../app/AppContext";
+
 import TerritoriesSelected from "./components/TerritoriesSelected";
 import SearchBarTerritoires from "./components/SearchBarTerritoires";
 import SuggestionsDrop from "./components/SuggestionsDrop";
 import NomZonage from "./components/NomZonage";
 import ListeTerritoiresSelectionnes from "./components/ListeTerritoiresSelectionnes";
 import LocalisationMap from "./components/LocalisationMap";
-
 // Icons
 import { MdKeyboardArrowUp } from "react-icons/md";
 
@@ -22,7 +23,6 @@ import {
 } from "./LocalisationFunctions";
 
 const Localisation = ({
-  API_URL,
   territories,
   setTerritories,
   geographies,
@@ -41,6 +41,7 @@ const Localisation = ({
   const [remove, setRemove] = useState([]); //geo to remove
   const [map, setMap] = useState(null); // map reference
   const refLoc = useRef(null);
+  const { API_URL } = useContext(AppContext);
 
   // Effects
   // Lance les recherches de territoires
