@@ -42,7 +42,7 @@ const TitleModal = styled.div`
   font-size: 1.6em;
   font-weight: bolder;
   margin: 10px 0px;
-  color: ${colorsLight.title};
+  color: ${colorsLight.title2};
 `;
 const TitleSection = styled.div`
   font-size: 1.4em;
@@ -139,11 +139,11 @@ const TitreParametre = styled.h3`
   font-weight: normal;
   font-size: 1.2em;
   font-style: italic;
-  color: ${colorsLight.title};
+  color: ${colorsLight.title2};
 `;
 
 const LegendeParametre = styled.div`
-  margin-top: 20px;
+  margin-top: ${(props) => (props.middle ? "70px" : "20px")};
   font-size: 1.1em;
 `;
 
@@ -161,7 +161,7 @@ const ParametreItemCritere = styled.div`
 const ItemCritere = styled.div`
   color: white;
   width: fit-content;
-  background-color: ${colorsLight.title};
+  background-color: ${colorsLight.interaction};
   border-radius: 8px;
   padding: 10px;
   svg {
@@ -185,7 +185,7 @@ const ZoneAction = styled.div`
   margin: 20px;
 `;
 const CarteSelection = styled.div`
-  background-color: ${colorsLight.title};
+  background-color: ${colorsLight.title2};
   padding: 20px;
   border-radius: 8px;
   color: white;
@@ -198,7 +198,7 @@ const CarteSelection = styled.div`
   display: flex;
   flex-direction: row;
   gap: 40px;
-  /* height: 100px; */
+  max-height: 300px;
 `;
 
 const TitreCarteSelection = styled.div`
@@ -224,7 +224,8 @@ const SelectionModalite = styled.div`
   flex-direction: column;
   overflow-y: auto;
   gap: 10px;
-  max-height: 80%;
+  max-width: 70%;
+  max-height: 450px;
 `;
 
 const Colonne = styled.div`
@@ -314,6 +315,55 @@ const TerritoiresSelectionnes = styled.div`
   overflow-y: scroll;
 `;
 
+const ConditionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  background: ${(props) => props.background && colorsLight.background};
+  border-radius: ${(props) => props.background && "8px"};
+  padding: ${(props) => props.background && "20px"};
+`;
+
+const TitleCondition = styled.div`
+  color: black;
+`;
+const AddCondition = styled.div`
+  background: ${(props) =>
+    props.selected ? colorsLight.background2 : colorsLight.topBackground};
+  color: black;
+  width: fit-content;
+
+  border-radius: 8px;
+  padding: 10px;
+  cursor: ${(props) => (props.open ? "normal" : "pointer")};
+  & svg {
+    fill: black;
+  }
+  &:hover {
+    border: ${(props) =>
+      props.selectMode &&
+      `solid 8px ${
+        props.selected ? colorsLight.cancel : colorsLight.background2
+      }`};
+    border-radius: ${(props) => props.selectMode && `10px`};
+    padding: ${(props) => props.selectMode && "2px"};
+    color: ${(props) =>
+      !props.open
+        ? props.top
+          ? colorsLight.background2
+          : colorsLight.title2
+        : "black"};
+    svg {
+      fill: ${(props) =>
+        !props.open && props.top
+          ? colorsLight.background2
+          : colorsLight.title2};
+    }
+  }
+`;
+
 export {
   BoiteParametre,
   TitreParametre,
@@ -346,4 +396,7 @@ export {
   EditButton,
   SaveButton,
   TerritoiresSelectionnes,
+  AddCondition,
+  ConditionsContainer,
+  TitleCondition,
 };

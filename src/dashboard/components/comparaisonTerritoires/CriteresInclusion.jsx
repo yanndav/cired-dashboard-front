@@ -15,13 +15,15 @@ import {
   Colonne,
   PetitTexte,
   SelectionModalite,
-  CheckBoxContainer,
-  CheckBox,
-  Checked,
+  AddCondition,
+  ConditionsContainer,
+  // CheckBoxContainer,
+  // CheckBox,
+  // Checked,
 } from "./StyledComparaison";
 
 import { hasCritere, isOpen, addS } from "./fonctionsComparaison";
-
+import ConditionCritere from "./ConditionCritere";
 import BarreRecherche from "./BarreRecherche";
 
 const CritereInclusion = ({
@@ -32,26 +34,62 @@ const CritereInclusion = ({
 }) => {
   const [tempoInclusion, setTempoInclusion] = useState([...criteres.inclusion]);
 
+  const addCondition = (inclus) => {
+    setTempoInclusion((prev) => {
+      let toUpdate = prev.filter(
+        (prevInclus) => prevInclus.CODE === inclus.CODE
+      )[0];
+      Object.keys(toUpdate).includes("CONDITIONS")
+        ? toUpdate.CONDITIONS.push({ key: toUpdate.CONDITIONS.length })
+        : (toUpdate.CONDITIONS = [{ key: 0 }]);
+      return [
+        ...prev.filter((prevInclus) => prevInclus.CODE !== inclus.CODE),
+        toUpdate,
+      ];
+    });
+  };
+
+  const handleModifyCondition = (inclus, modalite) => {
+    setTempoInclusion((prev) => {
+      let toUpdate = prev.filter(
+        (prevInclus) => prevInclus.CODE === inclus.CODE
+      )[0];
+      !Object.keys(toUpdate).includes("CONDITIONS") &&
+        (toUpdate.CONDITIONS = []);
+
+      toUpdate.CONDITIONS.includes(modalite.CODE)
+        ? (toUpdate.CONDITIONS = toUpdate.CONDITIONS.filter(
+            (cond) => cond !== modalite.CODE
+          ))
+        : toUpdate.CONDITIONS.push(modalite.CODE);
+
+      return [
+        ...prev.filter((prevInclus) => prevInclus.CODE !== inclus.CODE),
+        toUpdate,
+      ];
+    });
+  };
+
   return (
     <>
       {(parametre === "default" || parametre === "inclusion") && (
         <BoiteParametre
           isOpen={isOpen(parametre)}
-          hasCritere={hasCritere(tempoInclusion)}
+          hasCritere={hasCritere(criteres.inclusion)}
         >
           <ZoneSelection
             onClick={() =>
               !isOpen(parametre) &&
-              !hasCritere(tempoInclusion) &&
+              !hasCritere(criteres.inclusion) &&
               changeParametre("inclusion")
             }
           >
             <TitreParametre>
-              Critère{addS(tempoInclusion)} d'inclusion des territoires
+              Critère{addS(criteres.inclusion)} d'inclusion des territoires
             </TitreParametre>
-            {hasCritere(tempoInclusion) && parametre === "default" ? (
+            {hasCritere(criteres.inclusion) && parametre === "default" ? (
               <ZoneParametres>
-                {tempoInclusion.map((inclusion) => (
+                {criteres.inclusion.map((inclusion) => (
                   <ItemCritere>{inclusion.LIBELLE}</ItemCritere>
                 ))}
                 <ItemCritere
@@ -79,7 +117,7 @@ const CritereInclusion = ({
                 setTempo={setTempoInclusion}
                 parametre="inclusion"
               />
-              <LegendeParametre>
+              <LegendeParametre middle>
                 Critère{addS(tempoInclusion)} sélectionné
                 {addS(tempoInclusion)} :
               </LegendeParametre>
@@ -87,11 +125,11 @@ const CritereInclusion = ({
                 <>
                   {tempoInclusion
                     .sort((a, b) => a.LIBELLE.localeCompare(b.LIBELLE))
-                    .map((inclusion) => (
+                    .map((inclus) => (
                       <CarteSelection>
                         <Colonne>
                           <TitreCarteSelection>
-                            {inclusion.LIBELLE}
+                            {inclus.LIBELLE}
                           </TitreCarteSelection>
                           <PetitTexte clickable>
                             <AddButton />
@@ -102,7 +140,8 @@ const CritereInclusion = ({
                             onClick={() =>
                               setTempoInclusion((prev) => [
                                 ...prev.filter(
-                                  (inclu) => inclu.LIBELLE !== inclusion.LIBELLE
+                                  (prevInclus) =>
+                                    prevInclus.CODE !== inclus.CODE
                                 ),
                               ])
                             }
@@ -110,10 +149,48 @@ const CritereInclusion = ({
                             Supprimer ce critère
                           </Action>
                         </Colonne>
-                        <div>
-                          Modalités:
-                          <SelectionModalite>
-                            {inclusion.MODALITES.sort((a, b) =>
+                        <SelectionModalite>
+                          Conditions de l'inclusion :
+                          {inclus.TYPE === "NOMINAL" ? (
+                            <ConditionsContainer>
+                              {inclus.MODALITES.sort((a, b) =>
+                                a.LIBELLE.localeCompare(b.LIBELLE)
+                              ).map((modalite) => (
+                                <AddCondition
+                                  selectMode
+                                  selected={
+                                    Object.keys(inclus).includes(
+                                      "CONDITIONS"
+                                    ) &&
+                                    inclus.CONDITIONS.includes(modalite.CODE)
+                                  }
+                                  onClick={() =>
+                                    handleModifyCondition(inclus, modalite)
+                                  }
+                                >
+                                  {modalite.LIBELLE}
+                                </AddCondition>
+                              ))}
+                            </ConditionsContainer>
+                          ) : (
+                            <>
+                              <AddCondition
+                                onClick={() => addCondition(inclus)}
+                                top
+                              >
+                                <AddButton /> Ajouter une condition
+                              </AddCondition>
+                              {Object.keys(inclus).includes("CONDITIONS") &&
+                                inclus.CONDITIONS.map((condition) => (
+                                  <ConditionCritere
+                                    condition={condition}
+                                    inclus={inclus}
+                                    setTempoInclusion={setTempoInclusion}
+                                  />
+                                ))}
+                            </>
+                          )}
+                          {/* {inclusion.MODALITES.sort((a, b) =>
                               a.LIBELLE.localeCompare(b.LIBELLE)
                             ).map((modalite) => (
                               <CheckBoxContainer>
@@ -156,9 +233,8 @@ const CritereInclusion = ({
                                 </CheckBox>
                                 <span>{modalite.LIBELLE}</span>
                               </CheckBoxContainer>
-                            ))}
-                          </SelectionModalite>
-                        </div>
+                            ))} */}
+                        </SelectionModalite>
                       </CarteSelection>
                     ))}
                 </>

@@ -1,5 +1,5 @@
 const getLayer = (consignes, data) =>
-  data.filter((layer) => layer.VARIABLE.CODE == consignes.VAR_SOURCE)[0];
+  data.filter((layer) => layer.VARIABLE.CODE === consignes.VAR_SOURCE)[0];
 
 const valeursUniques = (bonLayer, group_var) => [
   ...new Set(bonLayer.GEOMETRY.map((c) => c.properties[group_var])),
@@ -12,7 +12,7 @@ const valeursUniquesBonLayer = (bonLayer, group_var) => {
 };
 
 const subsetLayer = (bonLayer, group_var, val) =>
-  bonLayer.GEOMETRY.filter((c) => c.properties[group_var] == val);
+  bonLayer.GEOMETRY.filter((c) => c.properties[group_var] === val);
 
 const varNb = (bonLayer, variable) =>
   valeursUniquesBonLayer(bonLayer, variable).length;
@@ -35,9 +35,9 @@ const ajouterVariable = (bonLayer, consignes) => {
   const type_calc = typeCalc(consignes.CALC);
   const var_calc = varCalc(consignes.CALC);
   let resultat = {};
-  if (type_calc == "NB") {
+  if (type_calc === "NB") {
     resultat[consignes.CODE] = varNb(bonLayer, var_calc);
-  } else if (type_calc == "UNIQUE") {
+  } else if (type_calc === "UNIQUE") {
     resultat[consignes.CODE] = varUnique(bonLayer, var_calc);
   }
   return resultat;

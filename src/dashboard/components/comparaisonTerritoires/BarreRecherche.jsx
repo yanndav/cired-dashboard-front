@@ -9,6 +9,7 @@ import {
 } from "../localisation/LocalisationFunctions";
 
 import { AppContext } from "../../../app/AppContext";
+import ReactMarkdown from "react-markdown";
 
 const BarreContainer = styled.div`
   display: flex;
@@ -26,6 +27,7 @@ const SearchZone = styled.input`
   border-radius: ${(props) =>
     props.parametre === "perimetre" ? "8px" : "8px 0px 0px 8px"};
   padding: 10px;
+  font-size: 1em;
 `;
 
 const FilterZone = styled.div`
@@ -36,12 +38,9 @@ const FilterZone = styled.div`
   padding: 10px 15px;
   cursor: pointer;
   &:hover {
-    color: ${colorsLight.interaction};
+    color: ${colorsLight.background2};
     svg {
-      fill: ${colorsLight.interaction};
-      circle {
-        fill: ${colorsLight.interaction};
-      }
+      fill: ${colorsLight.background2};
     }
   }
 `;
@@ -50,11 +49,11 @@ const IconZone = styled.svg`
   height: 20px;
 `;
 const FilterIcon = styled(FiFilter)`
-  stroke: ${colorsLight.title};
+  stroke: ${colorsLight.background2};
 `;
 
 const FilterNumberCircle = styled.circle`
-  fill: ${colorsLight.background2};
+  fill: ${colorsLight.background3};
   cx: 20px;
   cy: 8px;
   r: 8px;
@@ -77,11 +76,12 @@ const ZoneResultat = styled.div`
 `;
 
 const Resultat = styled.div`
+  font-size: 1em;
   padding: 10px;
   background: ${(props) =>
     typeof props.type === "undefined"
       ? props.isSelected
-        ? colorsLight.title
+        ? colorsLight.background2
         : colorsLight.topBackground
       : colorsLight[props.type]};
   color: ${(props) =>
@@ -97,9 +97,25 @@ const Resultat = styled.div`
     props.parametre !== "perimetre" ? "95%" : "fit-content"};
   cursor: ${(props) => (props.isSelected ? "normal" : "pointer")};
   &:hover {
-    background: ${colorsLight.title};
+    background: ${colorsLight.background2};
     color: white;
   }
+`;
+
+const DefinitionContainer = styled.div`
+  margin-top: 20px;
+`;
+const DefinitionResultat = styled(ReactMarkdown)`
+  margin-top: 10px;
+  padding: 0px 20px;
+  font-size: 0.9em;
+  font-style: italic;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  white-space: wrap;
+  max-width: 100%;
+  text-align: justify;
 `;
 
 const ZoneFiltres = styled.div`
@@ -119,75 +135,93 @@ const FiltreButton = styled.div`
   border-radius: 8px;
   padding: 10px;
   background: ${(props) =>
-    props.isSelected ? colorsLight.title : colorsLight.topBackground};
+    props.isGeo
+      ? props.isSelected
+        ? colorsLight[props.code]
+        : colorsLight.topBackground
+      : props.isSelected
+      ? colorsLight.background2
+      : colorsLight.topBackground};
   color: ${(props) => (props.isSelected ? "white" : "black")};
-
+  border: 1px solid
+    ${(props) => (props.isGeo ? colorsLight[props.code] : "none")};
   cursor: pointer;
   &:hover {
     background: ${(props) =>
-      props.isSelected ? colorsLight.cancel : colorsLight.light};
+      props.isSelected
+        ? colorsLight.cancel
+        : props.isGeo
+        ? colorsLight[props.code]
+        : colorsLight.light};
     color: white;
   }
 `;
 
 // FAUSSES VARIABLES
-const fauxResultats = [
-  {
-    CODE: "TAAV2020",
-    THEME: "Zonage",
-    LIBELLE: "Tranche d’aire d’attraction des villes 2020",
-    MODALITES: [
-      { LIBELLE: "Commune hors attraction des villes", SELECT: false },
-      { LIBELLE: "Aire de moins de 50 000 habitants", SELECT: false },
-      {
-        LIBELLE: "Aire de 50 000 à moins de 200 000 habitants",
-        SELECT: false,
-      },
-    ],
-  },
-  {
-    THEME: "Zonage",
-    CODE: "CAAV2020",
 
-    LIBELLE:
-      "Catégorie de la commune dans le zonage en aires d'attraction des villes 2020",
-    MODALITES: [
-      { LIBELLE: "Commune hors attraction des villes", SELECT: false },
-      { LIBELLE: "Aire de moins de 50 000 habitants", SELECT: false },
-      {
-        LIBELLE: "Aire de 50 000 à moins de 200 000 habitants",
-        SELECT: false,
-      },
-    ],
-  },
-  {
-    THEME: "Démographie",
-    LIBELLE: "Taux de pauvreté dans la commune",
-    MODALITES: [
-      { LIBELLE: "Commune hors attraction des villes", SELECT: false },
-      { LIBELLE: "Aire de moins de 50 000 habitants", SELECT: false },
-      {
-        LIBELLE: "Aire de 50 000 à moins de 200 000 habitants",
-        SELECT: false,
-      },
-    ],
-  },
-];
+const searchVariables = async (recherche, theme, API_URL, setResultats) => {
+  const response = await fetch(`${API_URL}/searchVariables`, {
+    body: JSON.stringify({ recherche: recherche, theme: theme }),
+    method: "POST",
+    headers: {
+      // Authorization: bearer,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+  setResultats(data);
+};
 
 const BarreRecherche = ({ tempo, setTempo, parametre }) => {
+  const { API_URL } = useContext(AppContext);
   const [recherche, setRecherche] = useState("");
   const [openFiltres, setOpenFiltres] = useState(false);
   const [themes, setThemes] = useState([]);
-
   const [resultats, setResultats] = useState([]);
-  const { API_URL } = useContext(AppContext);
+  const [listeThemes, setListeThemes] = useState([]);
+  const [delayHandler, setDelayHandler] = useState(null);
+  const [showInfo, setShowInfo] = useState("");
+
+  const handleMouseEnter = (code) => {
+    setDelayHandler(
+      setTimeout(() => {
+        setShowInfo(code);
+      }, 500)
+    );
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(delayHandler);
+    setShowInfo("");
+  };
+
+  useEffect(() => {
+    const getListeThemes = async (parametre, API_URL) => {
+      const response = await fetch(`${API_URL}/getThemes`, {
+        body: JSON.stringify({ parametre: parametre }),
+        method: "POST",
+        headers: {
+          // Authorization: bearer,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setListeThemes(data);
+    };
+    getListeThemes(parametre, API_URL);
+  }, []);
 
   useEffect(() => {
     // recherche tous les deux charactères
-    if ((recherche.length % 2 === 0) & (recherche !== "")) {
-      apiRecommendation(recherche, API_URL, setResultats);
+    if (recherche.length % 2 === 0 && recherche !== "") {
+      parametre === "perimetre" &&
+        apiRecommendation(recherche, API_URL, setResultats, themes);
+      parametre === "inclusion" &&
+        searchVariables(recherche, API_URL, themes, setResultats);
     }
-  }, [recherche, API_URL]);
+  }, [recherche, API_URL, themes, parametre]);
 
   return (
     <>
@@ -202,49 +236,62 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
           parametre={parametre}
           onChange={(e) => setRecherche(e.target.value)}
           onKeyPress={(e) =>
-            e.key === "Enter" &&
-            handleSearch(e, recherche, API_URL, setResultats)
+            e.key === "Enter" && parametre === "perimetre"
+              ? handleSearch(e, recherche, API_URL, setResultats, themes)
+              : searchVariables(recherche, themes, API_URL, setResultats)
           }
         />
-        {parametre !== "perimetre" && (
-          <FilterZone onClick={() => setOpenFiltres((prev) => !prev)}>
-            <IconZone>
-              <FilterIcon size={21} />
-              {themes.length > 0 && (
-                <>
-                  <FilterNumberCircle />
-                  <FilterNumber x={20} y={14}>
-                    {themes.length}
-                  </FilterNumber>
-                </>
-              )}
-            </IconZone>
-            Filtrez les {parametre === "inclusion" ? "thèmes" : "types d'unité"}
-          </FilterZone>
-        )}
+        {/* {parametre !== "perimetre" && ( */}
+        <FilterZone onClick={() => setOpenFiltres((prev) => !prev)}>
+          <IconZone>
+            <FilterIcon size={21} />
+            {themes.length > 0 && (
+              <>
+                <FilterNumberCircle />
+                <FilterNumber x={20} y={14}>
+                  {themes.length}
+                </FilterNumber>
+              </>
+            )}
+          </IconZone>
+          Filtrez les{" "}
+          {parametre === "inclusion"
+            ? "thèmes"
+            : parametre === "unité"
+            ? "types d'unité"
+            : "niveaux géographiques"}
+        </FilterZone>
+        {/* )} */}
       </BarreContainer>
       {openFiltres && (
         <ZoneFiltres>
-          {[...new Set(fauxResultats.map((resultat) => resultat.THEME))].map(
-            (theme) => (
-              <FiltreButton
-                isSelected={themes.includes(theme)}
-                onClick={() =>
-                  themes.includes(theme)
-                    ? setThemes((prev) => prev.filter((th) => th !== theme))
-                    : setThemes((prev) => [...prev, theme])
-                }
-              >
-                {theme}
-              </FiltreButton>
-            )
-          )}
+          {listeThemes.map((theme) => (
+            <FiltreButton
+              isSelected={themes.includes(theme.CODE)}
+              onClick={(e) => {
+                themes.includes(theme.CODE)
+                  ? setThemes((prev) => prev.filter((th) => th !== theme.CODE))
+                  : setThemes((prev) => [...prev, theme.CODE]);
+
+                parametre === "perimetre"
+                  ? handleSearch(e, recherche, API_URL, setResultats, themes)
+                  : searchVariables(recherche, themes, API_URL, setResultats);
+              }}
+              isGeo={parametre === "perimetre"}
+              code={theme.CODE}
+            >
+              {theme.LIBELLE}
+            </FiltreButton>
+          ))}
         </ZoneFiltres>
       )}
 
       <ZoneResultat parametre={parametre}>
         {parametre === "perimetre"
           ? resultats
+              .filter((resultat) =>
+                themes.length > 0 ? themes.includes(resultat.TYPE) : true
+              )
               .filter((resultat) =>
                 resultat.LIBGEO.toLowerCase().includes(recherche.toLowerCase())
               )
@@ -271,11 +318,19 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
                   {resultat.LIBGEO} - {typeTerritoire(resultat.TYPE)}
                 </Resultat>
               ))
-          : fauxResultats
+          : resultats
               .filter((resultat) =>
-                themes.length > 0 ? themes.includes(resultat.THEME) : true
+                themes.length > 0
+                  ? themes.some((r) => resultat.THEME.includes(r))
+                  : true
               )
-              .filter((resultat) => resultat.LIBELLE.includes(recherche))
+              .filter((resultat) =>
+                recherche !== ""
+                  ? resultat.LIBELLE.toLowerCase().includes(
+                      recherche.toLowerCase()
+                    )
+                  : true
+              )
               .map((resultat) => (
                 <Resultat
                   isSelected={
@@ -291,15 +346,30 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
                     parametre === "inclusion"
                       ? (typeof tempo === "undefined" ||
                           !tempo
-                            .map((inclu) => inclu.LIBELLE)
-                            .includes(resultat.LIBELLE)) &&
+                            .map((inclu) => inclu.CODE)
+                            .includes(resultat.CODE)) &&
                         setTempo((prev) => [...prev, resultat])
                       : (typeof tempo !== "undefined" ||
-                          tempo.LIBELLE !== resultat.LIBELLE) &&
+                          tempo.CODE !== resultat.CODE) &&
                         setTempo(resultat)
                   }
+                  onMouseEnter={() => handleMouseEnter(resultat.CODE)}
+                  onMouseLeave={() => handleMouseLeave()}
                 >
                   {resultat.LIBELLE}
+
+                  {showInfo === resultat.CODE && (
+                    <DefinitionContainer>
+                      Definition :
+                      <DefinitionResultat
+                        children={resultat.DEFINITION.replace(
+                          /\n\s{2,}/g,
+                          "\n\n"
+                        )}
+                        // components={{ pre: "div", code: "p" }}
+                      />
+                    </DefinitionContainer>
+                  )}
                 </Resultat>
               ))}
       </ZoneResultat>

@@ -35,10 +35,15 @@ const id_gen = (CODGEO) =>
     .join("");
 
 // FUNCTIONS CALLING TO THE API
-const apiRecommendation = async (query, API_URL, setSuggestions) => {
+const apiRecommendation = async (
+  query,
+  API_URL,
+  setSuggestions,
+  type = null
+) => {
   // Function to retrieve the locations on the back-end when typing on search bar
   const response = await fetch(`${API_URL}/getLocation`, {
-    body: JSON.stringify({ location: query }),
+    body: JSON.stringify({ location: query, type: type }),
     method: "POST",
     headers: {
       // Authorization: bearer,
@@ -51,10 +56,10 @@ const apiRecommendation = async (query, API_URL, setSuggestions) => {
   setSuggestions(data);
 };
 
-const handleSearch = (e, query, API_URL, setSuggestions) => {
+const handleSearch = (e, query, API_URL, setSuggestions, type = null) => {
   // Function to launch the fetch action when press enter on the search bar
   e.preventDefault();
-  apiRecommendation(query, API_URL, setSuggestions);
+  apiRecommendation(query, API_URL, setSuggestions, type);
 };
 
 const apiVoisinnage = async (API_URL, map) => {
