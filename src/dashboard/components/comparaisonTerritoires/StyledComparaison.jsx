@@ -198,7 +198,7 @@ const CarteSelection = styled.div`
   display: flex;
   flex-direction: row;
   gap: 40px;
-  max-height: 300px;
+  /* max-height: 300px; */
 `;
 
 const TitreCarteSelection = styled.div`
@@ -225,7 +225,7 @@ const SelectionModalite = styled.div`
   overflow-y: auto;
   gap: 10px;
   max-width: 70%;
-  max-height: 450px;
+  /* max-height: 450px; */
 `;
 
 const Colonne = styled.div`
@@ -282,7 +282,14 @@ const Checked = styled.div`
   border-radius: 50%;
   cursor: pointer;
 `;
-
+const MaxHeightContainer = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-shrink: 0;
+`;
 const NomPerimetre = styled.form`
   margin: 20px 0px;
   border: none;
@@ -318,16 +325,18 @@ const TerritoiresSelectionnes = styled.div`
 const ConditionsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: wrap;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   background: ${(props) => props.background && colorsLight.background};
   border-radius: ${(props) => props.background && "8px"};
   padding: ${(props) => props.background && "20px"};
+  margin-right: 5px;
 `;
 
 const TitleCondition = styled.div`
   color: black;
+  width: 100%;
 `;
 const AddCondition = styled.div`
   background: ${(props) =>
@@ -385,6 +394,7 @@ export {
   AddButton,
   CarteSelection,
   TitreCarteSelection,
+  MaxHeightContainer,
   Colonne,
   PetitTexte,
   SelectionModalite,

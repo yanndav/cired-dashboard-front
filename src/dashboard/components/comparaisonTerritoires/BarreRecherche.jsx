@@ -173,7 +173,7 @@ const searchVariables = async (recherche, theme, API_URL, setResultats) => {
   setResultats(data);
 };
 
-const BarreRecherche = ({ tempo, setTempo, parametre }) => {
+const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
   const { API_URL } = useContext(AppContext);
   const [recherche, setRecherche] = useState("");
   const [openFiltres, setOpenFiltres] = useState(false);
@@ -196,6 +196,16 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
     setShowInfo("");
   };
 
+  const handleClickInclusion = (tempo, resultat) => {
+    if (
+      typeof tempo === "undefined" ||
+      !tempo.map((inclu) => inclu.CODE).includes(resultat.CODE)
+    ) {
+      setTempo((prev) => [...prev, resultat]);
+      addMetaCondition(API_URL, [], resultat.CODE, resultat.TYPE);
+    }
+  };
+
   useEffect(() => {
     const getListeThemes = async (parametre, API_URL) => {
       const response = await fetch(`${API_URL}/getThemes`, {
@@ -216,10 +226,10 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
   useEffect(() => {
     // recherche tous les deux charactères
     if (recherche.length % 2 === 0 && recherche !== "") {
-      parametre === "perimetre" &&
-        apiRecommendation(recherche, API_URL, setResultats, themes);
-      parametre === "inclusion" &&
-        searchVariables(recherche, API_URL, themes, setResultats);
+      parametre === "perimetre"
+        ? apiRecommendation(recherche, API_URL, setResultats, themes)
+        : parametre === "inclusion" &&
+          searchVariables(recherche, API_URL, themes, setResultats);
     }
   }, [recherche, API_URL, themes, parametre]);
 
@@ -236,9 +246,10 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
           parametre={parametre}
           onChange={(e) => setRecherche(e.target.value)}
           onKeyPress={(e) =>
-            e.key === "Enter" && parametre === "perimetre"
+            e.key === "Enter" &&
+            (parametre === "perimetre"
               ? handleSearch(e, recherche, API_URL, setResultats, themes)
-              : searchVariables(recherche, themes, API_URL, setResultats)
+              : searchVariables(recherche, themes, API_URL, setResultats))
           }
         />
         {/* {parametre !== "perimetre" && ( */}
@@ -288,7 +299,8 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
 
       <ZoneResultat parametre={parametre}>
         {parametre === "perimetre"
-          ? resultats
+          ? resultats.length > 0 &&
+            resultats
               .filter((resultat) =>
                 themes.length > 0 ? themes.includes(resultat.TYPE) : true
               )
@@ -344,11 +356,7 @@ const BarreRecherche = ({ tempo, setTempo, parametre }) => {
                   }
                   onClick={() =>
                     parametre === "inclusion"
-                      ? (typeof tempo === "undefined" ||
-                          !tempo
-                            .map((inclu) => inclu.CODE)
-                            .includes(resultat.CODE)) &&
-                        setTempo((prev) => [...prev, resultat])
+                      ? handleClickInclusion(tempo, resultat)
                       : (typeof tempo !== "undefined" ||
                           tempo.CODE !== resultat.CODE) &&
                         setTempo(resultat)

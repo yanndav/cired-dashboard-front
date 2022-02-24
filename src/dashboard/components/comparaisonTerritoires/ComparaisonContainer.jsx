@@ -102,7 +102,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
           sélection des territoires, ainsi que l'échelle d'analyse.
         </ParagraphSousTitre>
         {/* SI AUCUN CRITÈRE N'EST SELECTIONNÉ */}
-        {vide(criteres) && (
+        {vide(criteres) && parametre === "default" && (
           <>
             <TitleSection>
               Personnalisez des critères de comparaison parmi ceux recommandés

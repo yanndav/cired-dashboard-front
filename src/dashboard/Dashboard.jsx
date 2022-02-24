@@ -9,9 +9,8 @@ import "./Dashboard.css";
 import "./../app/App.css";
 
 // React components
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 
-import { AppContext } from "../app/AppContext";
 // TV Components
 import NameTableau from "./components/nameTableau/NameTableau";
 import Localisation from "./components/localisation/Localisation";
@@ -28,8 +27,6 @@ const Dashboard = () => {
   const [center, setCenter] = useState([46.8, 1.7]); // Center of the map (France)
   const [param, setParam] = useState({ localisation: false, modules: false }); // Parameters
   const refParam = useRef(null);
-  const { API_URL } = useContext(AppContext);
-  console.log(API_URL);
 
   // Functions
   const closeBox = (key) => {

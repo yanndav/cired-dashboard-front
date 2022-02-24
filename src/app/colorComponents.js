@@ -1,17 +1,17 @@
 const colorsLight = {
-  title: "#52B69A",
-  title2: "#264653",
+  title: "#4D908E",
+  title2: "#577590",
   background: "#f5f5f5",
   background2: "#81b29a",
   background3: "#f2cc8f",
-  interaction: "#34A0A4",
+  interaction: "#577590",
   topBackground: "#D7D7D7",
   light: "#99D98C",
   cancel: "#DC756B",
-  COM: "#f3d17c",
-  EPCI: "#cf9963",
-  DEP: "#80b918",
-  REG: "#007f5f",
+  COM: "#F9C74F",
+  EPCI: "#F9844A",
+  DEP: "#4D908E",
+  REG: "#577590",
 };
 
 export { colorsLight };
