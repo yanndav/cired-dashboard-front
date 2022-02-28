@@ -36,10 +36,10 @@ const CarteProposition = styled.div`
   }
 `;
 
-const PropositionPresets = ({ cartes }) => {
+const PropositionPresets = ({ cartes, changeParametre }) => {
   return (
     <>
-      <CarteProposition>
+      <CarteProposition onClick={() => changeParametre("default")}>
         <TitreParametre>
           Créez vos propres critères de comparaison
         </TitreParametre>

@@ -54,7 +54,7 @@ const vide = (criteres) =>
 const ComparaisonContainer = ({ setComparaison, titre }) => {
   // Variables
   const boxRef = useRef(null);
-  const [parametre, setParametre] = useState("default");
+  const [parametre, setParametre] = useState("start");
   const [criteres, setCriteres] = useState({
     perimetre: [],
     inclusion: [],
@@ -85,7 +85,6 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
   const changeParametre = (nom) => setParametre(nom);
   // Exécution de la fonction de fermeture de la boîte
   useOutsideCloser(boxRef);
-  console.log("comparaison", pretAComparer(criteres));
 
   return (
     <Back>
@@ -103,9 +102,13 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
         </ParagraphSousTitre>
 
         {/* SI AUCUN CRITÈRE N'EST SELECTIONNÉ */}
-        {parametre === "default" && vide(criteres) ? (
-          <PropositionPresets cartes={cartes} />
-        ) : (
+        {parametre === "start" && vide(criteres) && (
+          <PropositionPresets
+            cartes={cartes}
+            changeParametre={changeParametre}
+          />
+        )}
+        {parametre !== "start" && (
           // SI AU MOINS UN CRITERE EST INSERE
           <>
             <TitleSection>

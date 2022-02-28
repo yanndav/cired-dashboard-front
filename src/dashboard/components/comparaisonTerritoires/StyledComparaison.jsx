@@ -111,6 +111,9 @@ const ZoneParametres = styled.div`
 `;
 const ZoneSelection = styled.div`
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 const BoiteParametre = styled.div`
   background: ${colorsLight.background};
@@ -120,15 +123,7 @@ const BoiteParametre = styled.div`
   margin: 4px;
   flex-grow: 4;
   flex-shrink: 4;
-  transition: 0.2s background-color, 0.2s color, 0.5s width, 0.5s height;
-
-  &:hover {
-    background-color: ${colorsLight.background2};
-    color: white;
-    cursor: pointer;
-    & h3 {
-      color: white;
-    }
+  
   }
 `;
 
@@ -140,7 +135,7 @@ const TitreParametre = styled.h3`
 `;
 
 const LegendeParametre = styled.div`
-  margin-top: ${(props) => (props.middle ? "70px" : "20px")};
+  /* margin-top: ${(props) => (props.middle ? "70px" : "20px")}; */
   font-size: 1.1em;
 `;
 
@@ -161,13 +156,14 @@ const ItemCritere = styled.div`
   background-color: ${colorsLight.interaction};
   border-radius: 8px;
   padding: 10px;
+  margin: 20px 0px;
   svg {
     fill: white;
     padding-right: 5px;
   }
   &:hover {
     cursor: ${(props) => props.clickable && "pointer"};
-    background-color: ${(props) => props.clickable && colorsLight.interaction};
+    opacity: ${(props) => props.clickable && 0.8};
     svg {
       filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
     }
@@ -183,6 +179,8 @@ const ZoneAction = styled.div`
 `;
 const CarteSelection = styled.div`
   background-color: ${colorsLight.title2};
+  display: flex;
+  flex-direction: ${(props) => props.flex};
   padding: 20px;
   border-radius: 8px;
   color: white;
@@ -192,14 +190,13 @@ const CarteSelection = styled.div`
     margin-right: 5px;
   }
   margin: 20px 0px;
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
+
+  gap: 20px 40px;
   /* max-height: 300px; */
 `;
 
 const TitreCarteSelection = styled.div`
-  font-size: 1.3em;
+  font-size: 1.1em;
 `;
 
 const PetitTexte = styled.div`
@@ -243,7 +240,7 @@ const Action = styled.div`
   transition: 0.2s ease background-color, 0.2s color;
   &:hover {
     background-color: ${(props) =>
-      props.choix === "VALIDER" ? colorsLight.interaction : colorsLight.cancel};
+      props.choix === "VALIDER" ? colorsLight.background2 : colorsLight.cancel};
     color: #ffffff;
   }
   cursor: pointer;
@@ -289,6 +286,10 @@ const MaxHeightContainer = styled.div`
 `;
 const NomPerimetre = styled.form`
   margin: 20px 0px;
+  font-size: 1.4em;
+  svg {
+    font-size: 0.7em;
+  }
   border: none;
   background: ${(props) =>
     props.isEmpty ? colorsLight.cancel : colorsLight.topBackground};
@@ -298,8 +299,7 @@ const NomPerimetre = styled.form`
   &:hover {
     color: ${(props) => !props.isEditing && colorsLight.background};
     svg {
-      stroke: ${(props) => !props.isEditing && colorsLight.background};
-      fill: ${(props) => !props.isEditing && colorsLight.background};
+      fill: ${(props) => !props.isEditing && colorsLight.background3};
     }
   }
 `;
