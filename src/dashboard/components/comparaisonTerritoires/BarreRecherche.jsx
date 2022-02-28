@@ -199,10 +199,16 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
   const handleClickInclusion = (tempo, resultat) => {
     if (
       typeof tempo === "undefined" ||
-      !tempo.map((inclu) => inclu.CODE).includes(resultat.CODE)
+      !tempo.CONDITIONS.map((inclu) => inclu.CODE).includes(resultat.CODE)
     ) {
-      setTempo((prev) => [...prev, resultat]);
-      addMetaCondition(API_URL, [], resultat.CODE, resultat.TYPE);
+      setTempo((prev) => ({
+        ...prev,
+        CONDITIONS: [
+          ...prev.CONDITIONS,
+          { CODE: resultat.CODE, OPTIONS: resultat.CHOIX },
+        ],
+      }));
+      addMetaCondition(API_URL, [], resultat, resultat.TYPE);
     }
   };
 
@@ -348,9 +354,9 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
                   isSelected={
                     parametre === "inclusion"
                       ? typeof tempo !== "undefined" &&
-                        tempo
-                          .map((inclu) => inclu.LIBELLE)
-                          .includes(resultat.LIBELLE)
+                        tempo.CONDITIONS.map((inclu) => inclu.CODE).includes(
+                          resultat.CODE
+                        )
                       : typeof tempo !== "undefined" &&
                         tempo.LIBELLE === resultat.LIBELLE
                   }

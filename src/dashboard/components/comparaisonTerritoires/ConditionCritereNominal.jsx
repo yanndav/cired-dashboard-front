@@ -13,7 +13,7 @@ const ConditionCritereNominal = ({
 }) => {
   return (
     <>
-      {META && inclus.CONDITIONS ? (
+      {META && META.CHOIX ? (
         <>
           {" "}
           <span>Années :</span>
@@ -23,12 +23,10 @@ const ConditionCritereNominal = ({
                 <AddCondition
                   selectMode
                   selected={
-                    inclus.CONDITIONS &&
-                    inclus.CONDITIONS.filter((cond) => cond.SELECT)
-                      .map((cond) => cond.ANNEE)
-                      .includes(annee)
+                    inclus.OPTIONS &&
+                    inclus.OPTIONS.map((cond) => cond.ANNEE).includes(annee)
                   }
-                  onClick={() => handleModifyYear(inclus, annee)}
+                  onClick={() => handleModifyYear(inclus, annee, META)}
                 >
                   {annee}
                 </AddCondition>
@@ -39,26 +37,24 @@ const ConditionCritereNominal = ({
               META.ANNEES.sort()
                 .filter(
                   (annee) =>
-                    inclus.CONDITIONS &&
-                    inclus.CONDITIONS.filter((cond) => cond.SELECT)
-                      .map((cond) => cond.ANNEE)
-                      .includes(annee)
+                    inclus.OPTIONS &&
+                    inclus.OPTIONS.map((cond) => cond.ANNEE).includes(annee)
                 )
                 .map((annee) => (
                   <ConditionsContainer background>
                     <TitleCondition>{annee}</TitleCondition>
                     <ConditionsContainer>
-                      {inclus.CONDITIONS &&
-                        inclus.CONDITIONS.filter((cond) => cond.ANNEE === annee)
+                      {META.CHOIX &&
+                        META.CHOIX.filter((cond) => cond.ANNEE === annee)
                           .sort((a, b) => a.KEY - b.KEY)
                           .map((cond) => (
                             <AddCondition
                               selectMode
                               selected={
-                                inclus.CONDITIONS &&
-                                inclus.CONDITIONS.filter(
-                                  (condi) => condi.KEY === cond.KEY
-                                )[0].SELECT
+                                inclus.OPTIONS &&
+                                inclus.OPTIONS.map(
+                                  (condi) => condi.KEY
+                                ).includes(cond.KEY)
                               }
                               onClick={() =>
                                 handleModifyModaliteYear(inclus, cond)

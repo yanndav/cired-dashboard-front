@@ -20,7 +20,7 @@ import {
   TitreCarteSelection,
   CarteSelection,
 } from "./StyledComparaison";
-import { addS, isOpen, hasCritere } from "./fonctionsComparaison";
+import { addS, hasCritere, setKeyCondition } from "./fonctionsComparaison";
 
 import BarreRecherche from "./BarreRecherche";
 
@@ -28,8 +28,6 @@ const handleName = (name) => (name === "" ? "Périmètre sans nom" : name);
 
 const setName = (libelle) =>
   libelle === "" ? "Nommez votre périmètre" : libelle;
-
-const setKeyPerimetre = () => (Math.random() + 1).toString(36).substring(7);
 
 const PerimetreGeographique = ({
   parametre,
@@ -45,17 +43,7 @@ const PerimetreGeographique = ({
     <>
       {(parametre === "default" || parametre === "perimetre") && (
         <BoiteParametre>
-          <ZoneSelection
-          // onClick={() => {
-          //   if (!isOpen(parametre) && !hasCritere(criteres.perimetre)) {
-          //     changeParametre("perimetre");
-          //     setTempoPerimetre({
-          //       LIBELLE: "",
-          //       TERRITOIRES: [],
-          //     });
-          //   }
-          // }}
-          >
+          <ZoneSelection>
             {/* EN-TETE */}
             {/* TITRE */}
             <TitreParametre>
@@ -74,7 +62,7 @@ const PerimetreGeographique = ({
                 changeParametre("perimetre");
                 setTempoPerimetre({
                   LIBELLE: "",
-                  KEY: setKeyPerimetre(),
+                  KEY: setKeyCondition(),
                   TERRITOIRES: [],
                 });
               }}

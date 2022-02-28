@@ -105,7 +105,7 @@ const SaveButton = styled(FaSave)`
 const ZoneParametres = styled.div`
   margin-top: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 10px;
 `;
@@ -118,11 +118,7 @@ const ZoneSelection = styled.div`
 const BoiteParametre = styled.div`
   background: ${colorsLight.background};
   border-radius: 9px;
-  width: min-content;
-  min-width: 400px;
   margin: 4px;
-  flex-grow: 4;
-  flex-shrink: 4;
   
   }
 `;

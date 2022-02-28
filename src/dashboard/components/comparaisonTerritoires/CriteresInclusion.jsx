@@ -15,14 +15,16 @@ import {
   Colonne,
   PetitTexte,
   SelectionModalite,
-  AddCondition,
-  ConditionsContainer,
-  // CheckBoxContainer,
-  // CheckBox,
-  // Checked,
+  ParametreItemCritere,
+  ClosingButton,
 } from "./StyledComparaison";
 
-import { hasCritere, isOpen, addS } from "./fonctionsComparaison";
+import {
+  hasCritere,
+  isOpen,
+  addS,
+  setKeyCondition,
+} from "./fonctionsComparaison";
 import ConditionCritereContinu from "./ConditionCritereContinu";
 import BarreRecherche from "./BarreRecherche";
 import ConditionCritereNominal from "./ConditionCritereNominal";
@@ -33,13 +35,18 @@ const CritereInclusion = ({
   criteres,
   setCriteres,
 }) => {
-  const [tempoInclusion, setTempoInclusion] = useState([...criteres.inclusion]);
+  const [tempoInclusion, setTempoInclusion] = useState({});
   const [tempoMeta, setTempoMeta] = useState([]);
   const inclusion = parametre === "inclusion";
 
-  const addMetaCondition = async (API_URL, CODGEO, VARIABLE, TYPE) => {
+  const addMetaCondition = async (API_URL, CODGEO, resultat, TYPE) => {
+    setTempoMeta((prev) => [...prev, resultat]);
     const response = await fetch(`${API_URL}/getMetaVariableTerri`, {
-      body: JSON.stringify({ VARIABLE: VARIABLE, TYPE: TYPE, CODGEO: CODGEO }),
+      body: JSON.stringify({
+        VARIABLE: resultat.CODE,
+        TYPE: TYPE,
+        CODGEO: CODGEO,
+      }),
       method: "POST",
       headers: {
         // Authorization: bearer,
@@ -48,17 +55,34 @@ const CritereInclusion = ({
       },
     });
     const data = await response.json();
-    setTempoMeta((prev) => [...prev, data]);
-    setTempoInclusion((prev) => {
-      let toUpdate = prev.filter(
-        (prevInclus) => prevInclus.CODE === VARIABLE
-      )[0];
-      toUpdate.CONDITIONS = data.CHOIX;
-      return [
-        ...prev.filter((prevInclus) => prevInclus.CODE !== VARIABLE),
-        toUpdate,
-      ];
-    });
+    setTempoMeta((prev) => [
+      ...prev.filter((pre) => pre.CODE !== resultat.CODE),
+      { ...resultat, ...data },
+    ]);
+    resultat.TYPE === "NOMINAL" &&
+      setTempoInclusion((prev) => ({
+        ...prev,
+        CONDITIONS: [
+          ...prev.CONDITIONS.filter((cond) => cond.CODE !== resultat.CODE),
+          {
+            ...prev.CONDITIONS.filter((cond) => cond.CODE === resultat.CODE)[0],
+            OPTIONS: data.CHOIX,
+          },
+        ],
+      }));
+  };
+
+  const getSubset = (tempoMeta, condition) =>
+    tempoMeta.filter((meta) => meta.CODE === condition.CODE)[0];
+
+  const showLibelle = (tempoMeta, condition) => {
+    let subset = getSubset(tempoMeta, condition);
+    return typeof subset !== "undefined" ? subset.LIBELLE : "";
+  };
+
+  const showType = (tempoMeta, condition) => {
+    let subset = getSubset(tempoMeta, condition);
+    return typeof subset !== "undefined" ? subset.TYPE : "";
   };
 
   const addCondition = (inclus) => {
@@ -76,45 +100,60 @@ const CritereInclusion = ({
     });
   };
 
-  const handleModifyYear = (inclus, annee) => {
+  const handleModifyYear = (inclus, annee, meta) => {
     setTempoInclusion((prev) => {
-      let toUpdate = prev.filter(
+      let toUpdate = prev.CONDITIONS.filter(
         (prevInclus) => prevInclus.CODE === inclus.CODE
       )[0];
 
-      let modified = toUpdate.CONDITIONS.filter(
-        (cond) => cond.ANNEE === annee
-      ).map((cond) => ({ ...cond, SELECT: !cond.SELECT }));
-      toUpdate.CONDITIONS = [
-        ...toUpdate.CONDITIONS.filter((cond) => cond.ANNEE !== annee),
-        ...modified,
-      ];
+      let exists = toUpdate.OPTIONS.map((cond) => cond.ANNEE).includes(annee);
 
-      return [
-        ...prev.filter((prevInclus) => prevInclus.CODE !== inclus.CODE),
-        toUpdate,
-      ];
+      exists
+        ? (toUpdate.OPTIONS = [
+            ...toUpdate.OPTIONS.filter((cond) => cond.ANNEE !== annee),
+          ])
+        : (toUpdate.OPTIONS = [
+            ...toUpdate.OPTIONS.filter((cond) => cond.ANNEE !== annee),
+            ...meta.CHOIX.filter((cond) => cond.ANNEE === annee),
+          ]);
+
+      return {
+        ...prev,
+        CONDITIONS: [
+          ...prev.CONDITIONS.filter(
+            (prevInclus) => prevInclus.CODE !== inclus.CODE
+          ),
+          toUpdate,
+        ],
+      };
     });
   };
 
   const handleModifyModaliteYear = (inclus, condition) => {
     setTempoInclusion((prev) => {
-      let toUpdate = prev.filter(
+      let toUpdate = prev.CONDITIONS.filter(
         (prevInclus) => prevInclus.CODE === inclus.CODE
       )[0];
 
-      let modified = toUpdate.CONDITIONS.filter(
-        (cond) => cond.KEY === condition.KEY
-      ).map((cond) => ({ ...cond, SELECT: !cond.SELECT }));
-      toUpdate.CONDITIONS = [
-        ...toUpdate.CONDITIONS.filter((cond) => !(cond.KEY === condition.KEY)),
-        ...modified,
-      ];
+      let exists = toUpdate.OPTIONS.map((cond) => cond.KEY).includes(
+        condition.KEY
+      );
 
-      return [
-        ...prev.filter((prevInclus) => prevInclus.CODE !== inclus.CODE),
-        toUpdate,
-      ];
+      exists
+        ? (toUpdate.OPTIONS = [
+            ...toUpdate.OPTIONS.filter((cond) => !(cond.KEY === condition.KEY)),
+          ])
+        : (toUpdate.OPTIONS = [...toUpdate.OPTIONS, condition]);
+
+      return {
+        ...prev,
+        CONDITIONS: [
+          ...prev.CONDITIONS.filter(
+            (prevInclus) => prevInclus.CODE !== inclus.CODE
+          ),
+          toUpdate,
+        ],
+      };
     });
   };
 
@@ -146,141 +185,179 @@ const CritereInclusion = ({
           isOpen={isOpen(parametre)}
           hasCritere={hasCritere(criteres.inclusion)}
         >
-          <ZoneSelection
-            onClick={() =>
-              !isOpen(parametre) &&
-              !hasCritere(criteres.inclusion) &&
-              changeParametre("inclusion")
-            }
-          >
+          <ZoneSelection>
+            {/* EN-TÊTE */}
+            {/* TITRE DU PANNEAU */}
             <TitreParametre>
               Condition{addS(criteres.inclusion)} d'inclusion des territoires
             </TitreParametre>
-            {hasCritere(criteres.inclusion) && parametre === "default" ? (
+            {/* LEGENDE DU PANNEAU */}
+            <LegendeParametre>
+              Créez des conditions pour sélectionner un sous-ensemble de
+              territoires dans votre périmètre géographique. Tous les
+              territoires de votre périmètre géographique sont sélectionnés par
+              défaut.
+            </LegendeParametre>
+            {/* Bouton ajout de périmètre */}
+            <ItemCritere
+              clickable
+              onClick={() => {
+                changeParametre("inclusion");
+                setTempoInclusion({ KEY: setKeyCondition(), CONDITIONS: [] });
+              }}
+            >
+              <AddButton />
+              Ajouter une condition d'inclusion
+            </ItemCritere>
+
+            {/* MODIFICATION DE LA CONDITION SELECTIONNEE */}
+            {inclusion && (
+              <ZoneSelection>
+                {/* Barre de recherche pour les variables */}
+                <BarreRecherche
+                  tempo={tempoInclusion}
+                  setTempo={setTempoInclusion}
+                  parametre="inclusion"
+                  addMetaCondition={addMetaCondition}
+                />
+
+                <CarteSelection flex="column" background>
+                  <TitreCarteSelection>
+                    CONDITION{addS(tempoInclusion.CONDITIONS)} SÉLECTIONNÉE
+                    {addS(tempoInclusion.CONDITIONS)} :
+                  </TitreCarteSelection>
+                  {tempoInclusion.CONDITIONS.length === 0 && (
+                    <LegendeParametre>
+                      Pas de condition. Ajoutez des conditions à partir de la
+                      barre de recherche.
+                    </LegendeParametre>
+                  )}
+
+                  {/* ZONE DE LISTE DES CONDITIONS */}
+                  {hasCritere(tempoInclusion.CONDITIONS) && (
+                    <>
+                      {tempoInclusion.CONDITIONS.sort((a, b) =>
+                        a.LIBELLE.localeCompare(b.LIBELLE)
+                      ).map((condition) => (
+                        // Chaque critère d'inclusion est contenu dans une carte
+                        <CarteSelection>
+                          {/* La colonne de gauche énumère des informations sur la variable */}
+                          <Colonne>
+                            {/* Son titre */}
+                            <TitreCarteSelection>
+                              {showLibelle(tempoMeta, condition)}
+                            </TitreCarteSelection>
+                            {/* Un accès à la définition */}
+                            <PetitTexte clickable>
+                              <AddButton />
+                              Plus d'information
+                            </PetitTexte>
+                            {/* Un bouton pour supprimer ce critère */}
+                            <Action
+                              choix="ANNULER"
+                              onClick={() =>
+                                setTempoInclusion((prev) => ({
+                                  ...prev,
+                                  CONDITIONS: prev.CONDITIONS.filter(
+                                    (prevInclus) =>
+                                      prevInclus.CODE !== condition.CODE
+                                  ),
+                                }))
+                              }
+                            >
+                              Supprimer ce critère
+                            </Action>
+                          </Colonne>
+                          {/* La deuxième colonne permet de sélectionner les conditions */}
+                          <SelectionModalite>
+                            Conditions de l'inclusion :
+                            {showType(tempoMeta, condition) === "NOMINAL" ? (
+                              <ConditionCritereNominal
+                                META={getSubset(tempoMeta, condition)}
+                                inclus={condition}
+                                handleModifyYear={handleModifyYear}
+                                handleModifyModaliteYear={
+                                  handleModifyModaliteYear
+                                }
+                              />
+                            ) : (
+                              <ConditionCritereContinu
+                                META={
+                                  tempoMeta.filter(
+                                    (tempo) => tempo.CODE === condition.CODE
+                                  )[0]
+                                }
+                                inclus={condition}
+                                // setTempoInclusion={setTempoInclusion}
+                              />
+                            )}
+                          </SelectionModalite>
+                        </CarteSelection>
+                      ))}
+                    </>
+                  )}
+
+                  {/* ZONE DE VALIDATION DES CONDITIONS */}
+                  <ZoneAction>
+                    <Action
+                      onClick={() => {
+                        changeParametre("default");
+                        setCriteres((prev) => ({
+                          ...prev,
+                          inclusion: [...prev.inclusion, tempoInclusion],
+                        }));
+                        setTempoInclusion({});
+                        setTempoMeta([]);
+                      }}
+                      choix="VALIDER"
+                    >
+                      Valider
+                    </Action>
+                    <Action
+                      onClick={() => {
+                        changeParametre("default");
+                        setTempoInclusion({});
+                        setTempoMeta([]);
+                      }}
+                      choix="ANNULER"
+                    >
+                      Annuler
+                    </Action>
+                  </ZoneAction>
+                </CarteSelection>
+              </ZoneSelection>
+            )}
+
+            {/* LISTE DES CONDITIONS EXISTANTES EN FORMAT MINI*/}
+
+            {hasCritere(criteres.inclusion) && (
               <ZoneParametres>
-                {criteres.inclusion.map((inclusion) => (
-                  <ItemCritere>{inclusion.LIBELLE}</ItemCritere>
-                ))}
-                <ItemCritere
-                  clickable
-                  onClick={() => changeParametre("inclusion")}
-                >
-                  <ParameterButton />
-                  Modifier les conditions d'inclusion des territoires
-                </ItemCritere>
+                {criteres.inclusion
+                  .filter((inclusion) => inclusion.KEY !== tempoInclusion.KEY)
+                  .map((incluElem, index) => (
+                    <ParametreItemCritere>
+                      <ItemCritere>Condition {index}</ItemCritere>
+                      <ParameterButton
+                        onClick={() => {
+                          setTempoInclusion({ ...incluElem });
+                          changeParametre("inclusion");
+                        }}
+                      />
+                      <ClosingButton
+                        onClick={() =>
+                          setCriteres((prev) => ({
+                            ...prev,
+                            inclusion: prev.inclusion.filter(
+                              (perim) => perim.KEY !== incluElem.KEY
+                            ),
+                          }))
+                        }
+                      ></ClosingButton>
+                    </ParametreItemCritere>
+                  ))}
               </ZoneParametres>
-            ) : (
-              <LegendeParametre>
-                Créez des conditions pour sélectionner un sous-ensemble de
-                territoires dans votre périmètre géographique. Tous les
-                territoires de votre périmètre géographique sont sélectionnés
-                par défaut.
-              </LegendeParametre>
             )}
           </ZoneSelection>
-          {/* Ne s'ouvre que si l'utilisateur est dans le menu de sélection des conditions */}
-          {inclusion && (
-            <ZoneSelection>
-              {/* Barre de recherche pour les variables */}
-              <BarreRecherche
-                tempo={tempoInclusion}
-                setTempo={setTempoInclusion}
-                parametre="inclusion"
-                addMetaCondition={addMetaCondition}
-              />
-              {/* Légende */}
-              <LegendeParametre middle>
-                Critère{addS(tempoInclusion)} sélectionné
-                {addS(tempoInclusion)} :
-              </LegendeParametre>
-              {/* Si il y a des critères, ils sont répertoriés ci-dessous */}
-              {hasCritere(tempoInclusion) && (
-                <>
-                  {tempoInclusion
-                    .sort((a, b) => a.LIBELLE.localeCompare(b.LIBELLE))
-                    .map((inclus) => (
-                      // Chaque critère d'inclusion est contenu dans une carte
-                      <CarteSelection>
-                        {/* La colonne de gauche énumère des informations sur la variable */}
-                        <Colonne>
-                          {/* Son titre */}
-                          <TitreCarteSelection>
-                            {inclus.LIBELLE}
-                          </TitreCarteSelection>
-                          {/* Un accès à la définition */}
-                          <PetitTexte clickable>
-                            <AddButton />
-                            Plus d'information
-                          </PetitTexte>
-                          {/* Un bouton pour supprimer ce critère */}
-                          <Action
-                            choix="ANNULER"
-                            onClick={() =>
-                              setTempoInclusion((prev) => [
-                                ...prev.filter(
-                                  (prevInclus) =>
-                                    prevInclus.CODE !== inclus.CODE
-                                ),
-                              ])
-                            }
-                          >
-                            Supprimer ce critère
-                          </Action>
-                        </Colonne>
-                        {/* La deuxième colonne permet de sélectionner les conditions */}
-                        <SelectionModalite>
-                          Conditions de l'inclusion :
-                          {inclus.TYPE === "NOMINAL" ? (
-                            <ConditionCritereNominal
-                              META={
-                                tempoMeta.filter(
-                                  (tempo) => tempo.CODE === inclus.CODE
-                                )[0]
-                              }
-                              inclus={inclus}
-                              handleModifyYear={handleModifyYear}
-                              handleModifyModaliteYear={
-                                handleModifyModaliteYear
-                              }
-                            />
-                          ) : (
-                            <ConditionCritereContinu
-                              META={
-                                tempoMeta.filter(
-                                  (tempo) => tempo.CODE === inclus.CODE
-                                )[0]
-                              }
-                              inclus={inclus}
-                              // setTempoInclusion={setTempoInclusion}
-                            />
-                          )}
-                        </SelectionModalite>
-                      </CarteSelection>
-                    ))}
-                </>
-              )}
-              <ZoneAction>
-                <Action
-                  onClick={() => {
-                    changeParametre("default");
-                    setCriteres((prev) => ({
-                      ...prev,
-                      inclusion: tempoInclusion,
-                    }));
-                  }}
-                  choix="VALIDER"
-                >
-                  Valider
-                </Action>
-                <Action
-                  onClick={() => changeParametre("default")}
-                  choix="ANNULER"
-                >
-                  Annuler
-                </Action>
-              </ZoneAction>
-            </ZoneSelection>
-          )}
         </BoiteParametre>
       )}
     </>
