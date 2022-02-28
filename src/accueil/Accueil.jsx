@@ -211,7 +211,7 @@ const Accueil = () => {
             <Section>
               <SousTitrePage>
                 Une large gamme de modules thématiques pour soutenir les projets
-                de développement
+                d'écodéveloppement
               </SousTitrePage>
               <Argument>
                 <ZoneTexte>

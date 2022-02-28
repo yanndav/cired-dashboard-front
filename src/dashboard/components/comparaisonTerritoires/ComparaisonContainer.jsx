@@ -101,38 +101,39 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
           Vous pouvez personnaliser le périmètre géographique, les critères de
           sélection des territoires, ainsi que l'échelle d'analyse.
         </ParagraphSousTitre>
+
         {/* SI AUCUN CRITÈRE N'EST SELECTIONNÉ */}
-        {vide(criteres) && parametre === "default" && (
+        {parametre === "default" && vide(criteres) ? (
+          <PropositionPresets cartes={cartes} />
+        ) : (
+          // SI AU MOINS UN CRITERE EST INSERE
           <>
             <TitleSection>
-              Personnalisez des critères de comparaison parmi ceux recommandés
-              avec ce module
+              Créez vos propres critères de comparaison
             </TitleSection>
-            <PropositionPresets cartes={cartes} />
+            <ZoneParametres>
+              <PerimetreGeographique
+                parametre={parametre}
+                changeParametre={changeParametre}
+                criteres={criteres}
+                setCriteres={setCriteres}
+              />
+              <CritereInclusion
+                parametre={parametre}
+                changeParametre={changeParametre}
+                criteres={criteres}
+                setCriteres={setCriteres}
+              />
+              <UniteComparaison
+                parametre={parametre}
+                changeParametre={changeParametre}
+                criteres={criteres}
+                setCriteres={setCriteres}
+              />
+            </ZoneParametres>
           </>
         )}
 
-        <TitleSection>Créez vos propres critères de comparaison</TitleSection>
-        <ZoneParametres>
-          <PerimetreGeographique
-            parametre={parametre}
-            changeParametre={changeParametre}
-            criteres={criteres}
-            setCriteres={setCriteres}
-          />
-          <CritereInclusion
-            parametre={parametre}
-            changeParametre={changeParametre}
-            criteres={criteres}
-            setCriteres={setCriteres}
-          />
-          <UniteComparaison
-            parametre={parametre}
-            changeParametre={changeParametre}
-            criteres={criteres}
-            setCriteres={setCriteres}
-          />
-        </ZoneParametres>
         {pretAComparer(criteres) && parametre === "default" && (
           <ZoneAction>
             <Action choix="VALIDER">Lancer cette comparaison</Action>

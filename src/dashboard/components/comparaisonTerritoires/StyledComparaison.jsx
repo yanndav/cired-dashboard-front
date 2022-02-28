@@ -123,22 +123,19 @@ const BoiteParametre = styled.div`
   transition: 0.2s background-color, 0.2s color, 0.5s width, 0.5s height;
 
   &:hover {
-    background-color: ${(props) =>
-      !props.isOpen && !props.hasCritere && colorsLight.background2};
-    color: ${(props) => !props.isOpen && !props.hasCritere && "white"};
-    cursor: ${(props) => !props.isOpen && !props.hasCritere && "pointer"};
+    background-color: ${colorsLight.background2};
+    color: white;
+    cursor: pointer;
     & h3 {
-      color: ${(props) => !props.isOpen && !props.hasCritere && "white"};
-      font-style: ${(props) => !props.isOpen && !props.hasCritere && "normal"};
+      color: white;
     }
   }
 `;
 
 const TitreParametre = styled.h3`
-  margin: 0px;
-  font-weight: normal;
+  /* margin: 0px; */
+  font-weight: bolder;
   font-size: 1.2em;
-  font-style: italic;
   color: ${colorsLight.title2};
 `;
 

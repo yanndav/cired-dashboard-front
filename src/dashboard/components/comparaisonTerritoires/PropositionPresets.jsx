@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { colorsLight } from "../../../app/colorComponents";
-import { TitreParametre, LegendeParametre } from "./StyledComparaison";
+import {
+  TitreParametre,
+  LegendeParametre,
+  TitleSection,
+} from "./StyledComparaison";
 
 const ContainerPreset = styled.div`
   display: flex;
@@ -16,9 +20,10 @@ const ContainerPreset = styled.div`
 
 const CarteProposition = styled.div`
   background-color: ${colorsLight.background};
+  padding: 15px;
   border-radius: 8px;
-  padding: 20px;
-  min-width: 350px;
+  width: 250px;
+  min-height: 100px;
   cursor: pointer;
   transition: 0.2s background-color;
   &:hover {
@@ -33,14 +38,24 @@ const CarteProposition = styled.div`
 
 const PropositionPresets = ({ cartes }) => {
   return (
-    <ContainerPreset>
-      {cartes.map((carte) => (
-        <CarteProposition>
-          <TitreParametre>{carte.titre}</TitreParametre>
-          <LegendeParametre>{carte.description}</LegendeParametre>
-        </CarteProposition>
-      ))}
-    </ContainerPreset>
+    <>
+      <CarteProposition>
+        <TitreParametre>
+          Créez vos propres critères de comparaison
+        </TitreParametre>
+      </CarteProposition>
+      <TitleSection>
+        Personnalisez des critères de comparaison recommandés avec ce module
+      </TitleSection>
+      <ContainerPreset>
+        {cartes.map((carte) => (
+          <CarteProposition>
+            <TitreParametre>{carte.titre}</TitreParametre>
+            <LegendeParametre>{carte.description}</LegendeParametre>
+          </CarteProposition>
+        ))}
+      </ContainerPreset>
+    </>
   );
 };
 

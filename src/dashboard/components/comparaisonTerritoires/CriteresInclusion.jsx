@@ -154,7 +154,7 @@ const CritereInclusion = ({
             }
           >
             <TitreParametre>
-              Critère{addS(criteres.inclusion)} d'inclusion des territoires
+              Condition{addS(criteres.inclusion)} d'inclusion des territoires
             </TitreParametre>
             {hasCritere(criteres.inclusion) && parametre === "default" ? (
               <ZoneParametres>
@@ -166,7 +166,7 @@ const CritereInclusion = ({
                   onClick={() => changeParametre("inclusion")}
                 >
                   <ParameterButton />
-                  Modifier les critères d'inclusion des territoires
+                  Modifier les conditions d'inclusion des territoires
                 </ItemCritere>
               </ZoneParametres>
             ) : (
