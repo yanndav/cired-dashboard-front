@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { colorsLight } from "../../../app/colorComponents";
 import { FiFilter } from "react-icons/fi";
-import { typeTerritoire } from "./fonctionsComparaison";
+import { setKeyCondition, typeTerritoire } from "./fonctionsComparaison";
 import {
   apiRecommendation,
   handleSearch,
@@ -68,11 +68,10 @@ const FilterNumber = styled.text`
 const ZoneResultat = styled.div`
   margin-top: 20px;
   display: flex;
-  flex-direction: ${(props) =>
-    props.parametre === "perimetre" ? "row" : "column"};
+  flex-direction: column;
   gap: 15px;
   overflow: auto;
-  max-height: ${(props) => props.parametre !== "perimetre" && "300px"};
+  max-height: 300px;
 `;
 
 const Resultat = styled.div`
@@ -201,14 +200,12 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
       typeof tempo === "undefined" ||
       !tempo.CONDITIONS.map((inclu) => inclu.CODE).includes(resultat.CODE)
     ) {
+      let key = setKeyCondition();
       setTempo((prev) => ({
         ...prev,
-        CONDITIONS: [
-          ...prev.CONDITIONS,
-          { CODE: resultat.CODE, OPTIONS: resultat.CHOIX },
-        ],
+        CONDITIONS: [...prev.CONDITIONS, { ...resultat, KEY: key, CHOIX: [] }],
       }));
-      addMetaCondition(API_URL, [], resultat, resultat.TYPE);
+      addMetaCondition(API_URL, [], { ...resultat, KEY: key }, resultat.TYPE);
     }
   };
 
@@ -225,6 +222,7 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
       });
       const data = await response.json();
       setListeThemes(data);
+      setThemes(data.map((elem) => elem.CODE));
     };
     getListeThemes(parametre, API_URL);
   }, []);
@@ -274,7 +272,7 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
           Filtrez les{" "}
           {parametre === "inclusion"
             ? "thèmes"
-            : parametre === "unité"
+            : parametre === "unite"
             ? "types d'unité"
             : "niveaux géographiques"}
         </FilterZone>
@@ -286,13 +284,18 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
             <FiltreButton
               isSelected={themes.includes(theme.CODE)}
               onClick={(e) => {
-                themes.includes(theme.CODE)
+                themes.length > 1 && themes.includes(theme.CODE)
                   ? setThemes((prev) => prev.filter((th) => th !== theme.CODE))
                   : setThemes((prev) => [...prev, theme.CODE]);
 
                 parametre === "perimetre"
                   ? handleSearch(e, recherche, API_URL, setResultats, themes)
-                  : searchVariables(recherche, themes, API_URL, setResultats);
+                  : searchVariables(
+                      recherche,
+                      [...themes, theme.CODE],
+                      API_URL,
+                      setResultats
+                    );
               }}
               isGeo={parametre === "perimetre"}
               code={theme.CODE}
@@ -302,8 +305,9 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
           ))}
         </ZoneFiltres>
       )}
-
+      {/* LISTE DES RESULTATS */}
       <ZoneResultat parametre={parametre}>
+        {/* SI ON EST SUR LE PERIMETRE GEOGRAPHIQUE */}
         {parametre === "perimetre"
           ? resultats.length > 0 &&
             resultats
@@ -336,7 +340,8 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
                   {resultat.LIBGEO} - {typeTerritoire(resultat.TYPE)}
                 </Resultat>
               ))
-          : resultats
+          : // INCLUSION ET UNITE
+            resultats
               .filter((resultat) =>
                 themes.length > 0
                   ? themes.some((r) => resultat.THEME.includes(r))
@@ -352,20 +357,21 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
               .map((resultat) => (
                 <Resultat
                   isSelected={
-                    parametre === "inclusion"
-                      ? typeof tempo !== "undefined" &&
-                        tempo.CONDITIONS.map((inclu) => inclu.CODE).includes(
-                          resultat.CODE
-                        )
-                      : typeof tempo !== "undefined" &&
-                        tempo.LIBELLE === resultat.LIBELLE
+                    typeof tempo !== "undefined" &&
+                    tempo.CONDITIONS.map((inclu) => inclu.CODE).includes(
+                      resultat.CODE
+                    )
                   }
                   onClick={() =>
                     parametre === "inclusion"
                       ? handleClickInclusion(tempo, resultat)
-                      : (typeof tempo !== "undefined" ||
-                          tempo.CODE !== resultat.CODE) &&
-                        setTempo(resultat)
+                      : setTempo((prev) => ({
+                          ...prev,
+                          CONDITIONS: [
+                            ...prev.CONDITIONS,
+                            { ...resultat, KEY: setKeyCondition() },
+                          ],
+                        }))
                   }
                   onMouseEnter={() => handleMouseEnter(resultat.CODE)}
                   onMouseLeave={() => handleMouseLeave()}

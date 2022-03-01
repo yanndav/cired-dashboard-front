@@ -144,6 +144,7 @@ const ParametreItemCritere = styled.div`
   gap: 10px;
   align-items: center;
   padding: 0px 8px;
+  width: fit-content;
 `;
 
 const ItemCritere = styled.div`

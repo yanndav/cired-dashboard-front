@@ -6,58 +6,59 @@ import {
   MaxHeightContainer,
 } from "./StyledComparaison";
 const ConditionCritereNominal = ({
-  META,
-  inclus,
+  condition,
   handleModifyYear,
   handleModifyModaliteYear,
 }) => {
   return (
     <>
-      {META && META.CHOIX ? (
+      {condition && condition.CHOIX ? (
         <>
           {" "}
           <span>Années :</span>
           <ConditionsContainer>
-            {META &&
-              META.ANNEES.sort().map((annee) => (
+            {condition &&
+              condition.ANNEES &&
+              condition.ANNEES.sort().map((annee) => (
                 <AddCondition
                   selectMode
                   selected={
-                    inclus.OPTIONS &&
-                    inclus.OPTIONS.map((cond) => cond.ANNEE).includes(annee)
+                    condition.CHOIX &&
+                    condition.CHOIX.map((cond) => cond.ANNEE).includes(annee)
                   }
-                  onClick={() => handleModifyYear(inclus, annee, META)}
+                  onClick={() => handleModifyYear(condition, annee)}
                 >
                   {annee}
                 </AddCondition>
               ))}
           </ConditionsContainer>
           <MaxHeightContainer>
-            {META &&
-              META.ANNEES.sort()
+            {condition &&
+              condition.ANNEES &&
+              condition.ANNEES.sort()
                 .filter(
                   (annee) =>
-                    inclus.OPTIONS &&
-                    inclus.OPTIONS.map((cond) => cond.ANNEE).includes(annee)
+                    condition.CHOIX &&
+                    condition.CHOIX.map((cond) => cond.ANNEE).includes(annee)
                 )
                 .map((annee) => (
                   <ConditionsContainer background>
                     <TitleCondition>{annee}</TitleCondition>
                     <ConditionsContainer>
-                      {META.CHOIX &&
-                        META.CHOIX.filter((cond) => cond.ANNEE === annee)
+                      {condition.OPTIONS &&
+                        condition.OPTIONS.filter((cond) => cond.ANNEE === annee)
                           .sort((a, b) => a.KEY - b.KEY)
                           .map((cond) => (
                             <AddCondition
                               selectMode
                               selected={
-                                inclus.OPTIONS &&
-                                inclus.OPTIONS.map(
+                                condition.CHOIX &&
+                                condition.CHOIX.map(
                                   (condi) => condi.KEY
                                 ).includes(cond.KEY)
                               }
                               onClick={() =>
-                                handleModifyModaliteYear(inclus, cond)
+                                handleModifyModaliteYear(condition, cond)
                               }
                             >
                               {cond.LIBELLE}

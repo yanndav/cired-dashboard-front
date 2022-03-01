@@ -58,7 +58,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
   const [criteres, setCriteres] = useState({
     perimetre: [],
     inclusion: [],
-    unite: {},
+    unite: [],
   });
 
   // Hook

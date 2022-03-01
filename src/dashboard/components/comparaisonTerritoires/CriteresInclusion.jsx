@@ -36,11 +36,9 @@ const CritereInclusion = ({
   setCriteres,
 }) => {
   const [tempoInclusion, setTempoInclusion] = useState({});
-  const [tempoMeta, setTempoMeta] = useState([]);
   const inclusion = parametre === "inclusion";
 
   const addMetaCondition = async (API_URL, CODGEO, resultat, TYPE) => {
-    setTempoMeta((prev) => [...prev, resultat]);
     const response = await fetch(`${API_URL}/getMetaVariableTerri`, {
       body: JSON.stringify({
         VARIABLE: resultat.CODE,
@@ -55,73 +53,53 @@ const CritereInclusion = ({
       },
     });
     const data = await response.json();
-    setTempoMeta((prev) => [
-      ...prev.filter((pre) => pre.CODE !== resultat.CODE),
-      { ...resultat, ...data },
-    ]);
-    resultat.TYPE === "NOMINAL" &&
-      setTempoInclusion((prev) => ({
-        ...prev,
-        CONDITIONS: [
-          ...prev.CONDITIONS.filter((cond) => cond.CODE !== resultat.CODE),
-          {
-            ...prev.CONDITIONS.filter((cond) => cond.CODE === resultat.CODE)[0],
-            OPTIONS: data.CHOIX,
-          },
-        ],
-      }));
+
+    resultat.TYPE === "NOMINAL"
+      ? setTempoInclusion((prev) => ({
+          ...prev,
+          CONDITIONS: [
+            ...prev.CONDITIONS.filter((cond) => cond.KEY !== resultat.KEY),
+            {
+              ...prev.CONDITIONS.filter((cond) => cond.KEY === resultat.KEY)[0],
+              ...data,
+              CHOIX: data.OPTIONS,
+            },
+          ],
+        }))
+      : setTempoInclusion((prev) => ({
+          ...prev,
+          CONDITIONS: [
+            ...prev.CONDITIONS.filter((cond) => cond.KEY !== resultat.KEY),
+            {
+              ...prev.CONDITIONS.filter((cond) => cond.KEY === resultat.KEY)[0],
+              ...data,
+            },
+          ],
+        }));
   };
 
-  const getSubset = (tempoMeta, condition) =>
-    tempoMeta.filter((meta) => meta.CODE === condition.CODE)[0];
-
-  const showLibelle = (tempoMeta, condition) => {
-    let subset = getSubset(tempoMeta, condition);
-    return typeof subset !== "undefined" ? subset.LIBELLE : "";
-  };
-
-  const showType = (tempoMeta, condition) => {
-    let subset = getSubset(tempoMeta, condition);
-    return typeof subset !== "undefined" ? subset.TYPE : "";
-  };
-
-  const addCondition = (inclus) => {
-    setTempoInclusion((prev) => {
-      let toUpdate = prev.filter(
-        (prevInclus) => prevInclus.CODE === inclus.CODE
-      )[0];
-      Object.keys(toUpdate).includes("CONDITIONS")
-        ? toUpdate.CONDITIONS.push({ key: toUpdate.CONDITIONS.length })
-        : (toUpdate.CONDITIONS = [{ key: 0 }]);
-      return [
-        ...prev.filter((prevInclus) => prevInclus.CODE !== inclus.CODE),
-        toUpdate,
-      ];
-    });
-  };
-
-  const handleModifyYear = (inclus, annee, meta) => {
+  const handleModifyYear = (inclus, annee) => {
     setTempoInclusion((prev) => {
       let toUpdate = prev.CONDITIONS.filter(
-        (prevInclus) => prevInclus.CODE === inclus.CODE
+        (prevInclus) => prevInclus.KEY === inclus.KEY
       )[0];
 
-      let exists = toUpdate.OPTIONS.map((cond) => cond.ANNEE).includes(annee);
+      let exists = toUpdate.CHOIX.map((cond) => cond.ANNEE).includes(annee);
 
       exists
-        ? (toUpdate.OPTIONS = [
-            ...toUpdate.OPTIONS.filter((cond) => cond.ANNEE !== annee),
+        ? (toUpdate.CHOIX = [
+            ...toUpdate.CHOIX.filter((cond) => cond.ANNEE !== annee),
           ])
-        : (toUpdate.OPTIONS = [
-            ...toUpdate.OPTIONS.filter((cond) => cond.ANNEE !== annee),
-            ...meta.CHOIX.filter((cond) => cond.ANNEE === annee),
+        : (toUpdate.CHOIX = [
+            ...toUpdate.CHOIX.filter((cond) => cond.ANNEE !== annee),
+            ...toUpdate.OPTIONS.filter((cond) => cond.ANNEE === annee),
           ]);
 
       return {
         ...prev,
         CONDITIONS: [
           ...prev.CONDITIONS.filter(
-            (prevInclus) => prevInclus.CODE !== inclus.CODE
+            (prevInclus) => prevInclus.KEY !== inclus.KEY
           ),
           toUpdate,
         ],
@@ -132,49 +110,28 @@ const CritereInclusion = ({
   const handleModifyModaliteYear = (inclus, condition) => {
     setTempoInclusion((prev) => {
       let toUpdate = prev.CONDITIONS.filter(
-        (prevInclus) => prevInclus.CODE === inclus.CODE
+        (prevInclus) => prevInclus.KEY === inclus.KEY
       )[0];
 
-      let exists = toUpdate.OPTIONS.map((cond) => cond.KEY).includes(
+      let exists = toUpdate.CHOIX.map((cond) => cond.KEY).includes(
         condition.KEY
       );
 
       exists
-        ? (toUpdate.OPTIONS = [
-            ...toUpdate.OPTIONS.filter((cond) => !(cond.KEY === condition.KEY)),
+        ? (toUpdate.CHOIX = [
+            ...toUpdate.CHOIX.filter((cond) => !(cond.KEY === condition.KEY)),
           ])
-        : (toUpdate.OPTIONS = [...toUpdate.OPTIONS, condition]);
+        : (toUpdate.CHOIX = [...toUpdate.CHOIX, condition]);
 
       return {
         ...prev,
         CONDITIONS: [
           ...prev.CONDITIONS.filter(
-            (prevInclus) => prevInclus.CODE !== inclus.CODE
+            (prevInclus) => prevInclus.KEY !== inclus.KEY
           ),
           toUpdate,
         ],
       };
-    });
-  };
-
-  const handleModifyCondition = (inclus, modalite) => {
-    setTempoInclusion((prev) => {
-      let toUpdate = prev.filter(
-        (prevInclus) => prevInclus.CODE === inclus.CODE
-      )[0];
-      !Object.keys(toUpdate).includes("CONDITIONS") &&
-        (toUpdate.CONDITIONS = []);
-
-      toUpdate.CONDITIONS.includes(modalite.CODE)
-        ? (toUpdate.CONDITIONS = toUpdate.CONDITIONS.filter(
-            (cond) => cond !== modalite.CODE
-          ))
-        : toUpdate.CONDITIONS.push(modalite.CODE);
-
-      return [
-        ...prev.filter((prevInclus) => prevInclus.CODE !== inclus.CODE),
-        toUpdate,
-      ];
     });
   };
 
@@ -223,8 +180,9 @@ const CritereInclusion = ({
 
                 <CarteSelection flex="column" background>
                   <TitreCarteSelection>
-                    CONDITION{addS(tempoInclusion.CONDITIONS)} SÉLECTIONNÉE
-                    {addS(tempoInclusion.CONDITIONS)} :
+                    Variable{addS(tempoInclusion.CONDITIONS)} sélectionnée
+                    {addS(tempoInclusion.CONDITIONS)} dans cette condition de
+                    l'inclusion :
                   </TitreCarteSelection>
                   {tempoInclusion.CONDITIONS.length === 0 && (
                     <LegendeParametre>
@@ -238,62 +196,68 @@ const CritereInclusion = ({
                     <>
                       {tempoInclusion.CONDITIONS.sort((a, b) =>
                         a.LIBELLE.localeCompare(b.LIBELLE)
-                      ).map((condition) => (
-                        // Chaque critère d'inclusion est contenu dans une carte
-                        <CarteSelection>
-                          {/* La colonne de gauche énumère des informations sur la variable */}
-                          <Colonne>
-                            {/* Son titre */}
-                            <TitreCarteSelection>
-                              {showLibelle(tempoMeta, condition)}
-                            </TitreCarteSelection>
-                            {/* Un accès à la définition */}
-                            <PetitTexte clickable>
-                              <AddButton />
-                              Plus d'information
-                            </PetitTexte>
-                            {/* Un bouton pour supprimer ce critère */}
-                            <Action
-                              choix="ANNULER"
-                              onClick={() =>
-                                setTempoInclusion((prev) => ({
-                                  ...prev,
-                                  CONDITIONS: prev.CONDITIONS.filter(
-                                    (prevInclus) =>
-                                      prevInclus.CODE !== condition.CODE
-                                  ),
-                                }))
-                              }
-                            >
-                              Supprimer ce critère
-                            </Action>
-                          </Colonne>
-                          {/* La deuxième colonne permet de sélectionner les conditions */}
-                          <SelectionModalite>
-                            Conditions de l'inclusion :
-                            {showType(tempoMeta, condition) === "NOMINAL" ? (
-                              <ConditionCritereNominal
-                                META={getSubset(tempoMeta, condition)}
-                                inclus={condition}
-                                handleModifyYear={handleModifyYear}
-                                handleModifyModaliteYear={
-                                  handleModifyModaliteYear
-                                }
-                              />
-                            ) : (
-                              <ConditionCritereContinu
-                                META={
-                                  tempoMeta.filter(
-                                    (tempo) => tempo.CODE === condition.CODE
-                                  )[0]
-                                }
-                                inclus={condition}
-                                // setTempoInclusion={setTempoInclusion}
-                              />
-                            )}
-                          </SelectionModalite>
-                        </CarteSelection>
-                      ))}
+                      ).map(
+                        (condition, indx) =>
+                          condition.LIBELLE && (
+                            // Chaque critère d'inclusion est contenu dans une carte
+                            <CarteSelection>
+                              {/* La colonne de gauche énumère des informations sur la variable */}
+                              <Colonne>
+                                {/* SI PLUS DE UNE VARIABLE => ET */}
+                                {indx >= 1 && (
+                                  <TitreCarteSelection>ET</TitreCarteSelection>
+                                )}
+                                {/* Son titre */}
+                                <TitreCarteSelection>
+                                  {condition.LIBELLE.toUpperCase()}
+                                </TitreCarteSelection>
+                                {/* Un accès à la définition */}
+                                <PetitTexte clickable>
+                                  <AddButton />
+                                  Plus d'information
+                                </PetitTexte>
+                                {/* Un bouton pour supprimer ce critère */}
+                                <Action
+                                  choix="ANNULER"
+                                  onClick={() =>
+                                    setTempoInclusion((prev) => ({
+                                      ...prev,
+                                      CONDITIONS: prev.CONDITIONS.filter(
+                                        (prevInclus) =>
+                                          prevInclus.KEY !== condition.KEY
+                                      ),
+                                    }))
+                                  }
+                                >
+                                  Supprimer ce critère
+                                </Action>
+                              </Colonne>
+                              {/* La deuxième colonne permet de sélectionner les conditions */}
+                              <SelectionModalite>
+                                Conditions de l'inclusion :
+                                {condition.TYPE === "NOMINAL" ? (
+                                  <ConditionCritereNominal
+                                    condition={condition}
+                                    handleModifyYear={handleModifyYear}
+                                    handleModifyModaliteYear={
+                                      handleModifyModaliteYear
+                                    }
+                                  />
+                                ) : (
+                                  <ConditionCritereContinu
+                                    // META={
+                                    //   tempoMeta.filter(
+                                    //     (tempo) => tempo.CODE === condition.CODE
+                                    //   )[0]
+                                    // }
+                                    inclus={condition}
+                                    // setTempoInclusion={setTempoInclusion}
+                                  />
+                                )}
+                              </SelectionModalite>
+                            </CarteSelection>
+                          )
+                      )}
                     </>
                   )}
 
@@ -304,10 +268,14 @@ const CritereInclusion = ({
                         changeParametre("default");
                         setCriteres((prev) => ({
                           ...prev,
-                          inclusion: [...prev.inclusion, tempoInclusion],
+                          inclusion: [
+                            ...prev.inclusion.filter(
+                              (prevElem) => prevElem.KEY !== tempoInclusion.KEY
+                            ),
+                            tempoInclusion,
+                          ],
                         }));
                         setTempoInclusion({});
-                        setTempoMeta([]);
                       }}
                       choix="VALIDER"
                     >
@@ -317,7 +285,6 @@ const CritereInclusion = ({
                       onClick={() => {
                         changeParametre("default");
                         setTempoInclusion({});
-                        setTempoMeta([]);
                       }}
                       choix="ANNULER"
                     >
@@ -336,7 +303,7 @@ const CritereInclusion = ({
                   .filter((inclusion) => inclusion.KEY !== tempoInclusion.KEY)
                   .map((incluElem, index) => (
                     <ParametreItemCritere>
-                      <ItemCritere>Condition {index}</ItemCritere>
+                      <ItemCritere>Condition {index + 1}</ItemCritere>
                       <ParameterButton
                         onClick={() => {
                           setTempoInclusion({ ...incluElem });
