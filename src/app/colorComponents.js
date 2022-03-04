@@ -1,16 +1,16 @@
 const colorsLight = {
-  title: "#73BC98",
-  title2: "#577590",
+  title: "#577590",
+  title2: "#4D908E",
   background: "#f5f5f5",
   background2: "#81b29a",
   background3: "#f2cc8f",
-  interaction: "#577590",
+  interaction: "#6E94B7",
   topBackground: "#D7D7D7",
   light: "#A9E19E",
   cancel: "#D7827A",
-  COM: "#F9C74F",
-  EPCI: "#F9844A",
-  DEP: "#4D908E",
+  COM: "#EAC160",
+  EPCI: "#FCA173",
+  DEP: "#81B29A",
   REG: "#577590",
 };
 

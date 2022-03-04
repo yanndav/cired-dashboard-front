@@ -25,7 +25,7 @@ import {
   addS,
   setKeyCondition,
 } from "./fonctionsComparaison";
-import ConditionCritereContinu from "./ConditionCritereContinu";
+import ContainerConditionsContinu from "./ConditionCritereContinu";
 import BarreRecherche from "./BarreRecherche";
 import ConditionCritereNominal from "./ConditionCritereNominal";
 
@@ -52,8 +52,12 @@ const CritereInclusion = ({
         "Content-Type": "application/json",
       },
     });
+    console.log({
+      VARIABLE: resultat.CODE,
+      TYPE: TYPE,
+      CODGEO: CODGEO,
+    });
     const data = await response.json();
-
     resultat.TYPE === "NOMINAL"
       ? setTempoInclusion((prev) => ({
           ...prev,
@@ -244,14 +248,13 @@ const CritereInclusion = ({
                                     }
                                   />
                                 ) : (
-                                  <ConditionCritereContinu
-                                    // META={
-                                    //   tempoMeta.filter(
-                                    //     (tempo) => tempo.CODE === condition.CODE
-                                    //   )[0]
+                                  <ContainerConditionsContinu
+                                    condition={condition}
+                                    setTempoInclusion={setTempoInclusion}
+                                    // handleModifyModaliteYear={
+                                    //   handleModifyModaliteYear
                                     // }
-                                    inclus={condition}
-                                    // setTempoInclusion={setTempoInclusion}
+                                    //   handleModifyFiltre
                                   />
                                 )}
                               </SelectionModalite>

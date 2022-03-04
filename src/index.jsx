@@ -10,13 +10,14 @@ const Body = createGlobalStyle`
 /* @import url("https://fonts.googleapis.com/css2?family=Urbanist&display=swap"); */
   body {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-family: "Urbanist", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   max-width: 100%;
 }
 *{  font-family: "Urbanist", sans-serif;
+
 }
 `;
 

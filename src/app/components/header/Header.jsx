@@ -7,17 +7,22 @@
 // Styling
 import styled from "styled-components";
 import { colorsLight } from "../../colorComponents";
+import { Logo } from "../../AppStyledComponents";
 
 // Modules
 import { NavLink, useLocation } from "react-router-dom";
 import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon.jsx";
 
 const HeaderContainer = styled.div`
-  margin: 20px;
+  position: ${(props) => props.sticky && "sticky"};
+  top: ${(props) => props.sticky && "0px"};
+  padding: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: white;
+  z-index: 100;
 `;
 
 const TitreSite = styled(NavLink)`
@@ -38,12 +43,6 @@ const TitreSite = styled(NavLink)`
   }
 `;
 
-const Logo = styled.img`
-  width: 1em;
-  margin-right: 10px;
-  transition: 0.1s width, 0.1s margin, 0.1s filter;
-`;
-
 const UserBoardLink = styled.div`
   & svg {
     fill: ${(props) => (!props.active ? "#000000" : colorsLight.title)};
@@ -51,14 +50,14 @@ const UserBoardLink = styled.div`
 `;
 
 // COMPOSANT ------------------------
-const Header = () => {
+const Header = ({ sticky }) => {
   const location = useLocation().pathname;
 
   return (
-    <HeaderContainer>
+    <HeaderContainer sticky={sticky}>
       <TitreSite to="/">
         <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
-        ComparaTer
+        comparater
       </TitreSite>
       <UserBoardLink active={location.includes("/user-board")}>
         <ConnectIcon />
