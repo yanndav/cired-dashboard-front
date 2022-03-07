@@ -1,7 +1,7 @@
 // Import du style
 import "./NameTableau.css";
 import styled from "styled-components";
-
+import { colorsLight } from "../../../app/colorComponents";
 // Import react components
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 // Import icons
-import { GoCheck } from "react-icons/go";
+import { FaCheckSquare } from "react-icons/fa";
 
 // Import own components
 import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon.jsx";
@@ -25,46 +25,87 @@ const Logo = styled.img`
   }
 `;
 
+const ContainerTop = styled.div`
+  padding: 20px 30px 0px 30px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const ContainerNameEdit = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const NameFixed = styled.div`
+  font-size: 1.5em;
+  color: ${colorsLight.title};
+  padding: 0px 10px;
+  min-width: 300px;
+
+  &:hover {
+    border-radius: 3px;
+    border: grey solid 1px;
+    font-style: italic;
+    padding: 0px 10px;
+  }
+`;
+
+const NameEditing = styled.input`
+  font-size: 1.5em;
+  color: ${colorsLight.title};
+  padding: 0px 10px;
+  min-width: 300px;
+  width: ${(props) =>
+    props.name.length < 36 ? "300px" : (props.name.length + 1) * 8.5 + "px"};
+  border-radius: 3px;
+  border: grey solid 1px;
+  font-style: italic;
+`;
+
+const Valider = styled(FaCheckSquare)`
+  fill: ${colorsLight.title};
+
+  margin-left: 10px;
+  cursor: pointer;
+  transform: scale(1.2);
+  &:hover {
+    fill: ${colorsLight.title2};
+  }
+`;
+
 const NameTableau = () => {
   const [edit, setEdit] = useState(false); // Statut d'édition
   const [name, setName] = useState(""); // Nom du tableau
 
   return (
-    <div className="tableau-container">
-      <div className="flx-row container-name ">
+    <ContainerTop>
+      <ContainerNameEdit>
         <NavLink to="/" exact>
           <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
         </NavLink>
         {!edit ? (
-          <div className="name-solid" onClick={() => setEdit(!edit)}>
+          <NameFixed onClick={() => setEdit(!edit)}>
             {name === "" ? "Tableau sans titre" : name}
-          </div>
+          </NameFixed>
         ) : (
-          <form onSubmit={() => setEdit(!edit)}>
-            <input
+          <>
+            <NameEditing
               type="text"
-              className="name-edit"
-              style={{
-                width:
-                  name.length < 36 ? "300px" : (name.length + 1) * 8.5 + "px",
-              }}
               placeholder="Tableau sans titre"
               value={name}
+              name={name}
               onChange={(e) => setName(e.target.value)}
-            ></input>
-            <GoCheck
-              className="hoverCustom"
-              size={20}
-              onClick={() => setEdit(!edit)}
-            />
-          </form>
+              onKeyPress={(e) => e.key === "Enter" && setEdit(!edit)}
+            ></NameEditing>
+            <Valider onClick={() => setEdit(!edit)} />
+          </>
         )}
-      </div>
-      <div className="top-log">
-        <ConnectIcon />
-      </div>
-      {/* <hr className="sep-line" /> */}
-    </div>
+      </ContainerNameEdit>
+      <ConnectIcon />
+    </ContainerTop>
   );
 };
 

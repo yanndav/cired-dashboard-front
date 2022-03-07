@@ -1,4 +1,3 @@
-import { json } from "d3-fetch";
 import React, { useState, useEffect } from "react";
 
 import SliderValues from "./Slider.jsx";
@@ -7,13 +6,23 @@ import {
   AddCondition,
   ConditionsContainer,
   TitleCondition,
-  MaxHeightContainer,
 } from "./StyledComparaison";
 
 const getMinMax = (CHOIX) => {
-  let min = Math.min(CHOIX.map((choix) => choix.MIN));
-  let max = Math.min(CHOIX.map((choix) => choix.MAX));
+  let min = Math.min(...CHOIX.map((choix) => choix.MIN));
+  let max = Math.min(...CHOIX.map((choix) => choix.MAX));
 
+  console.log(min);
+  console.log(max);
+  return { MIN: min, MAX: max };
+};
+
+const getMinMaxSet = (CHOIX) => {
+  let min = Math.min(...CHOIX.map((choix) => choix.MIN_SET));
+  let max = Math.min(...CHOIX.map((choix) => choix.MAX_SET));
+
+  console.log(min);
+  console.log(max);
   return { MIN: min, MAX: max };
 };
 
@@ -35,30 +44,57 @@ const ConditionCritereContinu = ({ condition, setTempoInclusion }) => {
       : { FILTRES: [], ANNEES: [] }
   );
 
-  // useEffect(() => {
-  //   if (filtres.FILTRES && filtres.FILTRES.length > 1 && filtres.ANNEE > 1) {
-  //     // Modifications
-  //   } else {
-  //     setTempoInclusion(prev => {
-  //       let toUpdate = prev.CONDITIONS.filter(
-  //         (prevInclus) => prevInclus.KEY === condition.KEY
-  //       )[0];
+  useEffect(() => {
+    // S'il y a au moins un filtre et une année, on peut charger les données
+    if (
+      filtres.FILTRES &&
+      filtres.FILTRES.length >= 1 &&
+      filtres.ANNEES.length >= 1
+    ) {
+      // ModificationsS
+      setTempoInclusion((prev) => {
+        let toUpdate = prev.CONDITIONS.filter(
+          (prevInclus) => prevInclus.KEY === condition.KEY
+        )[0];
 
-  //       toUpdate.CHOIX =[]
+        toUpdate.CHOIX = condition.OPTIONS.filter((opt) =>
+          filtres.ANNEES.includes(opt.ANNEE)
+        ).filter((opt) =>
+          filtres.FILTRES.map((flt) => JSON.stringify(flt)).includes(
+            JSON.stringify(opt.FILTRES)
+          )
+        );
 
-  //       return {
-  //       ...prev,
-  //       CONDITIONS: [
-  //         ...prev.CONDITIONS.filter(
-  //           (prevInclus) => prevInclus.KEY !== condition.KEY
-  //         ),
-  //         toUpdate,
-  //       ],
-  //     };
-  //     })
-  //   }
-  //   console.log(filtres);
-  // }, [filtres]);
+        return {
+          ...prev,
+          CONDITIONS: [
+            ...prev.CONDITIONS.filter(
+              (prevInclus) => prevInclus.KEY !== condition.KEY
+            ),
+            toUpdate,
+          ],
+        };
+      });
+    } else {
+      setTempoInclusion((prev) => {
+        let toUpdate = prev.CONDITIONS.filter(
+          (prevInclus) => prevInclus.KEY === condition.KEY
+        )[0];
+
+        toUpdate.CHOIX = [];
+
+        return {
+          ...prev,
+          CONDITIONS: [
+            ...prev.CONDITIONS.filter(
+              (prevInclus) => prevInclus.KEY !== condition.KEY
+            ),
+            toUpdate,
+          ],
+        };
+      });
+    }
+  }, [filtres]);
 
   return (
     <>
@@ -66,51 +102,45 @@ const ConditionCritereContinu = ({ condition, setTempoInclusion }) => {
         <>
           <ConditionsContainer background>
             {/* ON VERIFIER S'IL Y A DES FILTRES */}
-            {condition &&
-              condition.FILTRES &&
-              condition.FILTRES.sort((a, b) =>
-                a.LIBELLE.localeCompare(b.LIBELLE)
-              ).map((flt) => (
-                <>
-                  <TitleCondition>{flt.LIBELLE} :</TitleCondition>
-                  <ConditionsContainer>
-                    {flt.OPTIONS.sort((a, b) =>
-                      a.LIBELLE.localeCompare(b.LIBELLE)
-                    ).map((opt) => (
-                      <AddCondition
-                        selectMode
-                        selected={filtres.FILTRES.map((flt) =>
-                          JSON.stringify(flt)
-                        ).includes(JSON.stringify({ [flt.CODE]: opt.CODE }))}
-                        onClick={() =>
-                          !filtres.FILTRES.map((filt) =>
-                            JSON.stringify(filt)
-                          ).includes(JSON.stringify({ [flt.CODE]: opt.CODE }))
-                            ? setFiltres((prev) => ({
-                                ...prev,
-                                FILTRES: [
-                                  ...prev.FILTRES,
-                                  { [flt.CODE]: opt.CODE },
-                                ],
-                              }))
-                            : setFiltres((prev) => ({
-                                ...prev,
-                                FILTRES: [
-                                  ...prev.FILTRES.filter(
-                                    (filt) =>
-                                      JSON.stringify(filt) !==
-                                      JSON.stringify({ [flt.CODE]: opt.CODE })
-                                  ),
-                                ],
-                              }))
-                        }
-                      >
-                        {opt.LIBELLE}
-                      </AddCondition>
-                    ))}
-                  </ConditionsContainer>
-                </>
-              ))}
+            {condition && condition.FILTRES && (
+              <>
+                <TitleCondition>Filtres :</TitleCondition>
+                <ConditionsContainer>
+                  {condition.FILTRES.sort((a, b) =>
+                    a.LIBELLE.localeCompare(b.LIBELLE)
+                  ).map((flt) => (
+                    <AddCondition
+                      selectMode
+                      selected={filtres.FILTRES.map((flt) =>
+                        JSON.stringify(flt)
+                      ).includes(JSON.stringify(flt.FILTRE))}
+                      onClick={() =>
+                        !filtres.FILTRES.map((filt) =>
+                          JSON.stringify(filt)
+                        ).includes(JSON.stringify(flt.FILTRE))
+                          ? setFiltres((prev) => ({
+                              ...prev,
+                              FILTRES: [...prev.FILTRES, flt.FILTRE],
+                            }))
+                          : setFiltres((prev) => ({
+                              ...prev,
+                              FILTRES: [
+                                ...prev.FILTRES.filter(
+                                  (filt) =>
+                                    JSON.stringify(filt) !==
+                                    JSON.stringify(flt.FILTRE)
+                                ),
+                              ],
+                            }))
+                      }
+                    >
+                      {flt.LIBELLE}
+                    </AddCondition>
+                  ))}
+                </ConditionsContainer>
+              </>
+            )}
+
             {/* SELECTION DES ANNEES */}
             {condition && condition.ANNEES && (
               <>
@@ -147,6 +177,10 @@ const ConditionCritereContinu = ({ condition, setTempoInclusion }) => {
                 <SliderValues
                   MIN={getMinMax(condition.CHOIX).MIN}
                   MAX={getMinMax(condition.CHOIX).MAX}
+                  MIN_SET={getMinMaxSet(condition.CHOIX).MIN}
+                  MAX_SET={getMinMaxSet(condition.CHOIX).MAX}
+                  setTempoInclusion={setTempoInclusion}
+                  KEY={condition.KEY}
                 />
               </>
             )}

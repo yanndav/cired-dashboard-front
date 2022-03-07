@@ -55,16 +55,3 @@
   border: grey solid 1px;
   font-style: italic;
 }
-
-.sep-line {
-  /* ligne de séparation */
-  margin-top: 20px;
-  border: var(--border-sep);
-}
-
-.top-log {
-  /* emplacement de l'icone de connexion */
-  float: right;
-  position: relative;
-  margin-top: -20px;
-}
