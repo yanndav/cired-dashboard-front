@@ -47,7 +47,8 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
     <div>
       <p>Territoire{territories.length > 1 && "s"} :</p>
 
-      <ZoneFiltres>
+      <ZoneFiltres height={"150px"}>
+        {" "}
         {territories.map((t, i) => (
           <FiltreButton
             key={"legend" + t.toString()}
@@ -98,7 +99,7 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
       {hasFiltres && (
         <>
           <p> Filtres :</p>
-          <ZoneFiltres>
+          <ZoneFiltres height={"150px"}>
             {data.FILTRES.map((flt) => (
               <FiltreButton
                 isSelected={data.CHOIX.map((ch) => JSON.stringify(ch)).includes(

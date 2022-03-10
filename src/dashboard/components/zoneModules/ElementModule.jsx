@@ -97,15 +97,9 @@ import { AppContext } from "../../../app/AppContext";
 
 const ElementModule = ({ instruction, geographies, center }) => {
   const { API_URL } = useContext(AppContext);
-  const [init, setInit] = useState(true);
   const [load, setLoad] = useState(true); // while loading the data
-  const [instructions, setInstructions] = useState(instruction.DONNEES);
-  // Téléchargement des données
-
+  const instructions = instruction.DONNEES;
   const [data, setData] = useState([]);
-
-  // const [activatedFilters, setActivatedFilters] = useState({});
-  const [territoiresVar, setTerritoiresVar] = useState({});
 
   const graphType = instruction.REPRESENTATION.TYPE;
   const aLegende = instruction.hasOwnProperty("LEGENDES");
@@ -133,24 +127,11 @@ const ElementModule = ({ instruction, geographies, center }) => {
     });
 
     const data = await response.json();
-
     setData(data);
   };
 
   useEffect(() => {
-    // INITIALISATION DU MODULE
     setLoad(true);
-    // INITIALISATION DES CLASSES DE FILTRES
-    // initMeta(
-    //   instructions,
-    //   setActivatedFilters,
-    //   API_URL,
-    //   setTerritoiresVar,
-    //   geographies.groupAnalysis[0].TERRITOIRES.map((c) => {
-    //     return { CODGEO: c.CODGEO, NIVGEO: c.TYPE };
-    //   })
-    // );
-    // CHARGEMENT DES DONNEES
     updateData(
       API_URL,
       geographies.groupAnalysis[0].TERRITOIRES.map((c) => ({
@@ -161,24 +142,11 @@ const ElementModule = ({ instruction, geographies, center }) => {
       graphType,
       setData
     );
-    setInit(false);
     setLoad(false);
   }, []);
 
   useEffect(() => {
-    // INITIALISATION DU MODULE quand changement de geo
     setLoad(true);
-    // INITIALISATION DES CLASSES DE FILTRES
-    // initMeta(
-    //   instructions,
-    //   setActivatedFilters,
-    //   API_URL,
-    //   setTerritoiresVar,
-    //   geographies.groupAnalysis[0].TERRITOIRES.map((c) => {
-    //     return { CODGEO: c.CODGEO, NIVGEO: c.TYPE };
-    //   })
-    // );
-    // CHARGEMENT DES DONNEES
     updateData(
       API_URL,
       geographies.groupAnalysis[0].TERRITOIRES.map((c) => ({
@@ -190,43 +158,8 @@ const ElementModule = ({ instruction, geographies, center }) => {
       graphType,
       setData
     );
-    setInit(false);
     setLoad(false);
   }, [geographies]);
-
-  // useEffect(() => {
-  //   // MISE A JOUR DES DONNEES QUAND LE COMPOSANT EST DEJA INITIALISÉ
-  //   if (init === false) {
-  //     updateData(
-  //       API_URL,
-  //       geographies.groupAnalysis[0].TERRITOIRES.map((c) => ({
-  //         CODGEO: c.CODGEO,
-  //         NIVGEO: c.TYPE,
-  //       })),
-
-  //       instructions,
-  //       graphType
-  //     );
-  //   }
-  // }, [instructions]);
-
-  // useEffect(() => {
-  //   // MISE A JOUR DES INSTRUCTIONS UNE FOIS L'INITIALISATION FINIE
-  //   if (init === false && activatedFilters !== false) {
-  //     setInstructions((prev) => {
-  //       let oldInstru = [...prev];
-  //       for (let id in oldInstru) {
-  //         let key = oldInstru[id].VARIABLE;
-  //         if (activatedFilters[key] !== false) {
-  //           let comb = combinations(activatedFilters[key]);
-  //           oldInstru[id]["FILTRES"] = comb;
-  //         }
-  //       }
-
-  //       return oldInstru;
-  //     });
-  //   }
-  // }, [activatedFilters]);
 
   return (
     <div className="width-ctt">
@@ -251,15 +184,7 @@ const ElementModule = ({ instruction, geographies, center }) => {
             (load || data === null || data.length === 0 ? (
               <LoaderMap />
             ) : (
-              <Graph
-                instruction={instruction}
-                data={data[0]}
-                setData={setData}
-                // territoiresVar={territoiresVar}
-                // setTerritoiresVar={setTerritoiresVar}
-                // activatedFilters={activatedFilters}
-                // setActivatedFilters={setActivatedFilters}
-              />
+              <Graph instruction={instruction} data={data} setData={setData} />
             ))}
         </div>
       </div>

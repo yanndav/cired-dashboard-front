@@ -1,9 +1,19 @@
 import styled from "styled-components";
 import { CgClose } from "react-icons/cg";
 import { colorsLight } from "../../../app/colorComponents";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { BsFillGearFill, BsFillLayersFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import { FaSave, FaCropAlt, FaPlusCircle, FaMap } from "react-icons/fa";
+import {
+  FaSave,
+  FaCropAlt,
+  FaPlusCircle,
+  FaMap,
+  FaExternalLinkSquareAlt,
+  FaDatabase,
+} from "react-icons/fa";
+
+import { MdInfo } from "react-icons/md";
 import { ReactComponent as Territory } from "../../Territory.svg";
 import { ReactComponent as Modules } from "../../Modules.svg";
 
@@ -76,9 +86,15 @@ align-items:center;
 gap:15px;
 /* padding:15px; */
 border-radius:8px;
+height:${(props) => props.height && props.height};
+overflow-y:auto;
 `;
 
 const FiltreButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
   border-radius: 8px;
   padding: 10px;
   background: ${(props) =>
@@ -94,15 +110,16 @@ const FiltreButton = styled.div`
   color: ${(props) => (props.isSelected ? "white" : "black")};
   border: 1px solid
     ${(props) => (props.isGeo ? colorsLight[props.code] : "none")};
-  cursor: pointer;
+  cursor: ${(props) => !props.notClickable && "pointer"};
   &:hover {
     background: ${(props) =>
-      props.isSelected
+      !props.notClickable &&
+      (props.isSelected
         ? colorsLight.cancel
         : props.isGeo
         ? colorsLight[props.code]
-        : colorsLight.light};
-    color: white;
+        : colorsLight.light)};
+    color: ${(props) => !props.notClickable && "white"};
   }
 `;
 
@@ -149,6 +166,36 @@ const SaveButton = styled(FaSave)`
     color: ${colorsLight.interaction};
   }
   filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
+`;
+
+const InfoButton = styled(MdInfo)`
+  cursor: pointer;
+  fill: white;
+  transform: scale(135%);
+  &:hover {
+    fill: ${colorsLight.topBackground};
+  }
+  filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
+  margin-left: 10px;
+  size: 1.3em;
+`;
+
+const ExternalImg = styled(FaExternalLinkSquareAlt)`
+  margin-right: 15px;
+  padding-right: 10px;
+  fill: ${colorsLight.title}!important;
+`;
+
+const DbImg = styled(FaDatabase)`
+  margin-right: 15px;
+  padding-right: 10px;
+  fill: ${colorsLight.title}!important;
+`;
+const OutImg = styled(IoMdArrowRoundBack)`
+  margin-right: 15px;
+  padding-right: 10px;
+  fill: ${colorsLight.white};
+  transform: scale(1.5);
 `;
 
 const MapImg = styled(FaMap)`
@@ -494,4 +541,8 @@ export {
   MapImg,
   FiltreButton,
   ZoneFiltres,
+  InfoButton,
+  ExternalImg,
+  DbImg,
+  OutImg,
 };

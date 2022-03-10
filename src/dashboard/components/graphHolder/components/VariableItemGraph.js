@@ -42,7 +42,7 @@
 // const genererLegende = (layer) =>
 //   addTitle(layer) + addDefinition(layer) + addLineBreak() + addSources(layer);
 
-// const VariableItem = ({ layer, nbLayers }) => {
+// const VariableItem = ({ data }) => {
 //   const [pop, setPop] = useState(false);
 //   const texte = genererLegende(layer);
 

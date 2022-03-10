@@ -38,15 +38,16 @@ const Graph = ({
     <BoiteParametre lighter>
       <ZoneSelection>
         <TitleSection>{instruction.NOM}</TitleSection>
-        {/* <VariableSelectItemGraph
-        data={data}
-        // activatedFilters={activatedFilters}
-        // setActivatedFilters={setActivatedFilters}
-        // variable={data.find((dt) => dt.SHOW === true).VARIABLE.CODE}
-        // territoiresVar={territoiresVar}
-        // setTerritoiresVar={setTerritoiresVar}
-      /> */}
-        <LineChart data={data} setData={setData} />
+        <VariableSelectItemGraph
+          data={data}
+          setData={setData}
+          // activatedFilters={activatedFilters}
+          // setActivatedFilters={setActivatedFilters}
+          // variable={data.find((dt) => dt.SHOW === true).VARIABLE.CODE}
+          // territoiresVar={territoiresVar}
+          // setTerritoiresVar={setTerritoiresVar}
+        />
+        <LineChart data={data[0]} setData={setData} />
       </ZoneSelection>
     </BoiteParametre>
   );

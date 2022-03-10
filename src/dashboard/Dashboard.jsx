@@ -108,7 +108,9 @@ const Dashboard = () => {
         <ContainerParametres>
           <BoutonParametre onClick={() => openBox("localisation")}>
             <LogoTerritoire />
-            Définir mon territoire
+            {geographies.perimetre.length === 1
+              ? geographies.perimetre[0].LIBELLE
+              : "Définir mon territoire"}
           </BoutonParametre>
           <BoutonParametre onClick={() => openBox("modules")}>
             <LogoModules />

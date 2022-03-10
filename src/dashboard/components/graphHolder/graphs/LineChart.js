@@ -69,7 +69,6 @@ const LineChart = ({ data, setData }) => {
 
   const [showY, setShowY] = useState(null);
   const [showXBar, setShowXBar] = useState(null);
-  const [showFiltre, setShowFiltre] = useState(null);
 
   const colors = setGraphColors(data.DATA);
   console.log(colors);
