@@ -4,6 +4,7 @@ const colorsLight = {
   background: "#f5f5f5",
   background2: "#81b29a",
   background3: "#f2cc8f",
+  backgroundlight: "#ffffff",
   interaction: "#6E94B7",
   topBackground: "#D7D7D7",
   light: "#A9E19E",

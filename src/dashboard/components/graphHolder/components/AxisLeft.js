@@ -1,8 +1,8 @@
 const AxisLeftContinuous = ({ yScale, innerWidth, innerHeight, nameVar }) => (
   <>
     {yScale.ticks(10).map((tickValue) => (
-      <g key={tickValue} transform={`translate(0, ${+yScale(tickValue)})`}>
-        <line className="tick" x2={+innerWidth} />
+      <g key={tickValue} transform={`translate(-5, ${+yScale(tickValue)})`}>
+        <line className="tick" x2={+innerWidth} style={{ opacity: 0.25 }} />
         <text dy={"0.31em"} dx={-10} className="yLabel">
           {tickValue}
         </text>

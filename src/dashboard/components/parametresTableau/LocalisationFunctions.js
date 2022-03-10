@@ -2,7 +2,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import * as d3 from "d3";
 
-import "./components/LocalisationMap.css";
+import "./LocalisationMap.css";
 
 // FUNCTION TO CREATE UNIQUE IDS
 const num_to_let = (num) => {
@@ -62,12 +62,17 @@ const handleSearch = (e, query, API_URL, setSuggestions, type = null) => {
   apiRecommendation(query, API_URL, setSuggestions, type);
 };
 
-const apiVoisinnage = async (API_URL, map) => {
+const apiVoisinnage = async (API_URL, map, nivgeo) => {
   const bounds = centerInit(map);
   const zoom = zoomInit(map);
 
   const response = await fetch(`${API_URL}/getTerritoriesAround`, {
-    body: JSON.stringify({ lat: bounds.lat, lng: bounds.lng, zoom: zoom }),
+    body: JSON.stringify({
+      lat: bounds.lat,
+      lng: bounds.lng,
+      zoom: zoom,
+      nivgeo: nivgeo,
+    }),
     method: "POST",
     headers: {
       // Authorization: bearer,
@@ -380,10 +385,10 @@ const centroid = (territories) => {
 };
 
 // Function to get a territory shape
-const apiShape = async (API_URL, t, year) => {
+const apiShape = async (API_URL, toAdd, year) => {
   const response = await fetch(`${API_URL}/getLocationShape`, {
     body: JSON.stringify({
-      location_id: t._id.$oid,
+      location_id: toAdd.map((add) => add._id.$oid),
       year: year,
     }),
     method: "POST",
@@ -581,4 +586,6 @@ export {
   removeSelectionnes,
   updateShape,
   centroid,
+  apiShape,
+  apiVoisinnage,
 };

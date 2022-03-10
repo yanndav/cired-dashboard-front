@@ -1,21 +1,21 @@
 import LineChart from "./graphs/LineChart";
-import { useState, useEffect } from "react";
 
 import VariableSelectItemGraph from "./components/VariableSelectItemGraph";
 
-const selectData = (data, territoiresVar, variable) => {
-  return data
-    .filter((dt) => dt.SHOW === true)[0]
+import {
+  BoiteParametre,
+  ZoneSelection,
+  TitleSection,
+} from "../parametresTableau/StyledComparaison";
+const selectData = (data, territoiresVar, variable) =>
+  data
+    .find((dt) => dt.SHOW === true)
     .DATA.filter(
       (dt) =>
-        territoiresVar[variable].filter((fl) => fl.CODGEO === dt.CODGEO)[0].SHOW
+        territoiresVar[variable].find((fl) => fl.CODGEO === dt.CODGEO).SHOW
     );
-};
 
-const selectLayer = (data) => {
-  const temp = [...data].filter((dt) => dt.SHOW === true)[0];
-  return temp;
-};
+const selectLayer = (data) => data.find((dt) => dt.SHOW === true);
 
 // const omitKey = (key, layer) => {
 //   const { [key]: omitted, ...rest } = layer;
@@ -25,34 +25,30 @@ const selectLayer = (data) => {
 // const getInfo = (data) => data.map((layer) => omitKey("DATA", layer));
 
 const Graph = ({
-  module,
+  instruction,
   data,
-  territoiresVar,
-  setTerritoiresVar,
   setData,
-  activatedFilters,
-  setActivatedFilters,
+  // territoiresVar,
+  // setTerritoiresVar,
+  // activatedFilters,
+  // setActivatedFilters,
 }) => {
-  const variable = [...data].filter((dt) => dt.SHOW === true)[0].VARIABLE.CODE;
-  const layer = selectData(data, territoiresVar, variable);
-
+  console.log(data);
   return (
-    <>
-      <VariableSelectItemGraph
-        infos={data}
-        setData={setData}
-        activatedFilters={activatedFilters}
-        setActivatedFilters={setActivatedFilters}
-        variable={variable}
-        territoiresVar={territoiresVar}
-        setTerritoiresVar={setTerritoiresVar}
-      />
-      <LineChart
-        data={selectData(data, territoiresVar, variable)}
-        infos={selectLayer(data)}
-        territoiresVar={territoiresVar}
-      />
-    </>
+    <BoiteParametre lighter>
+      <ZoneSelection>
+        <TitleSection>{instruction.NOM}</TitleSection>
+        {/* <VariableSelectItemGraph
+        data={data}
+        // activatedFilters={activatedFilters}
+        // setActivatedFilters={setActivatedFilters}
+        // variable={data.find((dt) => dt.SHOW === true).VARIABLE.CODE}
+        // territoiresVar={territoiresVar}
+        // setTerritoiresVar={setTerritoiresVar}
+      /> */}
+        <LineChart data={data} setData={setData} />
+      </ZoneSelection>
+    </BoiteParametre>
   );
 };
 

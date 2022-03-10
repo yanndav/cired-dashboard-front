@@ -1,6 +1,6 @@
 import "./graphStyling.css";
 const FiltreLegend = ({ filtre }) => {
-  const color = "black";
+  const color = "white";
   const radius = 4;
   const width = 35;
   const height = 15;
@@ -61,7 +61,7 @@ const FiltreLegend = ({ filtre }) => {
             `${xMid - 2.5},${yMid + 4} ` + // BOTTOM LEFT
             `${xMid - 4},${yMid} ` // MIDDLE LEFT
           }
-          // fill={color}
+          fill={color}
         />
       )}{" "}
       {filtre.SHAPE === "etoile" && (
@@ -79,7 +79,7 @@ const FiltreLegend = ({ filtre }) => {
             `${xMid - 4},${yMid - 1} ` + // MIDDLE LEFT
             `${xMid - 1},${yMid - 1} ` // MIDDLE LEFT
           }
-          // fill={color}
+          fill={color}
         />
       )}{" "}
       {filtre.SHAPE === "6f" && (
@@ -93,7 +93,7 @@ const FiltreLegend = ({ filtre }) => {
             `${xMid - 3.5},${yMid + 1.5} ` + // MIDDLE DOWN LEFT
             `${xMid - 3.5},${yMid - 1.5} ` // MIDDLE UP LEFT
           }
-          //  fill={color}
+          fill={color}
         />
       )}{" "}
       {filtre.SHAPE === "7f" && (
@@ -108,7 +108,7 @@ const FiltreLegend = ({ filtre }) => {
             `${xMid - 3.7},${yMid + 1.5} ` + // MIDDLE LEFT
             `${xMid - 3.7},${yMid - 1.5} ` // MIDDLE LEFT
           }
-          // fill={color}
+          fill={color}
         />
       )}
     </svg>

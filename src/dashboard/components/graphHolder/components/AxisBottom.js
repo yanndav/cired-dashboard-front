@@ -37,7 +37,12 @@ const AxisBottomContinuous = ({
         key={tickValue}
         transform={`translate(${xScale(tickValue)},${innerHeight + 10})`}
       >
-        <line className="tick" y1={-innerHeight - 10} y2={-10} />
+        <line
+          className="tick"
+          y1={-innerHeight - 10}
+          y2={-10}
+          style={{ opacity: 0.25 }}
+        />
 
         <text dy={"0.61em"} className="xLabel">
           {tickValue}

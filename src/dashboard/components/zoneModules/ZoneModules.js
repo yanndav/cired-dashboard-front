@@ -1,14 +1,22 @@
 import "./ZoneModules.css";
 import Module from "./Module.jsx";
-import { useContext } from "react";
 
-import { AppContext } from "../../../app/AppContext";
-const ZoneModules = ({ selectedModules, geographies, center }) => {
-  const { API_URL } = useContext(AppContext);
+import styled from "styled-components";
 
+const ContainerModules = styled.div`
+display:flex,
+flex-direction:column;
+`;
+
+const ZoneModules = ({
+  selectedModules,
+  geographies,
+  center,
+  setRefModules,
+}) => {
   return (
-    <div className=" flx-column flx-gap-small">
-      {geographies.length === 0 || selectedModules.length === 0
+    <ContainerModules>
+      {geographies.groupAnalysis.length === 0 || selectedModules.length === 0
         ? `Sélectionnez ${geographies.length === 0 ? "un territoire" : ""} ${
             geographies.length === 0 && selectedModules.length === 0
               ? "et "
@@ -21,10 +29,10 @@ const ZoneModules = ({ selectedModules, geographies, center }) => {
               moduleInfo={d}
               geographies={geographies}
               center={center}
-              API_URL={API_URL}
+              setRefModules={setRefModules}
             />
           ))}
-    </div>
+    </ContainerModules>
   );
 };
 

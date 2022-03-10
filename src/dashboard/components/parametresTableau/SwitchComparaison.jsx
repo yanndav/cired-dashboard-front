@@ -108,7 +108,7 @@ const SwitchComparaison = ({ comparaison, setComparaison }) => {
       <ActivationArea onClick={openComparaison} active={comparaison.activate}>
         {/* <CompareIcon /> */}
         <Comparaison />
-        Analyse comparative
+        Comparer à d'autres territoires{" "}
       </ActivationArea>
       <Switch onClick={switchComparaison}>
         <SwitchChoice active={comparaison.activate} choice="ON">

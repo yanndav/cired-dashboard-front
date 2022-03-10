@@ -15,14 +15,15 @@ import {
   ItemCritere,
   NomPerimetre,
   InputNomPerimetre,
-  EditButton,
   TerritoiresSelectionnes,
   TitreCarteSelection,
   CarteSelection,
+  CropImg,
 } from "./StyledComparaison";
 import { addS, hasCritere, setKeyCondition } from "./fonctionsComparaison";
 
 import BarreRecherche from "./BarreRecherche";
+import LocalisationMap from "./LocalisationMap";
 
 const handleName = (name) => (name === "" ? "Périmètre sans nom" : name);
 
@@ -34,6 +35,7 @@ const PerimetreGeographique = ({
   changeParametre,
   criteres,
   setCriteres,
+  isComparaison,
 }) => {
   const [tempoPerimetre, setTempoPerimetre] = useState({});
   const [editName, setEditName] = useState(false);
@@ -42,34 +44,42 @@ const PerimetreGeographique = ({
   return (
     <>
       {(parametre === "default" || parametre === "perimetre") && (
-        <BoiteParametre>
+        <BoiteParametre card>
           <ZoneSelection>
             {/* EN-TETE */}
             {/* TITRE */}
             <TitreParametre>
-              Périmètre{addS(criteres.perimetre)} géographique
+              <CropImg />
+              Définir le{addS(criteres.perimetre)} périmètre
+              {addS(criteres.perimetre)} géographique
               {addS(criteres.perimetre)}
             </TitreParametre>
             {/* Légende */}
             <LegendeParametre>
-              Définissez les zones géographiques que vous souhaitez inclure dans
-              votre analyse.
+              {isComparaison
+                ? "Définissez les zones géographiques que vous souhaitez inclure dans votre analyse."
+                : "Vous pouvez définir librement votre périmètre géographique d'analyse en fusionnant des communes, intercos, départements et régions. Ou bien vous pouvez aussi ne vous intéresser qu’à un seul territoire."}
             </LegendeParametre>
             {/* Bouton ajout de périmètre */}
-            <ItemCritere
-              clickable
-              onClick={() => {
-                changeParametre("perimetre");
-                setTempoPerimetre({
-                  LIBELLE: "",
-                  KEY: setKeyCondition(),
-                  TERRITOIRES: [],
-                });
-              }}
-            >
-              <AddButton />
-              Ajouter un périmètre géographique
-            </ItemCritere>
+            {(isComparaison ||
+              (!isComparaison &&
+                parametre !== "perimetre" &&
+                criteres.perimetre.length === 0)) && (
+              <ItemCritere
+                clickable
+                onClick={() => {
+                  changeParametre("perimetre");
+                  setTempoPerimetre({
+                    LIBELLE: "",
+                    KEY: setKeyCondition(),
+                    TERRITOIRES: [],
+                  });
+                }}
+              >
+                <AddButton />
+                Ajouter un périmètre géographique
+              </ItemCritere>
+            )}
 
             {/* CONTENU DU PANEL QUAND OUVERT EN MODE MODIFICATION */}
 
@@ -113,13 +123,14 @@ const PerimetreGeographique = ({
                       </>
                     ) : (
                       <>
-                        <EditButton
+                        {/* <EditButton
                           onClick={() => setEditName((prev) => !prev)}
-                        />
+                        /> */}
                         {setName(tempoPerimetre.LIBELLE)}
                       </>
                     )}
                   </NomPerimetre>
+
                   <TitreCarteSelection>
                     Territoire{addS(tempoPerimetre.TERRITOIRES)} inclus dans ce
                     périmètre :
@@ -145,25 +156,36 @@ const PerimetreGeographique = ({
                         ))
                       : "Pas de territoire sélectionné. Ajoutez des territoires à votre périmètre à partir de la barre de recherche."}
                   </TerritoiresSelectionnes>
+                  {typeof tempoPerimetre.TERRITOIRES !== "undefined" &&
+                    tempoPerimetre.TERRITOIRES.length > 0 && (
+                      <LocalisationMap
+                        perimetre={tempoPerimetre.TERRITOIRES}
+                        setCritere={setTempoPerimetre}
+                        isZoomControl
+                        isTerritoriesAround
+                      />
+                    )}
                   <ZoneAction>
-                    <Action
-                      onClick={() => {
-                        changeParametre("default");
-                        setCriteres((prev) => ({
-                          ...prev,
-                          perimetre: [
-                            ...prev.perimetre.filter(
-                              (prevPer) => prevPer.KEY !== tempoPerimetre.KEY
-                            ),
-                            tempoPerimetre,
-                          ],
-                        }));
-                        setTempoPerimetre({});
-                      }}
-                      choix="VALIDER"
-                    >
-                      Valider
-                    </Action>
+                    {hasCritere(tempoPerimetre.TERRITOIRES) && (
+                      <Action
+                        onClick={() => {
+                          changeParametre("default");
+                          setCriteres((prev) => ({
+                            ...prev,
+                            perimetre: [
+                              ...prev.perimetre.filter(
+                                (prevPer) => prevPer.KEY !== tempoPerimetre.KEY
+                              ),
+                              tempoPerimetre,
+                            ],
+                          }));
+                          setTempoPerimetre({});
+                        }}
+                        choix="VALIDER"
+                      >
+                        Valider
+                      </Action>
+                    )}
                     <Action
                       onClick={() => {
                         changeParametre("default");

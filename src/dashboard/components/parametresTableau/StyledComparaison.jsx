@@ -1,25 +1,27 @@
 import styled from "styled-components";
 import { CgClose } from "react-icons/cg";
 import { colorsLight } from "../../../app/colorComponents";
-import { BsFillGearFill } from "react-icons/bs";
-import { FaPlus } from "react-icons/fa";
+import { BsFillGearFill, BsFillLayersFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaCropAlt, FaPlusCircle, FaMap } from "react-icons/fa";
+import { ReactComponent as Territory } from "../../Territory.svg";
+import { ReactComponent as Modules } from "../../Modules.svg";
+
 const Back = styled.div`
-  background: #f3f2f26f;
+  background: #cacaca6e;
   position: fixed;
-  /* filter: blur(10px) */
+  filter: blur(5px);
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 10000;
+  z-index: 0;
 `;
 const ModalBox = styled.div`
-  position: relative;
-  width: 1000px;
-  max-width: 90%;
-  max-height: 90%;
+  position: fixed;
+
+  width: 90%;
+  height: 80vh;
   top: 5%;
   left: 50%;
   transform: translate(-50%, 0%);
@@ -29,6 +31,7 @@ const ModalBox = styled.div`
   box-shadow: 1px 1px 7px rgba(168, 168, 168, 0.438);
   border-radius: 8px;
   overflow-y: auto;
+  z-index: 1000;
 `;
 
 const HeaderModal = styled.div`
@@ -43,6 +46,9 @@ const TitleModal = styled.div`
   font-weight: bolder;
   margin: 10px 0px;
   color: ${colorsLight.title2};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 const TitleSection = styled.div`
   font-size: 1.4em;
@@ -51,10 +57,52 @@ const TitleSection = styled.div`
 const ParagraphSousTitre = styled.p`
   margin-top: 10px;
   margin-bottom: 50px;
-  color: #252525;
+  color: inherit;
   font-size: 1em;
   & br {
     margin: 5px;
+  }
+`;
+
+const ZoneFiltres = styled.div`
+margin-top:20px;
+transition:width 0.3s,
+height:0.3s;
+width:95%;
+display:flex;
+flex-direction:row;
+flex-wrap:wrap;
+align-items:center;
+gap:15px;
+/* padding:15px; */
+border-radius:8px;
+`;
+
+const FiltreButton = styled.div`
+  border-radius: 8px;
+  padding: 10px;
+  background: ${(props) =>
+    props.isGeo
+      ? props.isSelected
+        ? colorsLight[props.code]
+        : colorsLight.topBackground
+      : props.isSelected
+      ? props.couleur
+        ? props.couleur
+        : colorsLight.background2
+      : colorsLight.topBackground};
+  color: ${(props) => (props.isSelected ? "white" : "black")};
+  border: 1px solid
+    ${(props) => (props.isGeo ? colorsLight[props.code] : "none")};
+  cursor: pointer;
+  &:hover {
+    background: ${(props) =>
+      props.isSelected
+        ? colorsLight.cancel
+        : props.isGeo
+        ? colorsLight[props.code]
+        : colorsLight.light};
+    color: white;
   }
 `;
 
@@ -75,7 +123,7 @@ const ParameterButton = styled(BsFillGearFill)`
   filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
 `;
 
-const AddButton = styled(FaPlus)`
+const AddButton = styled(FaPlusCircle)`
   cursor: pointer;
   color: black;
   &:hover {
@@ -102,24 +150,44 @@ const SaveButton = styled(FaSave)`
   }
   filter: drop-shadow(1px 1px 1px rgba(190, 190, 190, 0.7));
 `;
+
+const MapImg = styled(FaMap)`
+  margin-right: 15px;
+  padding-right: 10px;
+  fill: ${colorsLight.title}!important;
+`;
+const CropImg = styled(FaCropAlt)`
+  margin-right: 10px;
+  color: ${colorsLight.title};
+`;
+
+const LayerImg = styled(BsFillLayersFill)`
+  margin-right: 10px;
+  color: ${colorsLight.title};
+`;
 const ZoneParametres = styled.div`
-  margin-top: 20px;
+  margin: 20px 0px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 10px;
+  flex-shrink: 100;
+  gap: 20px;
 `;
 const ZoneSelection = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  cursor: ${(props) => props.clickable && "pointer"};
 `;
 const BoiteParametre = styled.div`
-  background: ${colorsLight.background};
+  background: ${(props) =>
+    props.lighter ? colorsLight.backgroundlight : colorsLight.background};
   border-radius: 9px;
-  margin: 4px;
-  
+  /* margin: 4px; */
+  flex-shrink:15;
+  flex-grow:15;
+  flex-basis:400px;
   }
 `;
 
@@ -127,12 +195,13 @@ const TitreParametre = styled.h3`
   /* margin: 0px; */
   font-weight: bolder;
   font-size: 1.2em;
-  color: ${colorsLight.title2};
+  color: ${colorsLight.title};
 `;
 
 const LegendeParametre = styled.div`
-  /* margin-top: ${(props) => (props.middle ? "70px" : "20px")}; */
   font-size: 1.1em;
+  white-space: wrap;
+  color: ${(props) => props.color && props.color};
 `;
 
 const ParametreItemCritere = styled.div`
@@ -144,19 +213,20 @@ const ParametreItemCritere = styled.div`
   gap: 10px;
   align-items: center;
   padding: 0px 8px;
-  width: fit-content;
+  /* width: fit-content; */
 `;
 
 const ItemCritere = styled.div`
   color: white;
   width: fit-content;
+  text-align: center;
   background-color: ${colorsLight.interaction};
   border-radius: 8px;
   padding: 10px;
   margin: 20px 0px;
   svg {
     fill: white;
-    padding-right: 5px;
+    margin-right: 10px;
   }
   &:hover {
     cursor: ${(props) => props.clickable && "pointer"};
@@ -175,7 +245,7 @@ const ZoneAction = styled.div`
   margin: 20px;
 `;
 const CarteSelection = styled.div`
-  background-color: ${colorsLight.title2};
+  background-color: ${colorsLight.title};
   display: flex;
   flex-direction: ${(props) => props.flex};
   padding: 20px;
@@ -367,6 +437,20 @@ const AddCondition = styled.div`
   }
 `;
 
+const LogoTerritoire = styled(Territory)`
+  width: 45px;
+  height: 45px;
+  padding: 0px;
+  margin-right: 10px;
+`;
+
+const LogoModules = styled(Modules)`
+  width: 45px;
+  height: 45px;
+  padding: 0px;
+  margin-right: 10px;
+`;
+
 export {
   BoiteParametre,
   TitreParametre,
@@ -403,4 +487,11 @@ export {
   AddCondition,
   ConditionsContainer,
   TitleCondition,
+  LogoTerritoire,
+  LogoModules,
+  CropImg,
+  LayerImg,
+  MapImg,
+  FiltreButton,
+  ZoneFiltres,
 };

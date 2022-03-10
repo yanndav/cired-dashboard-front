@@ -1,5 +1,5 @@
 const getLayer = (consignes, data) =>
-  data.filter((layer) => layer.VARIABLE.CODE === consignes.VAR_SOURCE)[0];
+  data.filter((layer) => layer.CODE === consignes.VAR_SOURCE)[0];
 
 const valeursUniques = (bonLayer, group_var) => [
   ...new Set(bonLayer.GEOMETRY.map((c) => c.properties[group_var])),

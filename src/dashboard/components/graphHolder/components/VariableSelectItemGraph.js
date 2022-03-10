@@ -11,40 +11,21 @@ import FilterItem from "./FilterItem";
 import SelectTerritoires from "./SelectTerritoires";
 
 const VariableSelectItem = ({
-  infos,
-  setData,
-  activatedFilters,
-  setActivatedFilters,
-  variable,
-  territoiresVar,
-  setTerritoiresVar,
+  data,
+  // setData,
+  // activatedFilters,
+  // setActivatedFilters,
+  // variable,
+  // territoiresVar,
+  // setTerritoiresVar,
 }) => {
-  const nbLayers = infos.length;
   return (
     <div className="flx-row flx-gap-small">
-      {infos.map((layer) => (
+      {data.map((layer) => (
         <span className="btn-tv-color btn-small " key={"var-" + keyGen(layer)}>
-          <VariableItemGraph
-            layer={layer}
-            setData={setData}
-            nbLayers={nbLayers}
-          />
-          {layer.hasOwnProperty("FILTRES") && (
-            <FilterItem
-              layer={layer}
-              activatedFilters={activatedFilters[layer.VARIABLE.CODE]}
-              setActivatedFilters={setActivatedFilters}
-            />
-          )}
+          <VariableItemGraph layer={layer} />
         </span>
       ))}
-      {territoiresVar[variable].length > 1 && (
-        <SelectTerritoires
-          variable={variable}
-          territoiresVar={territoiresVar}
-          setTerritoiresVar={setTerritoiresVar}
-        />
-      )}
     </div>
   );
 };

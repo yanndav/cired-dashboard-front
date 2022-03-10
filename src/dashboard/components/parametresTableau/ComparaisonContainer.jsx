@@ -87,7 +87,8 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
   useOutsideCloser(boxRef);
 
   return (
-    <Back>
+    <>
+      <Back />
       <ModalBox ref={boxRef}>
         <HeaderModal>
           <TitleModal>Analyse comparative, {titre.toLowerCase()}</TitleModal>
@@ -120,6 +121,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
                 changeParametre={changeParametre}
                 criteres={criteres}
                 setCriteres={setCriteres}
+                isComparaison
               />
               <CritereInclusion
                 parametre={parametre}
@@ -132,6 +134,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
                 changeParametre={changeParametre}
                 criteres={criteres}
                 setCriteres={setCriteres}
+                isComparaison
               />
             </ZoneParametres>
           </>
@@ -144,7 +147,7 @@ const ComparaisonContainer = ({ setComparaison, titre }) => {
           </ZoneAction>
         )}
       </ModalBox>
-    </Back>
+    </>
   );
 };
 

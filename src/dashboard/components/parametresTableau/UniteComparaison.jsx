@@ -11,39 +11,42 @@ import {
   ParameterButton,
   CarteSelection,
   TitreCarteSelection,
-  PetitTexte,
   ParametreItemCritere,
   AddButton,
   ClosingButton,
+  LayerImg,
 } from "./StyledComparaison";
 
 import { setKeyCondition, hasCritere } from "./fonctionsComparaison";
 import BarreRecherche from "./BarreRecherche";
-const nbTer = 3;
 
 const UniteComparaison = ({
   parametre,
   changeParametre,
   criteres,
   setCriteres,
+  isComparaison,
 }) => {
   const [tempoUnite, setTempoUnite] = useState({});
 
   return (
     <>
       {(parametre === "default" || parametre === "unite") && (
-        <BoiteParametre
-          isOpen={parametre !== "default"}
-          hasCritere={hasCritere(tempoUnite)}
-        >
+        <BoiteParametre>
           <ZoneSelection>
             {/* EN-TÊTE */}
             {/* TITRE DU PANNEAU */}
-            <TitreParametre>Unité géographique de comparaison</TitreParametre>
+            <TitreParametre>
+              <LayerImg />
+              {isComparaison
+                ? "Définir les échelles de comparaison"
+                : "Définir les échelles d'analyse"}
+            </TitreParametre>
             {/* LEGENDE DU PANNEAU */}
             <LegendeParametre>
-              Choisissez l'échelle à partir de laquelle les territoires doivent
-              être comparés.
+              {isComparaison
+                ? " Choisissez les échelles à partir de laquelle les territoires doivent être comparés."
+                : "Vous pouvez choisir différentes échelles d’analyse, de la commune à la région, en passant par les zonages d’étude de l’INSEE. Ou bien vous pouvez aussi lancer une analyse à l'échelle de votre périmètre géographique unifié."}
             </LegendeParametre>
             {/* BOUTON AJOUT D'UNITE */}
             <ItemCritere
@@ -54,7 +57,9 @@ const UniteComparaison = ({
               }}
             >
               <AddButton />
-              Ajouter une unité géographique de comparaison
+              {isComparaison
+                ? "Ajouter une échelle de comparaison"
+                : "Ajouter une échelle d'analyse"}
             </ItemCritere>
 
             {/* MODIFICATION DE LA CONDITION SELECTIONNEE */}
@@ -70,7 +75,9 @@ const UniteComparaison = ({
                   {/* CARTE DE CONDITION */}
                   <CarteSelection background flex="column">
                     <TitreCarteSelection>
-                      Échelle de comparaison :
+                      {isComparaison
+                        ? "Échelle de comparaison :"
+                        : "Unité d'analyse"}
                     </TitreCarteSelection>
                     {tempoUnite.CONDITIONS.length === 0 && (
                       <LegendeParametre>

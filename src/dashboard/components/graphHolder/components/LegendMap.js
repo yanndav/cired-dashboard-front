@@ -10,7 +10,7 @@ const LegendMap = ({ layer, idKey }) => {
 
   return (
     <div key={"legend-" + idKey + "-" + keyGen(layer)}>
-      <p>{layer.VARIABLE.LIBELLE}:</p>
+      <p>{layer.LIBELLE}:</p>
       {couleurs.map((couleur, idx) => {
         return (
           <LegendItem
