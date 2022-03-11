@@ -141,12 +141,12 @@ const Accueil = () => {
               Analysez et comparez les transitions dans votre territoire.
             </TitrePage>
             <SousTitrePage>
-              Créez et personnalisez vos tableaux de bord à partir de modules
-              d'analyse de données locales et de modélisations.
+              Créez et personnalisez des tableaux d'analyses qui s'adaptent à
+              votre territorie et à vos problématiques.
             </SousTitrePage>
           </Section>
           <BoutonTableau to="/tableau" exact>
-            Créer un tableau
+            Créer un tableau d'analyses
           </BoutonTableau>
         </ColumnFlexContainer>
         <ColumnFlexContainer big>
@@ -157,26 +157,26 @@ const Accueil = () => {
               <ZoneTexte>
                 <Emphase>Définissez votre périmètre territorial</Emphase>. À
                 partir de la barre de recherche et de l’outil dédié vous pouvez
-                définir librement votre périmètre territorial en sélectionnant
-                un ensemble de communes, intercommunalités, départements et/ou
-                régions de France.
+                définir librement votre périmètre territorial et l'échelle
+                d'analyse en sélectionnant un ensemble de communes,
+                intercommunalités, départements et/ou régions de France.
               </ZoneTexte>
             </Argument>
             <Argument>
               <Icone>🎛️</Icone>
               <ZoneTexte>
-                <Emphase>Sélectionnez des modules d’analyse</Emphase>.
-                Construisez votre tableau de bord en sélectionnant des modules
-                d'analyse et de modélisation qui s'adaptent à votre territoire.
-                Vous pouvez également définir des territoires de comparaison.
+                <Emphase>Sélectionnez des analyses</Emphase>. Construisez votre
+                tableau de bord en sélectionnant des analyses interactives qui
+                s'adaptent à votre territoire. Vous pouvez également comparer
+                votre territoire à d'autres.
               </ZoneTexte>
             </Argument>
             <Argument>
               <Icone>💾</Icone>
               <ZoneTexte>
                 <Emphase>Personnalisez, enregistrez et partagez</Emphase>.
-                Ajustez le tableau de bord à vos besoins et diffusez les
-                analyses de votre territoire.
+                Ajustez le tableau à vos besoins et diffusez les analyses de
+                votre territoire.
               </ZoneTexte>
             </Argument>
           </Section>
@@ -187,16 +187,17 @@ const Accueil = () => {
                 Développé dans une démarche de
                 <Emphase> recherche-action par une équipe du CIRED</Emphase>,
                 ComparaTer se construit en{" "}
-                <Emphase>partenariat avec des décideurs territoriaux </Emphase>
-                issus de plusieurs régions de France.
+                <Emphase>partenariat avec des décideurs territoriaux</Emphase>.
               </ZoneTexte>
             </Argument>
             <Argument>
               <ZoneTexte>
-                Nos modules thématiques sont{" "}
-                <Emphase>pré-configurés par un réseau de scientifiques</Emphase>{" "}
+                Nos analyses sont{" "}
+                <Emphase>
+                  pré-configurées et développées par un réseau de scientifiques
+                </Emphase>{" "}
                 désireux de rendre accessible leurs résultats de recherche.
-                Toutes les analyses sont issues de données officielles et
+                Toutes les données utilisées sont officielles, sourcées et
                 ouvertes.
               </ZoneTexte>
             </Argument>
@@ -213,14 +214,14 @@ const Accueil = () => {
           </Section>
           <Section>
             <SousTitrePage>
-              Une large gamme de modules thématiques pour soutenir les projets
-              d'écodéveloppement
+              Une large gamme de d'analyses thématiques pour soutenir les
+              projets d'écodéveloppement
             </SousTitrePage>
             <Argument>
               <ZoneTexte>
-                Le développement de modules s'appui sur les demandes des
-                décideurs territoriaux avec lesquels nous travaillons. Pour
-                répondre à leurs questionnements, une variété de thématiques
+                Le développement d'analyses vise à répondre aux questionnements
+                des décideurs territoriaux avec lesquels nous travaillons. Pour
+                répondre à leurs problématiques, une variété de thématiques
                 pourront à terme être analysés via ComparaTer.
               </ZoneTexte>
             </Argument>
@@ -237,7 +238,7 @@ const Accueil = () => {
             </WordCloud>
             <Argument>
               <ZoneTexte>
-                Si vous souhaitez suggérer le développement de modules, ou être
+                Si vous souhaitez suggérer le développement d'analyses, ou être
                 informé de l'évolution du projet :{" "}
                 <Emphase>
                   {" "}

@@ -32,12 +32,12 @@ const ModuleSelecteur = ({
         <HeaderModal>
           <TitleModal>
             <LogoModules />
-            Ajout de modules
+            Ajout d'analyses
           </TitleModal>
           <ClosingButton onClick={closeModules}></ClosingButton>
         </HeaderModal>
         <ParagraphSousTitre>
-          Utilisez le moteur de recherche pour trouver les modules de votre
+          Utilisez le moteur de recherche pour trouver les analyses de votre
           choix.
         </ParagraphSousTitre>
         <BarreRecherche

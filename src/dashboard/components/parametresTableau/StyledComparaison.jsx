@@ -63,6 +63,7 @@ const TitleModal = styled.div`
 const TitleSection = styled.div`
   font-size: 1.4em;
   margin: 20px 0px;
+  white-space: wrap;
 `;
 const ParagraphSousTitre = styled.p`
   margin-top: 10px;
@@ -75,19 +76,19 @@ const ParagraphSousTitre = styled.p`
 `;
 
 const ZoneFiltres = styled.div`
-margin-top:20px;
+margin-top:${(props) => (props.notTop ? "0px" : "20px")};
 transition:width 0.3s,
 height:0.3s;
 width:95%;
 display:flex;
 flex-direction:row;
-flex-wrap:wrap;
+flex-wrap: ${(props) => (props.sliderMode ? "nowrap" : "wrap")};
 align-items:center;
 gap:15px;
-/* padding:15px; */
 border-radius:8px;
-height:${(props) => props.height && props.height};
+max-height:${(props) => props.height && props.height};
 overflow-y:auto;
+overflow-x:${(props) => props.sliderMode && "auto"};
 `;
 
 const FiltreButton = styled.div`
@@ -192,8 +193,7 @@ const DbImg = styled(FaDatabase)`
   fill: ${colorsLight.title}!important;
 `;
 const OutImg = styled(IoMdArrowRoundBack)`
-  margin-right: 15px;
-  padding-right: 10px;
+  /* padding: 0px 10px 0px 5px; */
   fill: ${colorsLight.white};
   transform: scale(1.5);
 `;

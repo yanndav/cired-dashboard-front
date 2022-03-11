@@ -36,10 +36,7 @@ import {
 //     )
 //     .join(", ");
 
-const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
-  const [click, setClick] = useState(null);
-  const [clickF, setClickF] = useState(null);
-
+const GraphLegend = ({ colors, data, setData }) => {
   const territories = [...new Set(data.DATA.map((dt) => dt.CODGEO))];
   const hasFiltres = Object.keys(data).includes("FILTRES");
 
@@ -52,10 +49,11 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
         {territories.map((t, i) => (
           <FiltreButton
             key={"legend" + t.toString()}
+            notClickable={colors.length === 1}
             isSelected={data.TERRITOIRES.includes(t)}
             couleur={colors.find((cl) => cl.CODGEO === t).COULEUR}
             onClick={() =>
-              data.TERRITOIRES.includes(t)
+              colors.length > 1 && data.TERRITOIRES.includes(t)
                 ? setData((prev) => [
                     ...prev.filter((prevElem) => prevElem.CODE !== data.CODE),
                     {
@@ -77,20 +75,6 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
                     },
                   ])
             }
-            onMouseOver={() => setShowY(t.CODGEO)}
-            onMouseOut={() => click === null && setShowY(null)}
-            // onClick={() => {
-            //   if (click === null) {
-            //     setShowY(t.CODGEO);
-            //     setClick(t.CODGEO);
-            //   } else if (t.CODGEO !== click) {
-            //     setShowY(t.CODGEO);
-            //     setClick(t.CODGEO);
-            //   } else {
-            //     setShowY(null);
-            //     setClick(null);
-            //   }
-            // }}
           >
             {t}
           </FiltreButton>
@@ -99,9 +83,15 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
       {hasFiltres && (
         <>
           <p> Filtres :</p>
-          <ZoneFiltres height={"150px"}>
+          <ZoneFiltres notTop height={"150px"}>
             {data.FILTRES.map((flt) => (
               <FiltreButton
+                notClickable={
+                  data.CHOIX.length === 1 &&
+                  data.CHOIX.map((ch) => JSON.stringify(ch)).includes(
+                    JSON.stringify(flt.FILTRE)
+                  )
+                }
                 isSelected={data.CHOIX.map((ch) => JSON.stringify(ch)).includes(
                   JSON.stringify(flt.FILTRE)
                 )}
@@ -109,7 +99,8 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
                   data.CHOIX.map((ch) => JSON.stringify(ch)).includes(
                     JSON.stringify(flt.FILTRE)
                   )
-                    ? setData((prev) => [
+                    ? data.CHOIX.length !== 1 &&
+                      setData((prev) => [
                         ...prev.filter(
                           (prevElem) => prevElem.CODE !== data.CODE
                         ),
@@ -143,23 +134,6 @@ const GraphLegend = ({ colors, data, setData, showY, setShowY }) => {
                         },
                       ])
                 }
-
-                // onMouseOver={() => setShowFiltre(sh.FILTRES)}
-                // onMouseOut={() => clickF === null && setShowFiltre(null)}
-                // onClick={() => {
-                //   if (clickF === null) {
-                //     setShowFiltre(sh.FILTRES);
-                //     setClickF(sh.FILTRES);
-                //   } else if (
-                //     JSON.stringify(sh.FILTRES) !== JSON.stringify(clickF)
-                //   ) {
-                //     setShowFiltre(sh.FILTRES);
-                //     setClickF(sh.FILTRES);
-                //   } else {
-                //     setShowFiltre(null);
-                //     setClickF(null);
-                //   }
-                // }}
               >
                 <FiltreLegend filtre={flt} />
                 {flt.LIBELLE}

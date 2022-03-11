@@ -66,7 +66,6 @@ const ContainerResultats = styled.div`
 // COMPOSANT -------------------------------------
 
 const Dashboard = () => {
-  // const [territories, setTerritories] = useState([]); // Name of territories selected
   const [selectedModules, setSelectedModules] = useState([]); // Names of selected modules
   const [refModules, setRefModules] = useState({});
   const [geographies, setGeographies] = useState({
@@ -114,7 +113,7 @@ const Dashboard = () => {
           </BoutonParametre>
           <BoutonParametre onClick={() => openBox("modules")}>
             <LogoModules />
-            Ajouter des modules{" "}
+            Ajouter des analyses{" "}
           </BoutonParametre>
         </ContainerParametres>
         <ContainerResultats>

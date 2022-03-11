@@ -239,7 +239,7 @@ const BarreRecherche = ({ tempo, setTempo, parametre, addMetaCondition }) => {
             parametre === "inclusion" ? "une variable" : ""
           }${parametre === "unite" ? "une unité d'analyse" : ""}${
             parametre === "perimetre" ? "un territoire administratif" : ""
-          }${parametre === "modules" ? "des modules" : ""}`}
+          }${parametre === "modules" ? "des analyses" : ""}`}
           parametre={parametre}
           onChange={(e) => setRecherche(e.target.value)}
           onKeyPress={handleKeyPress}

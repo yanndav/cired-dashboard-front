@@ -1,4 +1,17 @@
 import { timeFormat } from "d3-time-format";
+import styled from "styled-components";
+
+const LegendeAxe = styled.text.attrs((props) => {
+  return {
+    x: props.innerWidth / 2,
+    y: props.innerHeight + 50,
+    textAnchor: "middle",
+  };
+})`
+  /* text-align: center; */
+  font-size: 1.2em;
+  /* position: relative; */
+`;
 
 const AxisBottomCategorical = ({
   xScale,
@@ -6,7 +19,7 @@ const AxisBottomCategorical = ({
   innerWidth,
   xVariable,
 }) => (
-  <>
+  <div>
     {xScale.domain().map((tickValue) => (
       <g
         key={tickValue}
@@ -19,10 +32,10 @@ const AxisBottomCategorical = ({
         </text>
       </g>
     ))}
-    <text x={innerWidth / 2} y={innerHeight + 45} className="xTitle">
+    <LegendeAxe innerWidth={innerWidth} innerHeight={innerHeight}>
       {xVariable}
-    </text>
-  </>
+    </LegendeAxe>
+  </div>
 );
 
 const AxisBottomContinuous = ({
@@ -49,9 +62,9 @@ const AxisBottomContinuous = ({
         </text>
       </g>
     ))}
-    <text x={innerWidth / 2} y={innerHeight + 45} className="xTitle">
+    <LegendeAxe innerWidth={innerWidth} innerHeight={innerHeight}>
       {xVariable}
-    </text>
+    </LegendeAxe>
   </>
 );
 
@@ -69,9 +82,9 @@ const AxisBottomTime = ({ xScale, innerHeight, innerWidth, xVariable }) => (
         </text>
       </g>
     ))}
-    <text x={innerWidth / 2} y={innerHeight + 45} className="xTitle">
+    <LegendeAxe innerWidth={innerWidth} innerHeight={innerHeight}>
       {xVariable}
-    </text>
+    </LegendeAxe>
   </>
 );
 

@@ -1,166 +1,152 @@
-import "./graphStyling.css";
+import styled from "styled-components";
+import { colorsLight } from "../../../../app/colorComponents";
 
-import { useState } from "react";
-import { Polygon } from "react-leaflet";
-const Dot = ({
-  d,
-  xScale,
-  yScale,
-  radius,
-  color,
-  innerHeight,
-  type,
-  showXBar,
-  setShowXBar,
-  showY,
-}) => {
+const HoverPart = styled.circle`
+  r: 10px;
+  fill: transparent;
+  cursor: pointer;
+`;
+const Circle = styled.circle`
+  pointer-events: none;
+  r: 4px;
+  fill: ${(props) => props.color};
+`;
+
+const Polygon = styled.polygon`
+  fill: ${(props) => props.color};
+  pointer-events: none;
+`;
+
+const Dot = ({ d, xScale, yScale, color, type, setTooltips }) => {
+  const size = 6;
   return (
-    <g
-      onMouseOver={() => setShowXBar(d.ANNEE)}
-      onClick={() => setShowXBar(d.ANNEE)}
-      onDoubleClick={() => setShowXBar(null)}
-      onMouseOut={() => setShowXBar(null)}
-    >
-      {showY === d.CODGEO && (
-        <text
-          className="tooltip"
-          // key={xScale(d[xVariable])*yScale(d[yVariable])}
-          y={yScale(d.VALEUR)}
-          x={xScale(d.ANNEE)}
-          dy={-3}
-          // style={{fill:color}}
-        >
-          {Math.round(d.VALEUR * 10) / 10}
-        </text>
-      )}
-      {showXBar === d.ANNEE && (
-        <>
-          <text
-            className="tooltip"
-            key={xScale(d.ANNEE) * yScale(d.VALEUR)}
-            y={yScale(d.VALEUR)}
-            x={xScale(d.ANNEE)}
-            dy={-3}
-            // style={{fill:color}}
-          >
-            {Math.round(d.VALEUR * 10) / 10}
-          </text>
-
-          <line
-            className="lineXShow"
-            // style={{stroke:setShow&&"grey",strokeWidth:20}}
-            // style={{stroke:"blue"}}
-            x1={xScale(d.ANNEE)}
-            x2={xScale(d.ANNEE)}
-            y1={innerHeight}
-            y2={0}
-          />
-        </>
-      )}
-      <line
-        className="lineXNotShow"
-        // style={{ stroke: "grey", strokeWidth: 20 }}
-        x1={xScale(d.ANNEE)}
-        x2={xScale(d.ANNEE)}
-        y1={innerHeight}
-        y2={0}
+    <>
+      <HoverPart
+        key={"dot-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
+        cy={yScale(d.VALEUR)}
+        cx={xScale(d.ANNEE)}
+        color={color}
+        onPointerOver={() =>
+          setTooltips([
+            {
+              VALEUR: d.VALEUR.toLocaleString("fr-FR"),
+              Y: d.VALEUR,
+              X: d.ANNEE,
+            },
+          ])
+        }
+        onMouseLeave={() => setTooltips([])}
       />
       {type === "dot" && (
-        <circle
-          className="dot"
+        <Circle
           key={"dot-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           cy={yScale(d.VALEUR)}
           cx={xScale(d.ANNEE)}
-          r={radius}
-          style={{ fill: color }}
+          color={color}
         />
       )}
       {type === "square" && (
-        <polygon
+        <Polygon
           key={"poly-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           points={
-            `${xScale(d.ANNEE) - 4},${yScale(d.VALEUR) - 4} ` + // TOP LEFT
-            `${xScale(d.ANNEE) - 4},${yScale(d.VALEUR) + 4} ` + // BOTTOM LEFT
-            `${xScale(d.ANNEE) + 4},${yScale(d.VALEUR) + 4} ` + // BOTTOM RIGHT
-            `${xScale(d.ANNEE) + 4},${yScale(d.VALEUR) - 4}` // TOP RIGHT
+            `${xScale(d.ANNEE) - size},${yScale(d.VALEUR) - size} ` + // TOP LEFT
+            `${xScale(d.ANNEE) - size},${yScale(d.VALEUR) + size} ` + // BOTTOM LEFT
+            `${xScale(d.ANNEE) + size},${yScale(d.VALEUR) + size} ` + // BOTTOM RIGHT
+            `${xScale(d.ANNEE) + size},${yScale(d.VALEUR) - size}` // TOP RIGHT
           } // BOTTOM LEFT
-          fill={color}
+          color={color}
         />
       )}
 
       {type === "triangle" && (
-        <polygon
+        <Polygon
           key={"poly-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           points={
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - 4} ` + //TOP
-            `${xScale(d.ANNEE) - 4},${yScale(d.VALEUR) + 4} ` + // LEFT
-            `${xScale(d.ANNEE) + 4},${yScale(d.VALEUR) + 4}`
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - 6} ` + //TOP
+            `${xScale(d.ANNEE) - 6},${yScale(d.VALEUR) + 6} ` + // LEFT
+            `${xScale(d.ANNEE) + 6},${yScale(d.VALEUR) + 6}`
           } // RIGHT
-          fill={color}
+          color={color}
         />
       )}
 
       {type === "5f" && (
-        <polygon
+        <Polygon
           key={"poly-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           points={
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - 4} ` + //TOP
-            `${xScale(d.ANNEE) + 4},${yScale(d.VALEUR)} ` + // MIDDLE RIGHT
-            `${xScale(d.ANNEE) + 2.5},${yScale(d.VALEUR) + 4} ` + // BOTTOM RIGHT
-            `${xScale(d.ANNEE) - 2.5},${yScale(d.VALEUR) + 4} ` + // BOTTOM LEFT
-            `${xScale(d.ANNEE) - 4},${yScale(d.VALEUR)} ` // MIDDLE LEFT
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - size} ` + //TOP
+            `${xScale(d.ANNEE) + size},${yScale(d.VALEUR)} ` + // MIDDLE RIGHT
+            `${xScale(d.ANNEE) + size / 1.5},${yScale(d.VALEUR) + size} ` + // BOTTOM RIGHT
+            `${xScale(d.ANNEE) - size / 1.5},${yScale(d.VALEUR) + size} ` + // BOTTOM LEFT
+            `${xScale(d.ANNEE) - size},${yScale(d.VALEUR)} ` // MIDDLE LEFT
           }
-          fill={color}
+          color={color}
         />
       )}
       {type === "etoile" && (
-        <polygon
+        <Polygon
           key={"poly-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           points={
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - 4} ` + //TOP
-            `${xScale(d.ANNEE) + 1},${yScale(d.VALEUR) - 1} ` + // MIDDLE RIGHT
-            `${xScale(d.ANNEE) + 4},${yScale(d.VALEUR) - 1} ` + // MIDDLE RIGHT
-            `${xScale(d.ANNEE) + 1.5},${yScale(d.VALEUR) + 1} ` + // MIDDLE RIGHT
-            `${xScale(d.ANNEE) + 2.5},${yScale(d.VALEUR) + 4} ` + // BOTTOM RIGHT
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) + 1.8} ` + // BOTTOM RIGHT
-            `${xScale(d.ANNEE) - 2.5},${yScale(d.VALEUR) + 4} ` + // BOTTOM LEFT
-            `${xScale(d.ANNEE) - 1.5},${yScale(d.VALEUR) + 1} ` + // BOTTOM LEFT
-            `${xScale(d.ANNEE) - 4},${yScale(d.VALEUR) - 1} ` + // MIDDLE LEFT
-            `${xScale(d.ANNEE) - 1},${yScale(d.VALEUR) - 1} ` // MIDDLE LEFT
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - size} ` + //TOP
+            `${xScale(d.ANNEE) + size / 4},${yScale(d.VALEUR) - size / 4} ` + // MIDDLE RIGHT
+            `${xScale(d.ANNEE) + size},${yScale(d.VALEUR) - size / 4} ` + // MIDDLE RIGHT
+            `${xScale(d.ANNEE) + size / 3},${yScale(d.VALEUR) + size / 4} ` + // MIDDLE RIGHT
+            `${xScale(d.ANNEE) + size / 1.5},${yScale(d.VALEUR) + size} ` + // BOTTOM RIGHT
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) + size / 3} ` + // BOTTOM RIGHT
+            `${xScale(d.ANNEE) - size / 1.5},${yScale(d.VALEUR) + size} ` + // BOTTOM LEFT
+            `${xScale(d.ANNEE) - size / 3},${yScale(d.VALEUR) + size / 4} ` + // BOTTOM LEFT
+            `${xScale(d.ANNEE) - size},${yScale(d.VALEUR) - size / 4} ` + // MIDDLE LEFT
+            `${xScale(d.ANNEE) - size / 4},${yScale(d.VALEUR) - size / 4} ` // MIDDLE LEFT
           }
-          fill={color}
+          color={color}
         />
       )}
       {type === "6f" && (
-        <polygon
+        <Polygon
           key={"poly-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           points={
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - 4} ` + //TOP
-            `${xScale(d.ANNEE) + 3.5},${yScale(d.VALEUR) - 1.5} ` + // MIDDLE UP RIGHT
-            `${xScale(d.ANNEE) + 3.5},${yScale(d.VALEUR) + 1.5} ` + // MIDDLE DOWN RIGHT
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) + 4} ` + // BOTTOM
-            `${xScale(d.ANNEE) - 3.5},${yScale(d.VALEUR) + 1.5} ` + // MIDDLE DOWN LEFT
-            `${xScale(d.ANNEE) - 3.5},${yScale(d.VALEUR) - 1.5} ` // MIDDLE UP LEFT
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - size} ` + //TOP
+            `${xScale(d.ANNEE) + size / (7 / 8)},${
+              yScale(d.VALEUR) - size / 3
+            } ` + // MIDDLE UP RIGHT
+            `${xScale(d.ANNEE) + size / (7 / 8)},${
+              yScale(d.VALEUR) + size / 3
+            } ` + // MIDDLE DOWN RIGHT
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) + size} ` + // BOTTOM
+            `${xScale(d.ANNEE) - size / (7 / 8)},${
+              yScale(d.VALEUR) + size / 3
+            } ` + // MIDDLE DOWN LEFT
+            `${xScale(d.ANNEE) - size / (7 / 8)},${
+              yScale(d.VALEUR) - size / 3
+            } ` // MIDDLE UP LEFT
           }
-          fill={color}
+          color={color}
         />
       )}
       {type === "7f" && (
-        <polygon
+        <Polygon
           key={"poly-" + xScale(d.ANNEE).toString() + "-" + d.CODGEO.toString()}
           points={
-            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - 4} ` + //TOP
-            `${xScale(d.ANNEE) + 3.7},${yScale(d.VALEUR) - 1.5} ` + // MIDDLE TOP RIGHT
-            `${xScale(d.ANNEE) + 3.7},${yScale(d.VALEUR) + 1.5} ` + // MIDDLE RIGHT
-            `${xScale(d.ANNEE) + 2},${yScale(d.VALEUR) + 4} ` + // BOTTOM RIGHT
-            `${xScale(d.ANNEE) - 2},${yScale(d.VALEUR) + 4} ` + // BOTTOM LEFT
-            `${xScale(d.ANNEE) - 3.7},${yScale(d.VALEUR) + 1.5} ` + // MIDDLE LEFT
-            `${xScale(d.ANNEE) - 3.7},${yScale(d.VALEUR) - 1.5} ` // MIDDLE LEFT
+            `${xScale(d.ANNEE)},${yScale(d.VALEUR) - size} ` + //TOP
+            `${xScale(d.ANNEE) + size / (7 / 8)},${
+              yScale(d.VALEUR) - size / 3
+            } ` + // MIDDLE TOP RIGHT
+            `${xScale(d.ANNEE) + size / (7 / 8)},${
+              yScale(d.VALEUR) + size / 3
+            } ` + // MIDDLE RIGHT
+            `${xScale(d.ANNEE) + size / 2},${yScale(d.VALEUR) + size} ` + // BOTTOM RIGHT
+            `${xScale(d.ANNEE) - size / 2},${yScale(d.VALEUR) + size} ` + // BOTTOM LEFT
+            `${xScale(d.ANNEE) - size / (7 / 8)},${
+              yScale(d.VALEUR) + size / 3
+            } ` + // MIDDLE LEFT
+            `${xScale(d.ANNEE) - size / (7 / 8)},${
+              yScale(d.VALEUR) - size / 3
+            } ` // MIDDLE LEFT
           }
-          fill={color}
+          Polygon={color}
         />
       )}
-    </g>
+    </>
   );
 };
 export default Dot;

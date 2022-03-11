@@ -1,15 +1,6 @@
 import React, { useState } from "react";
-// import { keyGen } from "./mapFunctions";
 import styled from "styled-components";
 import { GoQuote } from "react-icons/go";
-
-// import PopupSource from "./PopupSource";
-// import { IoMdInformationCircleOutline } from "react-icons/io";
-// import { listSubheaderClasses } from "@mui/material";
-
-// import VariableItemGraph from "./VariableItemGraph";
-// import FilterItem from "./FilterItem";
-// import SelectTerritoires from "./SelectTerritoires";
 
 import ReactMarkdown from "react-markdown";
 
@@ -29,6 +20,7 @@ const ModalDefinitionContainer = styled.div`
   width: 85%;
   height: 450px;
   background-color: white;
+  border: 2px solid ${colorsLight.background};
   z-index: 1000;
   border-radius: 8px;
   padding: 20px;
@@ -93,6 +85,11 @@ const LienSource = styled.a`
 
 const BoutonRetour = styled.div`
   width: fit-content;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
   align-items: center;
   margin: 10px auto;
   padding: 10px;
@@ -105,20 +102,12 @@ const BoutonRetour = styled.div`
   }
 `;
 
-const VariableSelectItem = ({
-  data,
-  setData,
-  // activatedFilters,
-  // setActivatedFilters,
-  // variable,
-  // territoiresVar,
-  // setTerritoiresVar,
-}) => {
+const VariableSliderTopGraph = ({ data, setData }) => {
   const [definition, setDefinition] = useState({});
 
   return (
     <>
-      <ZoneFiltres>
+      <ZoneFiltres sliderMode>
         {data.map((layer) => (
           <FiltreButton
             isSelected={layer.SHOW}
@@ -177,7 +166,7 @@ const VariableSelectItem = ({
   );
 };
 
-export default VariableSelectItem;
+export default VariableSliderTopGraph;
 {
   /* <VariableItemGraph layer={layer} /> */
 }
