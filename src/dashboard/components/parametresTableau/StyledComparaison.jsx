@@ -30,9 +30,9 @@ const Back = styled.div`
 const ModalBox = styled.div`
   position: fixed;
 
-  width: 90%;
-  height: 80vh;
-  top: 5%;
+  width: 95%;
+  height: 90vh;
+  top: 5px;
   left: 50%;
   transform: translate(-50%, 0%);
   margin-left: ${(props) => props.width + "px"};
