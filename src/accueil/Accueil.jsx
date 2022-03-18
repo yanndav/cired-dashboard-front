@@ -9,7 +9,6 @@ import styled from "styled-components";
 import { colorsLight } from "../app/colorComponents";
 
 import Header from "../app/components/header/Header.jsx";
-import { NavLink } from "react-router-dom";
 
 const ContainerAccueil = styled.div`
   padding: 0px 15%;
@@ -27,16 +26,6 @@ const ColumnFlexContainer = styled.div`
   padding-bottom: ${(props) => (props.full ? "30px" : "100px")};
 `;
 
-// const RowFlexContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   align-items: center;
-//   /* gap: 80px; */
-//   flex-wrap: wrap;
-
-// `;
-
 const TitrePage = styled.h2`
   font-size: 2.4em;
   color: ${colorsLight.title2};
@@ -49,7 +38,7 @@ const SousTitrePage = styled.h3`
   font-weight: none;
 `;
 
-const BoutonTableau = styled(NavLink)`
+const BoutonTableau = styled.div`
   z-index: 0;
   text-decoration: none;
   font-weight: bold;
@@ -142,12 +131,12 @@ const Accueil = () => {
             </TitrePage>
             <SousTitrePage>
               Créez et personnalisez des tableaux d'analyses qui s'adaptent à
-              votre territorie et à vos problématiques.
+              votre territoire et à vos problématiques.
             </SousTitrePage>
           </Section>
-          <BoutonTableau to="/tableau" exact>
-            Créer un tableau d'analyses
-          </BoutonTableau>
+          {/* <BoutonTableau>Créer un tableau d'analyses</BoutonTableau>
+          <h1>Laissez-nous votre email pour obtenir un accès anticipé</h1>
+          <input placeholder={"Votre mail"} type="url"></input> */}
         </ColumnFlexContainer>
         <ColumnFlexContainer big>
           <Section>
