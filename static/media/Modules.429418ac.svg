@@ -1,0 +1,16 @@
+<svg width="786" height="599" viewBox="0 0 786 599" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="307.27" y="368" width="17.6981" height="56.9211" rx="8.84907" transform="rotate(45.0298 307.27 368)" fill="#C4C4C4"/>
+<rect x="263.051" y="373.415" width="71" height="201.522" rx="11" transform="rotate(45.0298 263.051 373.415)" fill="#577590"/>
+<rect x="326" y="219" width="60" height="175" rx="11" fill="#F9844A"/>
+<rect x="386" y="160" width="60" height="254" rx="11" fill="#F9C74F"/>
+<rect x="446" y="97" width="60" height="317" rx="11" fill="#4D908E"/>
+<rect x="506" y="43" width="60" height="351" rx="11" fill="#577590"/>
+<path d="M642 239C642 347.248 554.248 435 446 435C337.752 435 250 347.248 250 239C250 130.752 337.752 43 446 43C554.248 43 642 130.752 642 239ZM284.926 239C284.926 327.959 357.041 400.074 446 400.074C534.959 400.074 607.074 327.959 607.074 239C607.074 150.041 534.959 77.926 446 77.926C357.041 77.926 284.926 150.041 284.926 239Z" fill="url(#paint0_radial_101_40)"/>
+<rect x="506" y="43" width="60" height="293" rx="11" fill="#577590"/>
+<defs>
+<radialGradient id="paint0_radial_101_40" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(446 239) rotate(90) scale(196)">
+<stop offset="0.776042" stop-color="#4D908E"/>
+<stop offset="1" stop-color="#577590"/>
+</radialGradient>
+</defs>
+</svg>
