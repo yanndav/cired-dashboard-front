@@ -10,8 +10,7 @@ import { colorsLight } from "../../colorComponents";
 import { Logo } from "../../AppStyledComponents";
 
 // Modules
-import { NavLink, useLocation } from "react-router-dom";
-import ConnectIcon from "../../../userBoard/components/connectIcon/ConnectIcon.jsx";
+import { NavLink } from "react-router-dom";
 
 const HeaderContainer = styled.div`
   position: ${(props) => props.sticky && "sticky"};
@@ -43,25 +42,14 @@ const TitreSite = styled(NavLink)`
   }
 `;
 
-const UserBoardLink = styled.div`
-  & svg {
-    fill: ${(props) => (!props.active ? "#000000" : colorsLight.title)};
-  }
-`;
-
 // COMPOSANT ------------------------
 const Header = ({ sticky }) => {
-  const location = useLocation().pathname;
-
   return (
     <HeaderContainer sticky={sticky}>
       <TitreSite to="/">
         <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
         comparater
       </TitreSite>
-      <UserBoardLink active={location.includes("/user-board")}>
-        <ConnectIcon />
-      </UserBoardLink>
     </HeaderContainer>
   );
 };
