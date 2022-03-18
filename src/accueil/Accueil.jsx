@@ -7,8 +7,12 @@
 // import "./Accueil.css";
 import styled from "styled-components";
 import { colorsLight } from "../app/colorComponents";
+import { useRef } from "react";
 
 import Header from "../app/components/header/Header.jsx";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
+import { ReactComponent as Territory } from "./Territory.svg";
+import { ReactComponent as Modules } from "./Modules.svg";
 
 const ContainerAccueil = styled.div`
   padding: 0px 15%;
@@ -17,6 +21,8 @@ const ContainerAccueil = styled.div`
 `;
 
 const ColumnFlexContainer = styled.div`
+  margin: 0px auto;
+  max-width: ${(props) => !props.full && "900px"};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +34,7 @@ const ColumnFlexContainer = styled.div`
 
 const TitrePage = styled.h2`
   font-size: 2.4em;
-  color: ${colorsLight.title2};
+  color: ${colorsLight.title};
   font-weight: none;
 `;
 
@@ -43,14 +49,14 @@ const BoutonTableau = styled.div`
   text-decoration: none;
   font-weight: bold;
   font-size: 1.3em;
-  width: 300px;
+  width: 400px;
   min-width: 300px;
   height: 50px;
 
   margin: 0px auto;
   padding: 15px 12px;
   border-radius: 8px;
-  background-color: ${colorsLight.title2};
+  background-color: ${colorsLight.background2};
   color: white;
   position: relative;
   top: 0;
@@ -70,21 +76,74 @@ const BoutonTableau = styled.div`
   }
 `;
 
+// const ContactForm = styled.form`
+//   display: flex;
+//   flex-direction: row;
+//   gap: 5px;
+// `;
+
+// const MailInput = styled.input`
+//   border-radius: 8px;
+//   font-size: 1.1em;
+//   border: none;
+//   text-indent: 20px;
+//   min-width: 400px;
+//   background: ${colorsLight.topBackground};
+// `;
+
+// const SubmitButton = styled.div`
+//   height: 50px;
+//   text-decoration: none;
+//   font-weight: bold;
+//   font-size: 1em;
+//   color: white;
+//   margin: 0px auto;
+//   padding: 15px 12px;
+//   border-radius: 8px;
+//   background-color: ${colorsLight.title2};
+//   text-align: center;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+//   &:hover {
+//     opacity: 80%;
+//   }
+// `;
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(props) => (props.small ? "10px" : "40px")};
 `;
 
+const IconTerritory = styled(Territory)`
+  width: 90px;
+  height: 90px;
+  margin: 12px;
+  padding: 0;
+`;
+
+const IconModules = styled(Modules)`
+  width: 90px;
+  height: 90px;
+  margin: 12px;
+  padding: 0;
+`;
+
 const Argument = styled.div`
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
 `;
 const ZoneTexte = styled.div`
   text-align: justify;
   line-height: 2em;
+  flex-basis: 400px;
+  flex-shrink: 4;
+  flex-grow: 10;
 `;
 const Emphase = styled.span`
   color: ${colorsLight.title};
@@ -117,9 +176,26 @@ const Lien = styled.a`
     color: ${colorsLight.interaction};
   }
 `;
+
+const AnnonceSortie = styled.div`
+  font-size: 1em;
+`;
+const CustomArrow = styled(IoIosArrowDropdownCircle)`
+  margin-left: 10px;
+  transform: scale(1.2);
+`;
+
+const ImageDemo = styled.img`
+  width: 100%;
+  max-width: 900px;
+  filter: drop-shadow(5px 5px 10px rgba(168, 168, 168, 0.801));
+`;
+
 // COMPOSANT --------------------------------
 
 const Accueil = () => {
+  const refInfo = useRef(null);
+
   return (
     <>
       <Header sticky />
@@ -130,19 +206,45 @@ const Accueil = () => {
               Analysez et comparez les transitions dans votre territoire.
             </TitrePage>
             <SousTitrePage>
-              Créez et personnalisez des tableaux d'analyses qui s'adaptent à
-              votre territoire et à vos problématiques.
+              Créez et personnalisez des tableaux d'analyses des données en
+              libre accès sur votre territoire.
             </SousTitrePage>
           </Section>
-          {/* <BoutonTableau>Créer un tableau d'analyses</BoutonTableau>
-          <h1>Laissez-nous votre email pour obtenir un accès anticipé</h1>
-          <input placeholder={"Votre mail"} type="url"></input> */}
+          {/* <ContactForm>
+            <MailInput type="email" placeholder="Indiquez votre email" />
+            <SubmitButton>Tenez moi informé</SubmitButton>
+          </ContactForm> */}
+          <BoutonTableau
+            onClick={() =>
+              window.scrollTo({
+                top: refInfo.current.getBoundingClientRect().top - 90,
+                behavior: "smooth",
+              })
+            }
+          >
+            En savoir plus sur le projet <CustomArrow />
+          </BoutonTableau>
+          <AnnonceSortie>
+            La première version en ligne arrive en avril 2022.
+          </AnnonceSortie>
         </ColumnFlexContainer>
-        <ColumnFlexContainer big>
+        <ColumnFlexContainer big ref={refInfo}>
+          <Section>
+            <SousTitrePage>Comparater c'est quoi ?</SousTitrePage>
+            <Argument>
+              Comparater vise à appuyer le pilotage de la transition écologique
+              dans les territoires, en générant des analyses interactives de
+              données territorialisées.{" "}
+            </Argument>
+            <ImageDemo
+              src="./Screenshot_demo(1).svg"
+              alt="Maquette de la future application en ligne"
+            />
+          </Section>
           <Section>
             <SousTitrePage>Comment ça marche ?</SousTitrePage>
             <Argument>
-              <Icone>🔍️</Icone>
+              <IconTerritory />
               <ZoneTexte>
                 <Emphase>Définissez votre périmètre territorial</Emphase>. À
                 partir de la barre de recherche et de l’outil dédié vous pouvez
@@ -152,7 +254,7 @@ const Accueil = () => {
               </ZoneTexte>
             </Argument>
             <Argument>
-              <Icone>🎛️</Icone>
+              <IconModules />
               <ZoneTexte>
                 <Emphase>Sélectionnez des analyses</Emphase>. Construisez votre
                 tableau de bord en sélectionnant des analyses interactives qui
@@ -231,7 +333,7 @@ const Accueil = () => {
                 informé de l'évolution du projet :{" "}
                 <Emphase>
                   {" "}
-                  <Lien href="mailto:yann.david@enpc.fr" target="_blank">
+                  <Lien href="mailto:contact@comparater.fr" target="_blank">
                     contactez-nous !
                   </Lien>
                 </Emphase>
