@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/cired-dashboard-front/static/css/main.88304583.chunk.css",
+    "main.js": "/cired-dashboard-front/static/js/main.27d29a68.chunk.js",
+    "main.js.map": "/cired-dashboard-front/static/js/main.27d29a68.chunk.js.map",
+    "runtime-main.js": "/cired-dashboard-front/static/js/runtime-main.6feb44cc.js",
+    "runtime-main.js.map": "/cired-dashboard-front/static/js/runtime-main.6feb44cc.js.map",
+    "static/js/2.48e03268.chunk.js": "/cired-dashboard-front/static/js/2.48e03268.chunk.js",
+    "static/js/2.48e03268.chunk.js.map": "/cired-dashboard-front/static/js/2.48e03268.chunk.js.map",
+    "static/js/3.284b2a13.chunk.js": "/cired-dashboard-front/static/js/3.284b2a13.chunk.js",
+    "static/js/3.284b2a13.chunk.js.map": "/cired-dashboard-front/static/js/3.284b2a13.chunk.js.map",
+    "index.html": "/cired-dashboard-front/index.html",
+    "static/css/main.88304583.chunk.css.map": "/cired-dashboard-front/static/css/main.88304583.chunk.css.map",
+    "static/js/2.48e03268.chunk.js.LICENSE.txt": "/cired-dashboard-front/static/js/2.48e03268.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6feb44cc.js",
+    "static/js/2.48e03268.chunk.js",
+    "static/css/main.88304583.chunk.css",
+    "static/js/main.27d29a68.chunk.js"
+  ]
+}
