@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { colorsLight } from "../../../../app/colorComponents";
 
 const HoverPart = styled.circle`
   r: 10px;
