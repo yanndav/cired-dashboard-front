@@ -194,13 +194,15 @@ const CustomArrow = styled(IoIosArrowDropdownCircle)`
 `;
 
 const ImgContainer = styled.div`
-  flex-basis: 600px;
+  /* flex-basis: 600px; */
   flex-grow: 10;
   flex-shrink: 1;
+  height: fit-content;
   margin: ${(props) => props.center && "auto"};
 `;
 const ImageDemo = styled.img`
   width: 100%;
+  height: fit-content;
   max-width: 800px;
   filter: drop-shadow(5px 5px 10px rgba(168, 168, 168, 0.801));
 `;
