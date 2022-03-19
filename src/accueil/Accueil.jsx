@@ -16,7 +16,7 @@ import { ReactComponent as Modules } from "./Modules.svg";
 
 const ContainerAccueil = styled.div`
   padding: 0px 15%;
-  min-width: 400px;
+  /* min-width: 400px; */
   background-color: ${colorsLight.background};
 `;
 
@@ -49,12 +49,12 @@ const BoutonTableau = styled.div`
   text-decoration: none;
   font-weight: bold;
   font-size: 1.3em;
-  width: 400px;
-  min-width: 300px;
+  /* width: 400px; */
+  /* min-width: 300px; */
   height: 50px;
 
   margin: 0px auto;
-  padding: 15px 12px;
+  padding: 20px;
   border-radius: 8px;
   background-color: ${colorsLight.background2};
   color: white;

@@ -22,7 +22,7 @@ const HeaderContainer = styled.div`
   align-items: center;
   background-color: white;
   z-index: 100;
-  width: 100vw;
+  /* width: 100%; */
 `;
 
 const TitreSite = styled(NavLink)`
