@@ -230,6 +230,9 @@ const Accueil = () => {
             <MailInput type="email" placeholder="Indiquez votre email" />
             <SubmitButton>Tenez moi informé</SubmitButton>
           </ContactForm> */}
+          <AnnonceSortie>
+            La première version en ligne arrive en avril 2022.
+          </AnnonceSortie>
           <BoutonTableau
             onClick={() =>
               window.scrollTo({
@@ -240,17 +243,18 @@ const Accueil = () => {
           >
             En savoir plus sur le projet <CustomArrow />
           </BoutonTableau>
-          <AnnonceSortie>
-            La première version en ligne arrive en avril 2022.
-          </AnnonceSortie>
         </ColumnFlexContainer>
         <ColumnFlexContainer big ref={refInfo}>
           <Section limitWidth>
             <SousTitrePage>Comparater c'est quoi ?</SousTitrePage>
             <Argument>
-              Comparater vise à appuyer le pilotage de la transition écologique
-              dans les territoires, en générant des analyses interactives de
-              données territorialisées.{" "}
+              <ZoneTexte>
+                Comparater vise à appuyer le pilotage de la transition
+                écologique dans les territoires. Nous proposons des analyses de
+                données interactives et adaptées à chaque territoire, pour vous
+                permettre de réaliser des diagnostics, des suivis d'indicateurs
+                ou encore des estimations d'impact.{" "}
+              </ZoneTexte>
             </Argument>
             <ImgContainer center>
               <ImageDemo
@@ -263,11 +267,13 @@ const Accueil = () => {
             <SousTitrePage>Comment ça marche ?</SousTitrePage>
             <Argument bottomSpace>
               <ZoneTexte>
-                <Emphase>Définissez votre périmètre territorial</Emphase>. À
-                partir de la barre de recherche et de l’outil dédié vous pouvez
-                définir librement votre périmètre territorial et l'échelle
-                d'analyse en sélectionnant un ensemble de communes,
-                intercommunalités, départements et/ou régions de France.
+                <Emphase>Définissez votre zone d'étude.</Emphase> À partir d'une
+                barre de recherche et d'une carte interactive vous pouvez
+                définir librement vos zones d'étude. Comparater permet de
+                sélectionner et de regrouper dans une même zone d'étude des
+                communes, intercommunalités, départements et/ou régions de
+                France, ainsi que de définir plusieurs échelles d'analyse, afin
+                de répondre aux besoins spécifiques de chaque utilisateur.
               </ZoneTexte>
               <ImgContainer>
                 <ImageDemo
@@ -279,10 +285,16 @@ const Accueil = () => {
             <Argument>
               {/* <IconModules /> */}
               <ZoneTexte>
-                <Emphase>Sélectionnez des analyses</Emphase>. Construisez votre
-                tableau de bord en sélectionnant des analyses interactives qui
-                s'adaptent à votre territoire. Vous pouvez également comparer
-                votre territoire à d'autres.
+                <Emphase>
+                  Sélectionnez des analyses qui répondent à vos questions
+                </Emphase>
+                . Construisez votre tableau de bord en sélectionnant des
+                analyses qui s'adaptent à votre territoire. Chaque analyse est
+                constituée d'un ensemble de questions auxquelles nous proposons
+                des réponses à partir de graph, cartes, tableaux et textes
+                interactifs. Vous pouvez également effectuer des analyses
+                comparatives afin de mettre en perspective les données de
+                plusieurs territoires.
               </ZoneTexte>
               <ImgContainer>
                 <ImageDemo
@@ -339,7 +351,7 @@ const Accueil = () => {
             </SousTitrePage>
             <Argument>
               <ZoneTexte>
-                Les analyses proposées vise à répondre aux questionnements des
+                Les analyses proposées visent à répondre aux questionnements des
                 décideurs territoriaux avec lesquels nous travaillons. Pour
                 répondre à leurs problématiques, une variété de thématiques
                 pourront à terme être analysés via Comparater.
