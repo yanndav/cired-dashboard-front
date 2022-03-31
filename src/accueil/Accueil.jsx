@@ -288,10 +288,10 @@ const Accueil = () => {
                 <Emphase>
                   Sélectionnez des analyses qui répondent à vos questions
                 </Emphase>
-                . Construisez votre tableau de bord en sélectionnant des
-                analyses qui s'adaptent à votre territoire. Chaque analyse est
-                constituée d'un ensemble de questions auxquelles nous proposons
-                des réponses à partir de graphiques, cartes, tableaux et textes
+                . Construisez votre fil d'analyses en sélectionnant des analyses
+                qui s'adaptent à votre territoire. Chaque analyse est constituée
+                d'un ensemble de questions auxquelles nous proposons des
+                réponses à partir de graphiques, cartes, tableaux et textes
                 interactifs. Vous pouvez également effectuer des analyses
                 comparatives afin de mettre en perspective les données de
                 plusieurs territoires.
