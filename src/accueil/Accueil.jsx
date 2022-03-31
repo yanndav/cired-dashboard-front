@@ -222,8 +222,8 @@ const Accueil = () => {
               Analysez et comparez les transitions dans votre territoire.
             </TitrePage>
             <SousTitrePage>
-              Créez et personnalisez des tableaux d'analyses des données en
-              libre accès sur votre territoire.
+              Des fils d'analyses générés en réponse à vos questionnements et à
+              partir de données libres.
             </SousTitrePage>
           </Section>
           {/* <ContactForm>
@@ -318,8 +318,11 @@ const Accueil = () => {
               <ZoneTexte>
                 Développé dans une démarche de
                 <Emphase> recherche-action par une équipe du CIRED</Emphase>,
-                Comparater se construit en{" "}
-                <Emphase>partenariat avec des décideurs territoriaux</Emphase>.
+                Comparater{" "}
+                <Emphase>
+                  se co-construit avec des décideurs territoriaux
+                </Emphase>
+                .
               </ZoneTexte>
             </Argument>
             <Argument>
