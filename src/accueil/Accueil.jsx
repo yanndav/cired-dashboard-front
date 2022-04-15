@@ -231,7 +231,7 @@ const Accueil = () => {
             <SubmitButton>Tenez moi informé</SubmitButton>
           </ContactForm> */}
           <AnnonceSortie>
-            La première version en ligne arrive en avril 2022.
+            La première version en ligne arrive en mai 2022.
           </AnnonceSortie>
           <BoutonTableau
             onClick={() =>
