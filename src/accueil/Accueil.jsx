@@ -258,7 +258,7 @@ const Accueil = () => {
             </Argument>
             <ImgContainer center>
               <ImageDemo
-                src="./Screenshot_demo(1).svg"
+                src="./Screenshot_demo(2).svg"
                 alt="Maquette de la future application en ligne"
               />
             </ImgContainer>
