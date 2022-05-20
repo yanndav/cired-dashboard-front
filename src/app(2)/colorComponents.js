@@ -1,11 +1,9 @@
 const colorsLight = {
-  title: "black",
+  title: "#577590",
   title2: "#4D908E",
   background: "#f5f5f5",
   background2: "#81b29a",
   background3: "#f2cc8f",
-  background4: "#577590",
-  background5: "#07093D",
   backgroundlight: "#ffffff",
   interaction: "#6E94B7",
   topBackground: "#D7D7D7",

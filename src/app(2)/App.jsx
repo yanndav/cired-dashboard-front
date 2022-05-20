@@ -9,10 +9,11 @@ import "./App.css";
 
 // Context
 import ContextProvider from "./ContextProvider";
-import ScrollToTop from "./ScrollToTop";
+
 // Components
-import Footer from "./footer/Footer";
+import Footer from "./components/footer/Footer";
 import Accueil from "../accueil/Accueil";
+import ScrollToTop from "./ScrollToTop";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 
 // COMPOSANT ------------------------
@@ -20,13 +21,14 @@ const App = () => {
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <ContextProvider>
-        <ScrollToTop />
         <Switch>
           <div className="app-container">
             <div className="content-app">
-              <Route path="/" exact>
-                <Accueil />
-              </Route>
+              <ScrollToTop>
+                <Route path="/" exact>
+                  <Accueil />
+                </Route>
+              </ScrollToTop>
             </div>
             <Footer />
           </div>

@@ -10,7 +10,7 @@ const ContextProvider = ({ children }) => {
   // USER CONNEXION OPTIONS
   const [user, setUser] = useState({ connected: false });
   // API URL
-  const API_URL = window.REACT_API_URL;
+  const API_URL = "http://127.0.0.1:5000";
 
   // SCREEN SIZE
   const useWindowDimensions = () => {
