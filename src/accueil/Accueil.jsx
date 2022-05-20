@@ -55,6 +55,9 @@ const Accueil = () => {
                 <MailInput type="email" placeholder="Indiquez votre email" />
                 <SubmitButton>Tenez moi informé</SubmitButton>
               </ContactForm> */}
+              <AnnonceSortie>
+                La version beta arrive en ligne début juin 2022.
+              </AnnonceSortie>
             </Section>
           </FlexContainer>
           <BoutonPlus
