@@ -8,14 +8,16 @@
 import styled from "styled-components";
 import { colorsLight } from "../colorComponents";
 import { Logo } from "../AppStyledComponents";
+import { useContext } from "react";
+import { AppContext } from "../AppContext";
 
 // Modules
 import { NavLink, useLocation } from "react-router-dom";
 
 // COMPOSANT ------------------------
 const Header = ({ sticky, showMenu, refInfo, refEquipe }) => {
-  const location = useLocation().pathname;
-
+  // const location = useLocation().pathname;
+  const { width } = useContext(AppContext);
   return (
     <HeaderContainer sticky={sticky}>
       <TitreSite to="/">
@@ -26,7 +28,7 @@ const Header = ({ sticky, showMenu, refInfo, refEquipe }) => {
       {/* <UserBoardLink active={location.includes("/user-board")}>
         <ConnectIcon />
       </UserBoardLink> */}
-      {showMenu && (
+      {showMenu && width > 800 && (
         <MenuAccueil>
           <LinkToPage
             onClick={() => {

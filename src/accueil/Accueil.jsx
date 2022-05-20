@@ -459,6 +459,9 @@ const BoutonTableau = styled(NavLink)`
 `;
 
 const BoutonPlus = styled.span`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   margin: 30px auto;
   color: black;
   width: fit-content;
