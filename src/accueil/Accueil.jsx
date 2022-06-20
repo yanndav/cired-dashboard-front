@@ -56,7 +56,7 @@ const Accueil = () => {
                 <SubmitButton>Tenez moi informé</SubmitButton>
               </ContactForm> */}
               <AnnonceSortie>
-                La version beta arrive en ligne début juin 2022.
+                La version beta arrive en ligne en juillet 2022.
               </AnnonceSortie>
             </Section>
           </FlexContainer>

@@ -64,6 +64,7 @@ const HeaderContainer = styled.div`
   align-items: center;
   background-color: white;
   z-index: 100;
+  height: 60px;
 `;
 
 const TitreSite = styled(NavLink)`
