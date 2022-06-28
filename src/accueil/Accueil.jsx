@@ -24,7 +24,7 @@ import {
 
 const Accueil = () => {
   const refInfo = useRef(null);
-  const refEquipe = useRef(null);
+  const refCaMarche = useRef(null);
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ const Accueil = () => {
         sticky
         showMenu={showMenu}
         refInfo={refInfo}
-        refEquipe={refEquipe}
+        refCaMarche={refCaMarche}
       />
       <ContainerAccueil>
         <FlexContainer full>
@@ -117,7 +117,7 @@ const Accueil = () => {
             </ImgContainer> */}
           </Section>
         </FlexContainer>
-        <FlexContainer full>
+        <FlexContainer full ref={refCaMarche}>
           <Section limitWidth>
             <SousTitrePage>
               <AnimatedTextHighlight>Comment ça marche ?</AnimatedTextHighlight>

@@ -15,7 +15,7 @@ import { AppContext } from "../AppContext";
 import { NavLink, useLocation } from "react-router-dom";
 
 // COMPOSANT ------------------------
-const Header = ({ sticky, showMenu, refInfo, refEquipe }) => {
+const Header = ({ sticky, showMenu, refInfo, refCaMarche }) => {
   // const location = useLocation().pathname;
   const { width } = useContext(AppContext);
   return (
@@ -41,12 +41,12 @@ const Header = ({ sticky, showMenu, refInfo, refEquipe }) => {
           </LinkToPage>
           <LinkToPage
             onClick={() => {
-              refEquipe.current.scrollIntoView({
+              refCaMarche.current.scrollIntoView({
                 behavior: "smooth",
               });
             }}
           >
-            L'équipe
+            Comment ça marche ?
           </LinkToPage>
         </MenuAccueil>
       )}
