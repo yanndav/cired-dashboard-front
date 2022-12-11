@@ -11,13 +11,12 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ReactComponent as HomeDesign } from "./composants/homeDesign.svg";
 import { ReactComponent as LandingTopRight } from "./composants/LandingTopRight.svg";
-import { ReactComponent as Section1Back } from "./composants/Section1.svg";
-import { ReactComponent as Section12Back } from "./composants/Section2.svg";
-import { ReactComponent as Section3Back } from "./composants/Section3.svg";
 import { ReactComponent as Target } from "./composants/measurement.svg";
 import { ReactComponent as Territories } from "./composants/territoriesLink.svg";
 import { ReactComponent as VizOptions } from "./composants/VizOptions.svg";
 import { ReactComponent as PipeOperations } from "./composants/PipeOperations.svg";
+import { ReactComponent as LogoCired } from "./composants/logo_cired_white.svg";
+import { ReactComponent as LogoEnpc } from "./composants/logo_enpc_white.svg";
 
 import Header from "../app/header/Header";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
@@ -172,6 +171,15 @@ const Accueil = () => {
           <SectionTitle>
             Une plateforme pour favoriser le partage d’expertises
           </SectionTitle>
+          <Section2Container>
+            <UtilisateursContainer>
+              <UtilisateurCard>décideurs publics</UtilisateurCard>
+              <UtilisateurCard>producteurs de données</UtilisateurCard>
+              <UtilisateurCard>chercheurs</UtilisateurCard>
+              <UtilisateurCard>acteurs associatifs</UtilisateurCard>
+              <UtilisateurCard>bureaux d’études</UtilisateurCard>
+            </UtilisateursContainer>
+          </Section2Container>
         </Section>
         <Section>
           <SectionTitle>Ils nous soutiennent </SectionTitle>
@@ -179,6 +187,24 @@ const Accueil = () => {
             Projet issu d’un travail de recherche-action, nous conservons une
             connexion très forte au monde de la recherche
           </SectionSubtitle>
+          <Section3Container>
+            <LogosSoutiensContainer>
+              <LinkSoutien
+                href="https://www.ecoledesponts.fr/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Enpc />
+              </LinkSoutien>
+              <LinkSoutien
+                href="https://www.centre-cired.fr/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Cired />
+              </LinkSoutien>
+            </LogosSoutiensContainer>
+          </Section3Container>
         </Section>
       </ContainerAccueil>
     </>
@@ -422,7 +448,7 @@ const FonctionnaliteCard = styled.div`
   border-radius: 8px;
   padding: 40px;
   width: 360px;
-  max-width: 90%;
+  max-width: 70%;
   align-self: stretch;
   display: flex;
   flex-direction: column;
@@ -487,5 +513,74 @@ const OperationIcon = styled(PipeOperations)`
   width: 70px;
   max-height: 120px;
   transform: scale(1.4);
+`;
+
+const Section2Container = styled.div`
+  background: url("./Section2.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position: top 0px right 0px;
+  width: 100vw;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const UtilisateursContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 60px;
+  column-gap: 40px;
+  margin: auto;
+  max-width: 900px;
+`;
+
+const UtilisateurCard = styled.div`
+  background-color: ${colorsLight.backgroundlight};
+  padding: 20px 40px;
+  border-radius: 8px;
+  margin: 0px;
+  width: fit-content;
+  height: fit-content;
+`;
+const Section3Container = styled.div`
+  background: url("./Section3.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const LogosSoutiensContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 60px;
+  column-gap: 40px;
+  margin: auto;
+  max-width: 900px;
+`;
+
+const LinkSoutien = styled.a``;
+
+const Cired = styled(LogoCired)`
+  width: 70px;
+`;
+
+const Enpc = styled(LogoEnpc)`
+  width: 70px;
 `;
 export default Accueil;

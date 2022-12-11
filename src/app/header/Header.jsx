@@ -46,15 +46,6 @@ const Header = ({ sticky, small, showMenu, refInfo, refMarche }) => {
           >
             Le projet
           </LinkToPage>
-          <LinkToPage
-            onClick={() => {
-              refMarche.current.scrollIntoView({
-                behavior: "smooth",
-              });
-            }}
-          >
-            Fonctionnement
-          </LinkToPage>
         </MenuAccueil>
       )}
     </HeaderContainer>
@@ -108,7 +99,7 @@ const LinkToPage = styled.div`
   font-weight: bold;
   cursor: pointer;
   &:hover {
-    color: ${colorsLight.title2};
+    color: ${colorsLight.background2};
   }
 `;
 
