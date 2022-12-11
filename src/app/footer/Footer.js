@@ -33,7 +33,7 @@ const Footer = () => {
         />
       </a>
 
-      <p>Comparater - Version pre-release- CIRED-ENPC 2022</p>
+      <p>Comparater - Version Alpha 3 - Comparo - CIRED-ENPC 2022</p>
     </div>
   );
 };

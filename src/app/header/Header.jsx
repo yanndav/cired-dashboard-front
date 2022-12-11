@@ -5,29 +5,36 @@
 
 // IMPORTATIONS ------------------------
 // Styling
+import { useState } from "react";
 import styled from "styled-components";
 import { colorsLight } from "../colorComponents";
-import { Logo } from "../AppStyledComponents";
+import { StyledLogoEcolo } from "../AppStyledComponents";
 import { useContext } from "react";
 import { AppContext } from "../AppContext";
-
 // Modules
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+// import ConnectIcon from "../../userBoard/components/connectIcon/ConnectIcon.jsx";
 
 // COMPOSANT ------------------------
-const Header = ({ sticky, showMenu, refInfo, refCaMarche }) => {
+const Header = ({ sticky, small, showMenu, refInfo, refMarche }) => {
   // const location = useLocation().pathname;
   const { width } = useContext(AppContext);
+  const [hoverLogo, setHoverLogo] = useState(false);
+
   return (
     <HeaderContainer sticky={sticky}>
-      <TitreSite to="/">
-        <Logo src="logo_comparater.svg" alt="Logo ComparaTer" />
-        comparater
+      <TitreSite
+        to="/"
+        small={small}
+        onMouseEnter={() => setHoverLogo(true)}
+        onMouseLeave={() => setHoverLogo(false)}
+        hover={hoverLogo}
+      >
+        <StyledLogoEcolo hoverLogo={hoverLogo} />
+        <span>
+          ecolo<span id="metrics">metrics</span>
+        </span>
       </TitreSite>
-      {/* CONNEXION A REACTIVER */}
-      {/* <UserBoardLink active={location.includes("/user-board")}>
-        <ConnectIcon />
-      </UserBoardLink> */}
       {showMenu && width > 800 && (
         <MenuAccueil>
           <LinkToPage
@@ -41,12 +48,12 @@ const Header = ({ sticky, showMenu, refInfo, refCaMarche }) => {
           </LinkToPage>
           <LinkToPage
             onClick={() => {
-              refCaMarche.current.scrollIntoView({
+              refMarche.current.scrollIntoView({
                 behavior: "smooth",
               });
             }}
           >
-            Comment ça marche ?
+            Fonctionnement
           </LinkToPage>
         </MenuAccueil>
       )}
@@ -63,8 +70,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  z-index: 100;
-  height: 60px;
+  z-index: 10000000;
 `;
 
 const TitreSite = styled(NavLink)`
@@ -72,18 +78,19 @@ const TitreSite = styled(NavLink)`
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  font-size: 2em;
+  font-size: ${(props) => (props.small ? "1em" : "2em")};
   color: black;
   align-items: center;
-
-  &:hover {
-    color: ${colorsLight.title2};
-    img {
-      width: 1.8em;
-      filter: drop-shadow(3px 3px 3px rgba(168, 168, 168, 0.801));
-      margin-top: -5px;
-    }
+  span {
+    transition: transform 0.5s ease;
+    transform: ${(props) =>
+      props.hover ? "scale(1.1) translateX(10px)" : "scale(1)"};
   }
+  #metrics {
+    transition: color 0.5s ease;
+    color: ${(props) => props.hover && colorsLight.metrics};
+  }
+
   &:active {
     color: black;
   }
@@ -105,9 +112,9 @@ const LinkToPage = styled.div`
   }
 `;
 
-const UserBoardLink = styled.div`
-  & svg {
-    fill: ${(props) => (!props.active ? "#000000" : colorsLight.title)};
-  }
-`;
+// const UserBoardLink = styled.div`
+//   & svg {
+//     fill: ${(props) => (!props.active ? "#000000" : colorsLight.title)};
+//   }
+// `;
 export default Header;

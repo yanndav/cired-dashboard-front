@@ -1,13 +1,26 @@
 import styled from "styled-components";
 import { colorsLight } from "./colorComponents";
+import { ReactComponent as LogoEcolo } from "./Ecolometrics.svg";
 import { useEffect, useState, useRef } from "react";
 
-const Logo = styled.img`
-  width: ${(props) =>
-    typeof props.size !== "undefined" ? props.size + "em" : "1.6em"};
-  margin-right: 2px;
-  transition: 0.1s width, 0.1s margin, 0.1s filter;
-  cursor: pointer;
+const StyledLogoEcolo = styled(LogoEcolo)`
+  width: ${(props) => (props.size ? `${props.size * 45}px` : "45px")};
+  height: ${(props) => (props.size ? `${props.size * 45}px` : "45px")};
+  padding: 0px;
+  border-radius: 15px;
+  transition: transform 0.5s ease-in-out;
+
+  transform: ${(props) => props.hoverLogo && "  translateY(5px)"};
+  #layer1 {
+    transition: transform 0.5s ease-in-out;
+    transform: ${(props) =>
+      props.hoverLogo && "rotate(-25deg) translate(-550px,210px)"};
+  }
+  #layer3 {
+    transition: transform 0.5s ease-in-out;
+    transform: ${(props) =>
+      props.hoverLogo && "rotate(25deg) translate(240px, -450px)"};
+  }
 `;
 
 const TextHighlight = styled.span`
@@ -59,4 +72,4 @@ const AnimatedTextHighlight = (props) => {
   );
 };
 
-export { Logo, TextHighlight, AnimatedTextHighlight };
+export { StyledLogoEcolo, TextHighlight, AnimatedTextHighlight };
