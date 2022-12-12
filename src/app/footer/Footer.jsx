@@ -7,8 +7,8 @@
 import React from "react";
 import styled from "styled-components";
 import { colorsLight } from "../colorComponents";
-import { ReactComponent as Logo } from "./Ecolometrics.svg";
 import { NavLink } from "react-router-dom";
+import { StyledLogoEcolo } from "../AppStyledComponents";
 
 import "./Footer.css";
 
@@ -20,7 +20,7 @@ const Footer = () => {
         Nous contacter
       </ContactButton>
       <WebsiteLink to="/">
-        <LogoEcolo />
+        <StyledLogoEcolo />
         <span>ecolo</span>
         <span className="metrics">metrics</span>
         <span>.fr</span>
@@ -83,10 +83,28 @@ const WebsiteLink = styled(NavLink)`
   }
 `;
 
-const LogoEcolo = styled(Logo)`
-  width: 50px;
-  height: 50px;
-`;
+// const LogoEcolo = styled(Logo)`
+//   width: 50px;
+//   height: 50px;
+//   padding: 0px;
+//   border-radius: 15px;
+//   transition: transform 0.5s ease-in-out;
+//   transform: scale(1)
+//     ${(props) => (props.hoverLogo ? "  translateY(10px)" : "  translateY(5px)")};
+//   g {
+//     filter: none;
+//   }
+//   #layer1 {
+//     transition: transform 0.5s ease-in-out;
+//     transform: ${(props) =>
+//       props.hoverLogo && "rotate(-25deg) translate(-550px,210px)"};
+//   }
+//   #layer3 {
+//     transition: transform 0.5s ease-in-out;
+//     transform: ${(props) =>
+//       props.hoverLogo && "rotate(25deg) translate(240px, -450px)"};
+//   }
+// `;
 
 const LinkToMentions = styled(NavLink)`
   text-decoration: none;
