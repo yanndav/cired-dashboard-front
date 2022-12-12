@@ -2,7 +2,7 @@
   "name": "cired-dashboard-front",
   "version": "0.1.1",
   "private": true,
-  "homepage": "https://www.ecolometrics.fr",
+  "homepage": "https://yanndav.github.io/cired-dashboard-front",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",

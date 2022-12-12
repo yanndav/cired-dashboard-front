@@ -62,6 +62,7 @@ const Accueil = () => {
             <ContainerInfos width={width < 1000 ? width * 1 : width * 0.5}>
               <TitrePage className="title">
                 Les données au service du pilotage de la transition écologique
+                des territoires
               </TitrePage>
               <TextePresentation>
                 Une plateforme pour génerer et partager des analyses de données,
