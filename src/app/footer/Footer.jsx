@@ -40,7 +40,7 @@ const FooterContainer = styled.div`
   align-items: center;
   row-gap: 50px;
   column-gap: 200px;
-  width: calc(100vw - 100px);
+  width: calc(100% - 100px);
   padding: 50px;
   flex-wrap: wrap;
 `;

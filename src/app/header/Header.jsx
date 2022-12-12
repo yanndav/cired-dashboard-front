@@ -30,7 +30,7 @@ const Header = ({ sticky, small, showMenu, refInfo, refMarche }) => {
         onMouseLeave={() => setHoverLogo(false)}
         hover={hoverLogo}
       >
-        <StyledLogoEcolo hoverLogo={hoverLogo} />
+        <StyledLogoEcolo hoverLogo={hoverLogo} viewBox="0 0 2175 2570 " />
         <span>
           ecolo<span id="metrics">metrics</span>
         </span>

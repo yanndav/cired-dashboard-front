@@ -439,7 +439,9 @@ const FonctionnalitesContainer = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-position: top 0px left 0px;
-  width: 100vw;
+  /* width: 100vw; */
+  max-width: 100vw;
+  width: 100%;
 `;
 
 const FonctionnaliteCard = styled.div`
@@ -521,7 +523,10 @@ const Section2Container = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-position: top 0px right 0px;
-  width: 100vw;
+  /* width: 100vw; */
+  width: 100%;
+
+  max-width: 100vw;
   min-height: 400px;
   display: flex;
   flex-direction: column;
@@ -554,7 +559,10 @@ const Section3Container = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 100vw;
+  /* width: 100vw; */
+  max-width: 100vw;
+  width: 100%;
+
   min-height: 200px;
   display: flex;
   flex-direction: column;

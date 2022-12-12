@@ -4,13 +4,16 @@ import { ReactComponent as LogoEcolo } from "./Ecolometrics.svg";
 import { useEffect, useState, useRef } from "react";
 
 const StyledLogoEcolo = styled(LogoEcolo)`
-  width: ${(props) => (props.size ? `${props.size * 45}px` : "45px")};
-  height: ${(props) => (props.size ? `${props.size * 45}px` : "45px")};
+  width: 50px;
+  height: 50px;
   padding: 0px;
   border-radius: 15px;
   transition: transform 0.5s ease-in-out;
-
-  transform: ${(props) => props.hoverLogo && "  translateY(5px)"};
+  transform: scale(1)
+    ${(props) => (props.hoverLogo ? "  translateY(10px)" : "  translateY(5px)")};
+  g {
+    filter: none;
+  }
   #layer1 {
     transition: transform 0.5s ease-in-out;
     transform: ${(props) =>
